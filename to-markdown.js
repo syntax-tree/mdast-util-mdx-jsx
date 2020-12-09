@@ -8,6 +8,9 @@ exports.unsafe = [
   {atBreak: true, character: '<'}
 ]
 
+exports.fences = true
+exports.resourceLink = true
+
 mdxElement.peek = peekElement
 
 var encode = require('stringify-entities/light')

@@ -169,6 +169,9 @@ When using the [syntax extension][extension] with `addResult`, nodes will have a
 There are no options, but passing [`options.quote`][quote] to
 `mdast-util-to-markdown` is honored for attributes.
 
+this extension configures [`mdast-util-to-markdown`][to-markdown] with
+`fences: true` and `resourceLink: true` too, do not overwrite them!
+
 ## Syntax tree
 
 The following interfaces are added to **[mdast][]** by this utility.

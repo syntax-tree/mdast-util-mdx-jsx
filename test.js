@@ -1530,5 +1530,24 @@ test('mdast -> markdown', function (t) {
     'should escape `<` at the start of a line'
   )
 
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'link',
+        url: 'svg:rect',
+        children: [{type: 'text', value: 'svg:rect'}]
+      },
+      {extensions: [mdxJsx.toMarkdown]}
+    ),
+    '[svg:rect](svg:rect)\n',
+    'should not serialize links as autolinks'
+  )
+
+  t.deepEqual(
+    toMarkdown({type: 'code', value: 'x'}, {extensions: [mdxJsx.toMarkdown]}),
+    '```\nx\n```\n',
+    'should not serialize code as indented'
+  )
+
   t.end()
 })

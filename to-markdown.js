@@ -3,6 +3,11 @@ exports.handlers = {
   mdxJsxTextElement: mdxElement
 }
 
+exports.unsafe = [
+  {character: '<', inConstruct: ['phrasing']},
+  {atBreak: true, character: '<'}
+]
+
 mdxElement.peek = peekElement
 
 var encode = require('stringify-entities/light')

@@ -1512,5 +1512,23 @@ test('mdast -> markdown', function (t) {
     'should serialize flow in flow jsx'
   )
 
+  t.deepEqual(
+    toMarkdown(
+      {type: 'paragraph', children: [{type: 'text', value: 'a < b'}]},
+      {extensions: [mdxJsx.toMarkdown]}
+    ),
+    'a \\< b\n',
+    'should escape `<` in text'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {type: 'definition', url: 'x', title: 'a\n<\nb'},
+      {extensions: [mdxJsx.toMarkdown]}
+    ),
+    '[]: x "a\n\\<\nb"\n',
+    'should escape `<` at the start of a line'
+  )
+
   t.end()
 })

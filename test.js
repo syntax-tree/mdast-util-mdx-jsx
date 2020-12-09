@@ -1161,6 +1161,37 @@ test('markdown -> mdast', function (t) {
     'should support normal markdown w/o jsx'
   )
 
+  t.deepEqual(
+    removePosition(
+      fromMarkdown('<x><y>\n\nz\n\n</y></x>', {
+        extensions: [syntax({acorn: acorn})],
+        mdastExtensions: [mdxJsx.fromMarkdown]
+      }),
+      true
+    ),
+    {
+      type: 'root',
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'x',
+          attributes: [],
+          children: [
+            {
+              type: 'mdxJsxFlowElement',
+              name: 'y',
+              attributes: [],
+              children: [
+                {type: 'paragraph', children: [{type: 'text', value: 'z'}]}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support multiple flow elements with their tags on the same line'
+  )
+
   t.end()
 })
 

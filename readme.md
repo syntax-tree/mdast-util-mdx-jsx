@@ -19,7 +19,7 @@ See [`micromark-extension-mdx-jsx`][extension] for how the syntax works.
 You probably should use either [`micromark-extension-mdx`][mdx] or
 [`micromark-extension-mdxjs`][mdxjs] with [`mdast-util-mdx`][mdast-util-mdx]
 (which both include this package) to support all of MDX (or MDX.js).
-Or use it all through `remark-mdx` or `remark-mdxjs` (**[remark][]**).
+Or use it all through [`remark-mdx`][remark-mdx] (**[remark][]**).
 
 ## Install
 
@@ -402,3 +402,5 @@ abide by its terms.
 [dfn-content-phrasing]: #phrasingcontent-mdx-jsx
 
 [dfn-mixin-mdx-jsx-element]: #mdxjsxelement
+
+[remark-mdx]: https://github.com/mdx-js/mdx/tree/next/packages/remark-mdx

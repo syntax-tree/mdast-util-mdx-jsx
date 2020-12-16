@@ -89,10 +89,7 @@ Now, running `node example` yields (positional info removed for brevity):
               spread: false,
               checked: null,
               children: [
-                {
-                  type: 'paragraph',
-                  children: [{type: 'text', value: 'a list'}]
-                }
+                {type: 'paragraph', children: [{type: 'text', value: 'a list'}]}
               ]
             }
           ]
@@ -108,8 +105,22 @@ Now, running `node example` yields (positional info removed for brevity):
           value: '...props',
           data: {
             estree: {
-              type: 'SpreadElement',
-              argument: {type: 'Identifier', name: 'props'}
+              type: 'Program',
+              body: [
+                {
+                  type: 'ExpressionStatement',
+                  expression: {
+                    type: 'ObjectExpression',
+                    properties: [
+                      {
+                        type: 'SpreadElement',
+                        argument: {type: 'Identifier', name: 'props'}
+                      }
+                    ]
+                  }
+                }
+              ],
+              sourceType: 'module'
             }
           }
         }
@@ -306,10 +317,8 @@ type MDXJsxPhrasingContent = MDXJsxTextElement | PhrasingContent
 
 *   [`remarkjs/remark`][remark]
     — markdown processor powered by plugins
-*   `remarkjs/remark-mdx`
+*   [`remarkjs/remark-mdx`][remark-mdx]
     — remark plugin to support MDX
-*   `remarkjs/remark-mdxjs`
-    — remark plugin to support MDX.js
 *   [`syntax-tree/mdast-util-from-markdown`][from-markdown]
     — mdast parser using `micromark` to create mdast from markdown
 *   [`syntax-tree/mdast-util-to-markdown`][to-markdown]

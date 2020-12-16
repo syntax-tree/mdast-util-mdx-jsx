@@ -294,17 +294,54 @@ test('markdown -> mdast', function (t) {
           value: '...b',
           data: {
             estree: {
-              type: 'SpreadElement',
-              start: 3,
-              end: 7,
-              loc: {start: {line: 1, column: 3}, end: {line: 1, column: 7}},
-              argument: {
-                type: 'Identifier',
-                start: 6,
-                end: 7,
-                loc: {start: {line: 1, column: 6}, end: {line: 1, column: 7}},
-                name: 'b'
-              }
+              type: 'Program',
+              start: 4,
+              end: 8,
+              body: [
+                {
+                  type: 'ExpressionStatement',
+                  expression: {
+                    type: 'ObjectExpression',
+                    start: 4,
+                    end: 8,
+                    loc: {
+                      start: {line: 1, column: 4},
+                      end: {line: 1, column: 8}
+                    },
+                    properties: [
+                      {
+                        type: 'SpreadElement',
+                        start: 4,
+                        end: 8,
+                        loc: {
+                          start: {line: 1, column: 4},
+                          end: {line: 1, column: 8}
+                        },
+                        argument: {
+                          type: 'Identifier',
+                          start: 7,
+                          end: 8,
+                          loc: {
+                            start: {line: 1, column: 7},
+                            end: {line: 1, column: 8}
+                          },
+                          name: 'b',
+                          range: [7, 8]
+                        },
+                        range: [4, 8]
+                      }
+                    ],
+                    range: [4, 8]
+                  },
+                  start: 4,
+                  end: 8,
+                  loc: {start: {line: 1, column: 4}, end: {line: 1, column: 8}},
+                  range: [4, 8]
+                }
+              ],
+              sourceType: 'module',
+              loc: {start: {line: 1, column: 4}, end: {line: 1, column: 8}},
+              range: [4, 8]
             }
           }
         }
@@ -338,12 +375,36 @@ test('markdown -> mdast', function (t) {
             value: '1',
             data: {
               estree: {
-                type: 'Literal',
-                start: 0,
-                end: 1,
-                loc: {start: {line: 1, column: 0}, end: {line: 1, column: 1}},
-                value: 1,
-                raw: '1'
+                type: 'Program',
+                start: 6,
+                end: 7,
+                body: [
+                  {
+                    type: 'ExpressionStatement',
+                    expression: {
+                      type: 'Literal',
+                      start: 6,
+                      end: 7,
+                      loc: {
+                        start: {line: 1, column: 6},
+                        end: {line: 1, column: 7}
+                      },
+                      value: 1,
+                      raw: '1',
+                      range: [6, 7]
+                    },
+                    start: 6,
+                    end: 7,
+                    loc: {
+                      start: {line: 1, column: 6},
+                      end: {line: 1, column: 7}
+                    },
+                    range: [6, 7]
+                  }
+                ],
+                sourceType: 'module',
+                loc: {start: {line: 1, column: 6}, end: {line: 1, column: 7}},
+                range: [6, 7]
               }
             }
           }
@@ -361,7 +422,7 @@ test('markdown -> mdast', function (t) {
         mdastExtensions: [mdxJsx.fromMarkdown]
       })
     },
-    /Could not parse expression with acorn: SyntaxError: Unexpected token/,
+    /Could not parse expression with acorn: Unexpected token/,
     'should crash on a non-spread attribute expression'
   )
 
@@ -372,7 +433,7 @@ test('markdown -> mdast', function (t) {
         mdastExtensions: [mdxJsx.fromMarkdown]
       })
     },
-    /Could not parse expression with acorn: SyntaxError: Unexpected token/,
+    /Could not parse expression with acorn: Unexpected token/,
     'should crash on invalid JS in an attribute expression'
   )
 

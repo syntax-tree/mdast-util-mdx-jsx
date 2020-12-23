@@ -340,6 +340,7 @@ test('markdown -> mdast', function (t) {
                 }
               ],
               sourceType: 'module',
+              comments: [],
               loc: {start: {line: 1, column: 4}, end: {line: 1, column: 8}},
               range: [4, 8]
             }
@@ -403,6 +404,7 @@ test('markdown -> mdast', function (t) {
                   }
                 ],
                 sourceType: 'module',
+                comments: [],
                 loc: {start: {line: 1, column: 6}, end: {line: 1, column: 7}},
                 range: [6, 7]
               }

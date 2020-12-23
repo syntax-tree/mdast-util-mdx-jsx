@@ -41,7 +41,7 @@
   "devDependencies": {
     "acorn": "^8.0.0",
     "mdast-util-from-markdown": "^0.8.0",
-    "micromark-extension-mdx-jsx": "^0.2.0",
+    "micromark-extension-mdx-jsx": "^0.3.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "remark-cli": "^9.0.0",

@@ -439,32 +439,20 @@ test('markdown -> mdast', function (t) {
     'should crash on invalid JS in an attribute expression'
   )
 
-  t.deepEqual(
-    removePosition(
+  t.throws(
+    function () {
       fromMarkdown('a < \t>b</>', {
-        extensions: [syntax()],
+        extensions: [syntax({acorn: acorn})],
         mdastExtensions: [mdxJsx.fromMarkdown]
-      }),
-      true
-    ).children[0],
-    {
-      type: 'paragraph',
-      children: [
-        {type: 'text', value: 'a '},
-        {
-          type: 'mdxJsxTextElement',
-          name: null,
-          attributes: [],
-          children: [{type: 'text', value: 'b'}]
-        }
-      ]
+      })
     },
-    'should support whitespace in the opening tag (fragment)'
+    /Unexpected closing slash `\/` in tag, expected an open tag first/,
+    'should *not* support whitespace in the opening tag (fragment)'
   )
 
   t.deepEqual(
     removePosition(
-      fromMarkdown('a < \nb\t>c</b>', {
+      fromMarkdown('a <b\t>c</b>', {
         extensions: [syntax()],
         mdastExtensions: [mdxJsx.fromMarkdown]
       }),

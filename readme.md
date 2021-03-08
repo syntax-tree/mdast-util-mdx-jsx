@@ -412,4 +412,4 @@ abide by its terms.
 
 [dfn-mixin-mdx-jsx-element]: #mdxjsxelement
 
-[remark-mdx]: https://github.com/mdx-js/mdx/tree/next/packages/remark-mdx
+[remark-mdx]: https://github.com/mdx-js/mdx/tree/main/packages/remark-mdx

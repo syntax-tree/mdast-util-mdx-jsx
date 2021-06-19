@@ -66,14 +66,7 @@
     "trailingComma": "none"
   },
   "xo": {
-    "prettier": true,
-    "rules": {
-      "no-var": "off",
-      "prefer-arrow-callback": "off",
-      "eqeqeq": "off",
-      "no-eq-null": "off",
-      "unicorn/explicit-length-check": "off"
-    }
+    "prettier": true
   },
   "remarkConfig": {
     "plugins": [

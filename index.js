@@ -6,7 +6,7 @@ import flow from 'mdast-util-to-markdown/lib/util/container-flow.js'
 import phrasing from 'mdast-util-to-markdown/lib/util/container-phrasing.js'
 import checkQuote from 'mdast-util-to-markdown/lib/util/check-quote.js'
 
-var eol = /\r?\n|\r/g
+const eol = /\r?\n|\r/g
 
 mdxElement.peek = peekElement
 
@@ -100,7 +100,7 @@ function enterMdxJsxTag(token) {
 }
 
 function enterMdxJsxTagClosingMarker(token) {
-  if (!this.getData('mdxJsxTagStack').length) {
+  if (this.getData('mdxJsxTagStack').length === 0) {
     throw new VFileMessage(
       'Unexpected closing slash `/` in tag, expected an open tag first',
       {start: token.start, end: token.end},
@@ -164,7 +164,7 @@ function enterMdxJsxTagExpressionAttribute(token) {
 }
 
 function exitMdxJsxTagExpressionAttribute(token) {
-  var attributes = this.getData('mdxJsxTag').attributes
+  const attributes = this.getData('mdxJsxTag').attributes
   attributes[attributes.length - 1].value = this.resume()
 
   if (token.estree) {
@@ -173,24 +173,24 @@ function exitMdxJsxTagExpressionAttribute(token) {
 }
 
 function exitMdxJsxTagAttributeNamePrimary(token) {
-  var attributes = this.getData('mdxJsxTag').attributes
+  const attributes = this.getData('mdxJsxTag').attributes
   attributes[attributes.length - 1].name = this.sliceSerialize(token)
 }
 
 function exitMdxJsxTagAttributeNameLocal(token) {
-  var attributes = this.getData('mdxJsxTag').attributes
+  const attributes = this.getData('mdxJsxTag').attributes
   attributes[attributes.length - 1].name += ':' + this.sliceSerialize(token)
 }
 
 function exitMdxJsxTagAttributeValueLiteral() {
-  var attributes = this.getData('mdxJsxTag').attributes
+  const attributes = this.getData('mdxJsxTag').attributes
   attributes[attributes.length - 1].value = parseEntities(this.resume(), {
     nonTerminated: false
   })
 }
 
 function exitMdxJsxTagAttributeValueExpression(token) {
-  var attributes = this.getData('mdxJsxTag').attributes
+  const attributes = this.getData('mdxJsxTag').attributes
 
   attributes[attributes.length - 1].value = {
     type: 'mdxJsxAttributeValueExpression',
@@ -207,9 +207,9 @@ function exitMdxJsxTagSelfClosingMarker() {
 }
 
 function exitMdxJsxTag(token) {
-  var tag = this.getData('mdxJsxTag')
-  var stack = this.getData('mdxJsxTagStack')
-  var tail = stack[stack.length - 1]
+  const tag = this.getData('mdxJsxTag')
+  const stack = this.getData('mdxJsxTagStack')
+  const tail = stack[stack.length - 1]
 
   if (tag.close && tail.name !== tag.name) {
     throw new VFileMessage(
@@ -260,17 +260,17 @@ function serializeAbbreviatedTag(tag) {
 
 // eslint-disable-next-line complexity
 function mdxElement(node, _, context) {
-  var selfClosing = node.name && (!node.children || !node.children.length)
-  var quote = checkQuote(context)
-  var exit = context.enter(node.type)
-  var index = -1
-  var attributes = []
-  var attribute
-  var result
-  var value
+  const selfClosing =
+    node.name && (!node.children || node.children.length === 0)
+  const quote = checkQuote(context)
+  const exit = context.enter(node.type)
+  let index = -1
+  const attributes = []
+  let attribute
+  let result
 
   // None.
-  if (node.attributes && node.attributes.length) {
+  if (node.attributes && node.attributes.length > 0) {
     if (!node.name) {
       throw new Error('Cannot serialize fragment w/ attributes')
     }
@@ -287,7 +287,7 @@ function mdxElement(node, _, context) {
 
         result =
           attribute.name +
-          (attribute.value == null
+          (attribute.value === undefined || attribute.value === null
             ? ''
             : '=' +
               (typeof attribute.value === 'object'
@@ -301,18 +301,18 @@ function mdxElement(node, _, context) {
     }
   }
 
-  value =
+  const value =
     '<' +
     (node.name || '') +
     (node.type === 'mdxJsxFlowElement' && attributes.length > 1
       ? // Flow w/ multiple attributes.
         '\n' + indent(attributes.join('\n')) + '\n'
-      : attributes.length // Text or flow w/ a single attribute.
+      : attributes.length > 0 // Text or flow w/ a single attribute.
       ? ' ' + dedentStart(indent(attributes.join(' ')))
       : '') +
     (selfClosing ? '/' : '') +
     '>' +
-    (node.children && node.children.length
+    (node.children && node.children.length > 0
       ? node.type === 'mdxJsxFlowElement'
         ? '\n' + indent(flow(node, context)) + '\n'
         : phrasing(node, context, {before: '<', after: '>'})
@@ -332,9 +332,9 @@ function dedentStart(value) {
 }
 
 function indent(value) {
-  var result = []
-  var start = 0
-  var match
+  const result = []
+  let start = 0
+  let match
 
   while ((match = eol.exec(value))) {
     one(value.slice(start, match.index))

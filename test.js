@@ -6,7 +6,7 @@ import {removePosition} from 'unist-util-remove-position'
 import mdxJsx from 'micromark-extension-mdx-jsx'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './index.js'
 
-test('markdown -> mdast', function (t) {
+test('markdown -> mdast', (t) => {
   t.deepEqual(
     fromMarkdown('<a />', {
       extensions: [mdxJsx()],
@@ -152,7 +152,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <b> c', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -163,7 +163,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('<a>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -418,7 +418,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <b {1 + 1} /> c', {
         extensions: [mdxJsx({acorn})],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -429,7 +429,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <b c={?} /> d', {
         extensions: [mdxJsx({acorn})],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -440,7 +440,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a < \t>b</>', {
         extensions: [mdxJsx({acorn})],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -648,7 +648,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a </> c', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -659,7 +659,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('</>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -670,7 +670,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <></b>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -680,7 +680,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (1)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <b></>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -690,7 +690,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (2)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a.b></a>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -700,7 +700,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (3)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a></a.b>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -710,7 +710,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (4)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a.b></a.c>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -720,7 +720,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (5)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a:b></a>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -730,7 +730,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (6)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a></a:b>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -740,7 +740,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (7)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a:b></a:c>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -750,7 +750,7 @@ test('markdown -> mdast', function (t) {
     'should crash on mismatched tags (8)'
   )
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a <a:b></a.b>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -761,7 +761,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('<a>b</a/>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -772,7 +772,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('<a>b</a b>', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -904,7 +904,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a *open <b> close* </b> c.', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -915,7 +915,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a **open <b> close** </b> c.', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -926,7 +926,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a [open <b> close](c) </b> d.', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -937,7 +937,7 @@ test('markdown -> mdast', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       fromMarkdown('a ![open <b> close](c) </b> d.', {
         extensions: [mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown]
@@ -1246,7 +1246,7 @@ test('markdown -> mdast', function (t) {
   t.end()
 })
 
-test('mdast -> markdown', function (t) {
+test('mdast -> markdown', (t) => {
   t.deepEqual(
     toMarkdown({type: 'mdxJsxFlowElement'}, {extensions: [mdxJsxToMarkdown]}),
     '<></>\n',
@@ -1288,7 +1288,7 @@ test('mdast -> markdown', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       toMarkdown(
         {
           type: 'mdxJsxFlowElement',
@@ -1371,7 +1371,7 @@ test('mdast -> markdown', function (t) {
   )
 
   t.throws(
-    function () {
+    () => {
       toMarkdown(
         {
           type: 'mdxJsxFlowElement',

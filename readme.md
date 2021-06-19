@@ -23,6 +23,9 @@ Or use it all through [`remark-mdx`][remark-mdx] (**[remark][]**).
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -161,13 +164,9 @@ Now, running `node example` yields (positional info removed for brevity):
 
 ## API
 
-### `mdxJsx.fromMarkdown`
+### `mdxJsxFromMarkdown`
 
-### `mdxJsx.toMarkdown`
-
-> Note: the separate extensions are also available at
-> `mdast-util-mdx-jsx/from-markdown` and
-> `mdast-util-mdx-jsx/to-markdown`.
+### `mdxJsxToMarkdown`
 
 Support MDX (or MDX.js) JSX.
 The exports are extensions, respectively for

@@ -16,10 +16,10 @@ When parsing (`from-markdown`), must be combined with
 This utility handles parsing and serializing.
 See [`micromark-extension-mdx-jsx`][extension] for how the syntax works.
 
-You probably should use either [`micromark-extension-mdx`][mdx] or
-[`micromark-extension-mdxjs`][mdxjs] with [`mdast-util-mdx`][mdast-util-mdx]
-(which both include this package) to support all of MDX (or MDX.js).
-Or use it all through [`remark-mdx`][remark-mdx] (**[remark][]**).
+## When to use this
+
+Use [`mdast-util-mdx`][mdast-util-mdx] if you want all of MDX / MDX.js.
+Use this otherwise.
 
 ## Install
 
@@ -46,26 +46,26 @@ Say we have an MDX.js file, `example.mdx`:
 <abbr title="Hypertext Markup Language">HTML</abbr> is a lovely language.
 ```
 
-And our script, `example.js`, looks as follows:
+And our module, `example.js`, looks as follows:
 
 ```js
-var fs = require('fs')
-var acorn = require('acorn')
-var syntax = require('micromark-extension-mdx-jsx')
-var fromMarkdown = require('mdast-util-from-markdown')
-var toMarkdown = require('mdast-util-to-markdown')
-var mdxJsx = require('mdast-util-mdx-jsx')
+import fs from 'node:fs'
+import * as acorn from 'acorn'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {mdxJsx} from 'micromark-extension-mdx-jsx'
+import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'mdast-util-mdx-jsx'
 
-var doc = fs.readFileSync('example.mdx')
+const doc = fs.readFileSync('example.mdx')
 
-var tree = fromMarkdown(doc, {
-  extensions: [syntax({acorn: acorn, addResult: true})],
-  mdastExtensions: [mdxJsx.fromMarkdown]
+const tree = fromMarkdown(doc, {
+  extensions: [mdxJsx({acorn: acorn, addResult: true})],
+  mdastExtensions: [mdxJsxFromMarkdown]
 })
 
 console.log(tree)
 
-var out = toMarkdown(tree, {extensions: [mdxJsx.toMarkdown]})
+const out = toMarkdown(tree, {extensions: [mdxJsxToMarkdown]})
 
 console.log(out)
 ```
@@ -392,10 +392,6 @@ abide by its terms.
 [micromark]: https://github.com/micromark/micromark
 
 [extension]: https://github.com/micromark/micromark-extension-mdxjs-esm
-
-[mdx]: https://github.com/micromark/micromark-extension-mdx
-
-[mdxjs]: https://github.com/micromark/micromark-extension-mdxjs
 
 [mdast-util-mdx]: https://github.com/syntax-tree/mdast-util-mdx
 

@@ -1,9 +1,9 @@
 import test from 'tape'
 import * as acorn from 'acorn'
-import fromMarkdown from 'mdast-util-from-markdown'
-import toMarkdown from 'mdast-util-to-markdown'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
 import {removePosition} from 'unist-util-remove-position'
-import mdxJsx from 'micromark-extension-mdx-jsx'
+import {mdxJsx} from 'micromark-extension-mdx-jsx'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './index.js'
 
 test('markdown -> mdast', (t) => {
@@ -41,8 +41,13 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
-    {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
+    ),
+    {
+      type: 'root',
+      children: [
+        {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []}
+      ]
+    },
     'should support flow jsx (agnostic) w/ just whitespace'
   )
 
@@ -53,13 +58,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
-        {type: 'mdxJsxTextElement', name: 'b', attributes: [], children: []},
-        {type: 'text', value: ' c.'}
+        {
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [],
+              children: []
+            },
+            {type: 'text', value: ' c.'}
+          ]
+        }
       ]
     },
     'should support self-closing text jsx (agnostic)'
@@ -72,13 +87,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
-        {type: 'mdxJsxTextElement', name: 'b', attributes: [], children: []},
-        {type: 'text', value: ' c.'}
+        {
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [],
+              children: []
+            },
+            {type: 'text', value: ' c.'}
+          ]
+        }
       ]
     },
     'should support a closed text jsx (agnostic)'
@@ -91,18 +116,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [],
-          children: [{type: 'text', value: 'c'}]
-        },
-        {type: 'text', value: ' d.'}
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [],
+              children: [{type: 'text', value: 'c'}]
+            },
+            {type: 'text', value: ' d.'}
+          ]
+        }
       ]
     },
     'should support text jsx (agnostic) w/ content'
@@ -115,18 +145,25 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [],
-          children: [{type: 'emphasis', children: [{type: 'text', value: 'c'}]}]
-        },
-        {type: 'text', value: ' d.'}
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [],
+              children: [
+                {type: 'emphasis', children: [{type: 'text', value: 'c'}]}
+              ]
+            },
+            {type: 'text', value: ' d.'}
+          ]
+        }
       ]
     },
     'should support text jsx (agnostic) w/ markdown content'
@@ -139,13 +176,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
-        {type: 'mdxJsxTextElement', name: null, attributes: [], children: []},
-        {type: 'text', value: ' b.'}
+        {
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: null,
+              attributes: [],
+              children: []
+            },
+            {type: 'text', value: ' b.'}
+          ]
+        }
       ]
     },
     'should support a fragment text jsx (agnostic)'
@@ -180,18 +227,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [{type: 'mdxJsxExpressionAttribute', value: '1 + 1'}],
-          children: []
-        },
-        {type: 'text', value: ' c'}
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [{type: 'mdxJsxExpressionAttribute', value: '1 + 1'}],
+              children: []
+            },
+            {type: 'text', value: ' c'}
+          ]
+        }
       ]
     },
     'should support an attribute expression in text jsx (agnostic)'
@@ -204,24 +256,32 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
             {
-              type: 'mdxJsxAttribute',
-              name: 'c',
-              value: {type: 'mdxJsxAttributeValueExpression', value: '1 + 1'}
-            }
-          ],
-          children: []
-        },
-        {type: 'text', value: ' d'}
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'c',
+                  value: {
+                    type: 'mdxJsxAttributeValueExpression',
+                    value: '1 + 1'
+                  }
+                }
+              ],
+              children: []
+            },
+            {type: 'text', value: ' d'}
+          ]
+        }
       ]
     },
     'should support an attribute value expression in text jsx (agnostic)'
@@ -234,18 +294,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [{type: 'mdxJsxExpressionAttribute', value: '...c'}],
-          children: []
-        },
-        {type: 'text', value: ' d'}
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [{type: 'mdxJsxExpressionAttribute', value: '...c'}],
+              children: []
+            },
+            {type: 'text', value: ' d'}
+          ]
+        }
       ]
     },
     'should support an attribute expression in text jsx (gnostic)'
@@ -258,17 +323,22 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [
+      type: 'root',
+      children: [
         {
-          type: 'mdxJsxExpressionAttribute',
-          value: '...{b: 1, c: Infinity, d: false}'
+          type: 'mdxJsxFlowElement',
+          name: 'a',
+          attributes: [
+            {
+              type: 'mdxJsxExpressionAttribute',
+              value: '...{b: 1, c: Infinity, d: false}'
+            }
+          ],
+          children: []
         }
-      ],
-      children: []
+      ]
     },
     'should support an complex attribute expression in flow jsx (gnostic)'
   )
@@ -282,72 +352,80 @@ test('markdown -> mdast', (t) => {
             mdastExtensions: [mdxJsxFromMarkdown]
           }),
           true
-        ).children[0]
+        )
       )
     ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [
+      type: 'root',
+      children: [
         {
-          type: 'mdxJsxExpressionAttribute',
-          value: '...b',
-          data: {
-            estree: {
-              type: 'Program',
-              start: 4,
-              end: 8,
-              body: [
-                {
-                  type: 'ExpressionStatement',
-                  expression: {
-                    type: 'ObjectExpression',
-                    start: 4,
-                    end: 8,
-                    loc: {
-                      start: {line: 1, column: 4},
-                      end: {line: 1, column: 8}
-                    },
-                    properties: [
-                      {
-                        type: 'SpreadElement',
+          type: 'mdxJsxFlowElement',
+          name: 'a',
+          attributes: [
+            {
+              type: 'mdxJsxExpressionAttribute',
+              value: '...b',
+              data: {
+                estree: {
+                  type: 'Program',
+                  start: 4,
+                  end: 8,
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'ObjectExpression',
                         start: 4,
                         end: 8,
                         loc: {
                           start: {line: 1, column: 4},
                           end: {line: 1, column: 8}
                         },
-                        argument: {
-                          type: 'Identifier',
-                          start: 7,
-                          end: 8,
-                          loc: {
-                            start: {line: 1, column: 7},
-                            end: {line: 1, column: 8}
-                          },
-                          name: 'b',
-                          range: [7, 8]
-                        },
+                        properties: [
+                          {
+                            type: 'SpreadElement',
+                            start: 4,
+                            end: 8,
+                            loc: {
+                              start: {line: 1, column: 4},
+                              end: {line: 1, column: 8}
+                            },
+                            argument: {
+                              type: 'Identifier',
+                              start: 7,
+                              end: 8,
+                              loc: {
+                                start: {line: 1, column: 7},
+                                end: {line: 1, column: 8}
+                              },
+                              name: 'b',
+                              range: [7, 8]
+                            },
+                            range: [4, 8]
+                          }
+                        ],
                         range: [4, 8]
-                      }
-                    ],
-                    range: [4, 8]
-                  },
-                  start: 4,
-                  end: 8,
+                      },
+                      start: 4,
+                      end: 8,
+                      loc: {
+                        start: {line: 1, column: 4},
+                        end: {line: 1, column: 8}
+                      },
+                      range: [4, 8]
+                    }
+                  ],
+                  sourceType: 'module',
+                  comments: [],
                   loc: {start: {line: 1, column: 4}, end: {line: 1, column: 8}},
                   range: [4, 8]
                 }
-              ],
-              sourceType: 'module',
-              comments: [],
-              loc: {start: {line: 1, column: 4}, end: {line: 1, column: 8}},
-              range: [4, 8]
+              }
             }
-          }
+          ],
+          children: []
         }
-      ],
-      children: []
+      ]
     },
     'should support an `estree` for an attribute expression in flow jsx (gnostic) w/ `addResult`'
   )
@@ -361,58 +439,66 @@ test('markdown -> mdast', (t) => {
             mdastExtensions: [mdxJsxFromMarkdown]
           }),
           true
-        ).children[0]
+        )
       )
     ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [
+      type: 'root',
+      children: [
         {
-          type: 'mdxJsxAttribute',
-          name: 'b',
-          value: {
-            type: 'mdxJsxAttributeValueExpression',
-            value: '1',
-            data: {
-              estree: {
-                type: 'Program',
-                start: 6,
-                end: 7,
-                body: [
-                  {
-                    type: 'ExpressionStatement',
-                    expression: {
-                      type: 'Literal',
-                      start: 6,
-                      end: 7,
-                      loc: {
-                        start: {line: 1, column: 6},
-                        end: {line: 1, column: 7}
-                      },
-                      value: 1,
-                      raw: '1',
-                      range: [6, 7]
-                    },
+          type: 'mdxJsxFlowElement',
+          name: 'a',
+          attributes: [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'b',
+              value: {
+                type: 'mdxJsxAttributeValueExpression',
+                value: '1',
+                data: {
+                  estree: {
+                    type: 'Program',
                     start: 6,
                     end: 7,
+                    body: [
+                      {
+                        type: 'ExpressionStatement',
+                        expression: {
+                          type: 'Literal',
+                          start: 6,
+                          end: 7,
+                          loc: {
+                            start: {line: 1, column: 6},
+                            end: {line: 1, column: 7}
+                          },
+                          value: 1,
+                          raw: '1',
+                          range: [6, 7]
+                        },
+                        start: 6,
+                        end: 7,
+                        loc: {
+                          start: {line: 1, column: 6},
+                          end: {line: 1, column: 7}
+                        },
+                        range: [6, 7]
+                      }
+                    ],
+                    sourceType: 'module',
+                    comments: [],
                     loc: {
                       start: {line: 1, column: 6},
                       end: {line: 1, column: 7}
                     },
                     range: [6, 7]
                   }
-                ],
-                sourceType: 'module',
-                comments: [],
-                loc: {start: {line: 1, column: 6}, end: {line: 1, column: 7}},
-                range: [6, 7]
+                }
               }
             }
-          }
+          ],
+          children: []
         }
-      ],
-      children: []
+      ]
     },
     'should support an `estree` for an attribute value expression in flow jsx (gnostic) w/ `addResult`'
   )
@@ -457,16 +543,21 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [],
-          children: [{type: 'text', value: 'c'}]
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [],
+              children: [{type: 'text', value: 'c'}]
+            }
+          ]
         }
       ]
     },
@@ -480,8 +571,13 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
-    {type: 'mdxJsxFlowElement', name: 'π', attributes: [], children: []},
+    ),
+    {
+      type: 'root',
+      children: [
+        {type: 'mdxJsxFlowElement', name: 'π', attributes: [], children: []}
+      ]
+    },
     'should support non-ascii identifier start characters'
   )
 
@@ -492,8 +588,13 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
-    {type: 'mdxJsxFlowElement', name: 'a\u200Cb', attributes: [], children: []},
+    ),
+    {
+      type: 'root',
+      children: [
+        {type: 'mdxJsxFlowElement', name: 'a‌b', attributes: [], children: []}
+      ]
+    },
     'should support non-ascii identifier continuation characters'
   )
 
@@ -504,12 +605,17 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'abc.def.ghi',
-      attributes: [],
-      children: []
+      type: 'root',
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'abc.def.ghi',
+          attributes: [],
+          children: []
+        }
+      ]
     },
     'should support dots in names for method names'
   )
@@ -521,15 +627,20 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
         {
-          type: 'mdxJsxTextElement',
-          name: 'svg:rect',
-          attributes: [],
-          children: [{type: 'text', value: 'b'}]
+          type: 'paragraph',
+          children: [
+            {
+              type: 'mdxJsxTextElement',
+              name: 'svg:rect',
+              attributes: [],
+              children: [{type: 'text', value: 'b'}]
+            }
+          ]
         }
       ]
     },
@@ -543,22 +654,27 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [
-            {type: 'mdxJsxAttribute', name: 'c', value: null},
-            {type: 'mdxJsxAttribute', name: 'd', value: 'd'},
-            {type: 'mdxJsxAttribute', name: 'efg', value: 'h'}
-          ],
-          children: [{type: 'text', value: 'i'}]
-        },
-        {type: 'text', value: '.'}
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: 'b',
+              attributes: [
+                {type: 'mdxJsxAttribute', name: 'c', value: null},
+                {type: 'mdxJsxAttribute', name: 'd', value: 'd'},
+                {type: 'mdxJsxAttribute', name: 'efg', value: 'h'}
+              ],
+              children: [{type: 'text', value: 'i'}]
+            },
+            {type: 'text', value: '.'}
+          ]
+        }
       ]
     },
     'should support attributes'
@@ -571,15 +687,20 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [
-        {type: 'mdxJsxAttribute', name: 'xml:lang', value: 'de-CH'},
-        {type: 'mdxJsxAttribute', name: 'foo:bar', value: null}
-      ],
-      children: []
+      type: 'root',
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'a',
+          attributes: [
+            {type: 'mdxJsxAttribute', name: 'xml:lang', value: 'de-CH'},
+            {type: 'mdxJsxAttribute', name: 'foo:bar', value: null}
+          ],
+          children: []
+        }
+      ]
     },
     'should support prefixed attributes'
   )
@@ -591,17 +712,22 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'b',
-      attributes: [
-        {type: 'mdxJsxAttribute', name: 'a', value: null},
-        {type: 'mdxJsxAttribute', name: 'b:c', value: null},
-        {type: 'mdxJsxAttribute', name: 'd:e', value: 'f'},
-        {type: 'mdxJsxAttribute', name: 'g', value: null}
-      ],
-      children: []
+      type: 'root',
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'b',
+          attributes: [
+            {type: 'mdxJsxAttribute', name: 'a', value: null},
+            {type: 'mdxJsxAttribute', name: 'b:c', value: null},
+            {type: 'mdxJsxAttribute', name: 'd:e', value: 'f'},
+            {type: 'mdxJsxAttribute', name: 'g', value: null}
+          ],
+          children: []
+        }
+      ]
     },
     'should support prefixed and normal attributes'
   )
@@ -613,18 +739,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: null,
-          attributes: [],
-          children: [{type: 'inlineCode', value: '<'}]
-        },
-        {type: 'text', value: ' c'}
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'a '},
+            {
+              type: 'mdxJsxTextElement',
+              name: null,
+              attributes: [],
+              children: [{type: 'inlineCode', value: '<'}]
+            },
+            {type: 'text', value: ' c'}
+          ]
+        }
       ]
     },
     'should support code (text) in jsx (text)'
@@ -637,12 +768,17 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: null,
-      attributes: [],
-      children: [{type: 'code', lang: 'js', meta: null, value: '<'}]
+      type: 'root',
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: null,
+          attributes: [],
+          children: [{type: 'code', lang: 'js', meta: null, value: '<'}]
+        }
+      ]
     },
     'should support code (fenced) in jsx (flow)'
   )
@@ -789,24 +925,29 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: 'a '},
         {
-          type: 'mdxJsxTextElement',
-          name: 'b',
-          attributes: [],
+          type: 'paragraph',
           children: [
-            {type: 'text', value: 'c '},
+            {type: 'text', value: 'a '},
             {
               type: 'mdxJsxTextElement',
-              name: null,
+              name: 'b',
               attributes: [],
-              children: [{type: 'text', value: 'd'}]
-            },
-            {type: 'text', value: ' e'}
+              children: [
+                {type: 'text', value: 'c '},
+                {
+                  type: 'mdxJsxTextElement',
+                  name: null,
+                  attributes: [],
+                  children: [{type: 'text', value: 'd'}]
+                },
+                {type: 'text', value: ' e'}
+              ]
+            }
           ]
         }
       ]
@@ -821,18 +962,23 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [],
+      type: 'root',
       children: [
         {
           type: 'mdxJsxFlowElement',
-          name: null,
+          name: 'a',
           attributes: [],
           children: [
-            {type: 'paragraph', children: [{type: 'text', value: 'b'}]}
+            {
+              type: 'mdxJsxFlowElement',
+              name: null,
+              attributes: [],
+              children: [
+                {type: 'paragraph', children: [{type: 'text', value: 'b'}]}
+              ]
+            }
           ]
         }
       ]
@@ -850,19 +996,24 @@ test('markdown -> mdast', (t) => {
         }
       ),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'x',
-      attributes: [
+      type: 'root',
+      children: [
         {
-          type: 'mdxJsxAttribute',
-          name: 'y',
-          value:
-            'Character references can be used: ", \', <, >, {, and }, they can be named, decimal, or hexadecimal: © ≠ 𝌆'
+          type: 'mdxJsxFlowElement',
+          name: 'x',
+          attributes: [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'y',
+              value:
+                'Character references can be used: ", \', <, >, {, and }, they can be named, decimal, or hexadecimal: © ≠ 𝌆'
+            }
+          ],
+          children: []
         }
-      ],
-      children: []
+      ]
     },
     'should support character references in attribute values'
   )
@@ -874,12 +1025,22 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'mdxJsxTextElement', name: 'x', attributes: [], children: []},
-        {type: 'text', value: '.'}
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'mdxJsxTextElement',
+              name: 'x',
+              attributes: [],
+              children: []
+            },
+            {type: 'text', value: '.'}
+          ]
+        }
       ]
     },
     'should support as text if the tag is not the last thing'
@@ -892,12 +1053,17 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'paragraph',
+      type: 'root',
       children: [
-        {type: 'text', value: '.'},
-        {type: 'mdxJsxTextElement', name: 'x', attributes: [], children: []}
+        {
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: '.'},
+            {type: 'mdxJsxTextElement', name: 'x', attributes: [], children: []}
+          ]
+        }
       ]
     },
     'should support as text if the tag is not the first thing'
@@ -954,21 +1120,26 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'blockquote',
+      type: 'root',
       children: [
         {
-          type: 'paragraph',
+          type: 'blockquote',
           children: [
-            {type: 'text', value: 'a '},
             {
-              type: 'mdxJsxTextElement',
-              name: 'b',
-              attributes: [],
-              children: [{type: 'text', value: '\nc '}]
-            },
-            {type: 'text', value: ' d.'}
+              type: 'paragraph',
+              children: [
+                {type: 'text', value: 'a '},
+                {
+                  type: 'mdxJsxTextElement',
+                  name: 'b',
+                  attributes: [],
+                  children: [{type: 'text', value: '\nc '}]
+                },
+                {type: 'text', value: ' d.'}
+              ]
+            }
           ]
         }
       ]
@@ -983,21 +1154,28 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'blockquote',
+      type: 'root',
       children: [
         {
-          type: 'paragraph',
+          type: 'blockquote',
           children: [
-            {type: 'text', value: 'a '},
             {
-              type: 'mdxJsxTextElement',
-              name: 'b',
-              attributes: [{type: 'mdxJsxAttribute', name: 'c', value: 'd\ne'}],
-              children: []
-            },
-            {type: 'text', value: ' f'}
+              type: 'paragraph',
+              children: [
+                {type: 'text', value: 'a '},
+                {
+                  type: 'mdxJsxTextElement',
+                  name: 'b',
+                  attributes: [
+                    {type: 'mdxJsxAttribute', name: 'c', value: 'd\ne'}
+                  ],
+                  children: []
+                },
+                {type: 'text', value: ' f'}
+              ]
+            }
           ]
         }
       ]
@@ -1012,27 +1190,35 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'blockquote',
+      type: 'root',
       children: [
         {
-          type: 'paragraph',
+          type: 'blockquote',
           children: [
-            {type: 'text', value: 'a '},
             {
-              type: 'mdxJsxTextElement',
-              name: 'b',
-              attributes: [
+              type: 'paragraph',
+              children: [
+                {type: 'text', value: 'a '},
                 {
-                  type: 'mdxJsxAttribute',
-                  name: 'c',
-                  value: {type: 'mdxJsxAttributeValueExpression', value: 'd\ne'}
-                }
-              ],
-              children: []
-            },
-            {type: 'text', value: ' f'}
+                  type: 'mdxJsxTextElement',
+                  name: 'b',
+                  attributes: [
+                    {
+                      type: 'mdxJsxAttribute',
+                      name: 'c',
+                      value: {
+                        type: 'mdxJsxAttributeValueExpression',
+                        value: 'd\ne'
+                      }
+                    }
+                  ],
+                  children: []
+                },
+                {type: 'text', value: ' f'}
+              ]
+            }
           ]
         }
       ]
@@ -1047,21 +1233,28 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'blockquote',
+      type: 'root',
       children: [
         {
-          type: 'paragraph',
+          type: 'blockquote',
           children: [
-            {type: 'text', value: 'a '},
             {
-              type: 'mdxJsxTextElement',
-              name: 'b',
-              attributes: [{type: 'mdxJsxExpressionAttribute', value: 'c\nd'}],
-              children: []
-            },
-            {type: 'text', value: ' e'}
+              type: 'paragraph',
+              children: [
+                {type: 'text', value: 'a '},
+                {
+                  type: 'mdxJsxTextElement',
+                  name: 'b',
+                  attributes: [
+                    {type: 'mdxJsxExpressionAttribute', value: 'c\nd'}
+                  ],
+                  children: []
+                },
+                {type: 'text', value: ' e'}
+              ]
+            }
           ]
         }
       ]
@@ -1076,23 +1269,28 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'blockquote',
+      type: 'root',
       children: [
         {
-          type: 'paragraph',
+          type: 'blockquote',
           children: [
-            {type: 'text', value: 'a '},
             {
-              type: 'mdxJsxTextElement',
-              name: 'b',
-              attributes: [
-                {type: 'mdxJsxExpressionAttribute', value: '...[1,\n2]'}
-              ],
-              children: []
-            },
-            {type: 'text', value: ' c'}
+              type: 'paragraph',
+              children: [
+                {type: 'text', value: 'a '},
+                {
+                  type: 'mdxJsxTextElement',
+                  name: 'b',
+                  attributes: [
+                    {type: 'mdxJsxExpressionAttribute', value: '...[1,\n2]'}
+                  ],
+                  children: []
+                },
+                {type: 'text', value: ' c'}
+              ]
+            }
           ]
         }
       ]
@@ -1107,16 +1305,24 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [],
+      type: 'root',
       children: [
         {
-          type: 'blockquote',
+          type: 'mdxJsxFlowElement',
+          name: 'a',
+          attributes: [],
           children: [
-            {type: 'paragraph', children: [{type: 'text', value: 'b\nc\nd'}]}
+            {
+              type: 'blockquote',
+              children: [
+                {
+                  type: 'paragraph',
+                  children: [{type: 'text', value: 'b\nc\nd'}]
+                }
+              ]
+            }
           ]
         }
       ]
@@ -1131,32 +1337,40 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       }),
       true
-    ).children[0],
+    ),
     {
-      type: 'mdxJsxFlowElement',
-      name: 'a',
-      attributes: [],
+      type: 'root',
       children: [
         {
-          type: 'list',
-          ordered: false,
-          start: null,
-          spread: false,
+          type: 'mdxJsxFlowElement',
+          name: 'a',
+          attributes: [],
           children: [
             {
-              type: 'listItem',
+              type: 'list',
+              ordered: false,
+              start: null,
               spread: false,
-              checked: null,
               children: [
-                {type: 'paragraph', children: [{type: 'text', value: 'b\nc'}]}
-              ]
-            },
-            {
-              type: 'listItem',
-              spread: false,
-              checked: null,
-              children: [
-                {type: 'paragraph', children: [{type: 'text', value: 'd'}]}
+                {
+                  type: 'listItem',
+                  spread: false,
+                  checked: null,
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [{type: 'text', value: 'b\nc'}]
+                    }
+                  ]
+                },
+                {
+                  type: 'listItem',
+                  spread: false,
+                  checked: null,
+                  children: [
+                    {type: 'paragraph', children: [{type: 'text', value: 'd'}]}
+                  ]
+                }
               ]
             }
           ]

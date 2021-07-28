@@ -6,17 +6,13 @@
  * @typedef {import('mdast-util-from-markdown').Token} Token
  * @typedef {import('mdast-util-to-markdown').Options} ToMarkdownExtension
  * @typedef {import('mdast-util-to-markdown').Handle} ToMarkdownHandle
- * @typedef {import('estree-jsx').Program} Estree
- *
- * @typedef {Literal & {type: 'mdxJsxAttributeValueExpression', data?: {estree?: Estree}}} MDXJsxAttributeValueExpression
- * @typedef {Omit<Literal, 'value'> & {type: 'mdxJsxAttribute', name: string, value: MDXJsxAttributeValueExpression|string|null}} MDXJsxAttribute
- * @typedef {Literal & {type: 'mdxJsxExpressionAttribute'}} MDXJsxExpressionAttribute
- * @typedef {MDXJsxAttribute|MDXJsxExpressionAttribute} Attribute
- * @typedef {{name: string|null, attributes: Attribute[], close?: boolean, selfClosing?: boolean, start: Token['start'], end: Token['start']}} Tag
- *
- * @typedef {{name: string|null, attributes: Attribute[]}} MDXJsxElement
- * @typedef {Parent & MDXJsxElement & {type: 'mdxJsxFlowElement'}} MDXJsxFlowElement
- * @typedef {Parent & MDXJsxElement & {type: 'mdxJsxTextElement'}} MDXJsxTextElement
+ * @typedef {import('estree-jsx').Program} Program
+ * @typedef {import('./complex-types').MDXJsxAttributeValueExpression} MDXJsxAttributeValueExpression
+ * @typedef {import('./complex-types').MDXJsxAttribute} MDXJsxAttribute
+ * @typedef {import('./complex-types').MDXJsxExpressionAttribute} MDXJsxExpressionAttribute
+ * @typedef {import('./complex-types').MDXJsxFlowElement} MDXJsxFlowElement
+ * @typedef {import('./complex-types').MDXJsxTextElement} MDXJsxTextElement
+ * @typedef {{name: string|null, attributes: (MDXJsxAttribute|MDXJsxExpressionAttribute)[], close?: boolean, selfClosing?: boolean, start: Token['start'], end: Token['start']}} Tag
  */
 
 import {parseEntities} from 'parse-entities'
@@ -122,9 +118,7 @@ function enterMdxJsxTag(token) {
 
 /** @type {FromMarkdownHandle} */
 function enterMdxJsxTagClosingMarker(token) {
-  /** @type {Tag[]} */
-  // @ts-expect-error: hush
-  const stack = this.getData('mdxJsxTagStack')
+  const stack = /** @type {Tag[]} */ (this.getData('mdxJsxTagStack'))
 
   if (stack.length === 0) {
     throw new VFileMessage(
@@ -137,9 +131,7 @@ function enterMdxJsxTagClosingMarker(token) {
 
 /** @type {FromMarkdownHandle} */
 function enterMdxJsxTagAnyAttribute(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
 
   if (tag.close) {
     throw new VFileMessage(
@@ -152,9 +144,7 @@ function enterMdxJsxTagAnyAttribute(token) {
 
 /** @type {FromMarkdownHandle} */
 function enterMdxJsxTagSelfClosingMarker(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
 
   if (tag.close) {
     throw new VFileMessage(
@@ -167,50 +157,38 @@ function enterMdxJsxTagSelfClosingMarker(token) {
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagClosingMarker() {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   tag.close = true
 }
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagNamePrimary(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   tag.name = this.sliceSerialize(token)
 }
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagNameMember(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   tag.name += '.' + this.sliceSerialize(token)
 }
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagNameLocal(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   tag.name += ':' + this.sliceSerialize(token)
 }
 
 /** @type {FromMarkdownHandle} */
 function enterMdxJsxTagAttribute(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   enterMdxJsxTagAnyAttribute.call(this, token)
   tag.attributes.push({type: 'mdxJsxAttribute', name: '', value: null})
 }
 
 /** @type {FromMarkdownHandle} */
 function enterMdxJsxTagExpressionAttribute(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   enterMdxJsxTagAnyAttribute.call(this, token)
   tag.attributes.push({type: 'mdxJsxExpressionAttribute', value: ''})
   this.buffer()
@@ -218,13 +196,11 @@ function enterMdxJsxTagExpressionAttribute(token) {
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagExpressionAttribute(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
-  /** @type {MDXJsxExpressionAttribute} */
-  // @ts-expect-error: hush
-  const tail = tag.attributes[tag.attributes.length - 1]
-  /** @type {Estree?} */
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  const tail = /** @type {MDXJsxExpressionAttribute} */ (
+    tag.attributes[tag.attributes.length - 1]
+  )
+  /** @type {Program|undefined} */
   // @ts-expect-error: custom.
   const estree = token.estree
 
@@ -237,26 +213,25 @@ function exitMdxJsxTagExpressionAttribute(token) {
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeNamePrimary(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
-  tag.attributes[tag.attributes.length - 1].name = this.sliceSerialize(token)
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  const node = /** @type {MDXJsxAttribute} */ (
+    tag.attributes[tag.attributes.length - 1]
+  )
+  node.name = this.sliceSerialize(token)
 }
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeNameLocal(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
-  tag.attributes[tag.attributes.length - 1].name +=
-    ':' + this.sliceSerialize(token)
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  const node = /** @type {MDXJsxAttribute} */ (
+    tag.attributes[tag.attributes.length - 1]
+  )
+  node.name += ':' + this.sliceSerialize(token)
 }
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeValueLiteral() {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   tag.attributes[tag.attributes.length - 1].value = parseEntities(
     this.resume(),
     {nonTerminated: false}
@@ -265,15 +240,13 @@ function exitMdxJsxTagAttributeValueLiteral() {
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeValueExpression(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
-  /** @type {MDXJsxAttribute} */
-  // @ts-expect-error: hush
-  const tail = tag.attributes[tag.attributes.length - 1]
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  const tail = /** @type {MDXJsxAttribute} */ (
+    tag.attributes[tag.attributes.length - 1]
+  )
   /** @type {MDXJsxAttributeValueExpression} */
   const node = {type: 'mdxJsxAttributeValueExpression', value: this.resume()}
-  /** @type {Estree?} */
+  /** @type {Program|undefined} */
   // @ts-expect-error: custom.
   const estree = token.estree
 
@@ -286,21 +259,15 @@ function exitMdxJsxTagAttributeValueExpression(token) {
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagSelfClosingMarker() {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
 
   tag.selfClosing = true
 }
 
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTag(token) {
-  /** @type {Tag} */
-  // @ts-expect-error: hush
-  const tag = this.getData('mdxJsxTag')
-  /** @type {Tag[]} */
-  // @ts-expect-error: hush
-  const stack = this.getData('mdxJsxTagStack')
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  const stack = /** @type {Tag[]} */ (this.getData('mdxJsxTagStack'))
   const tail = stack[stack.length - 1]
 
   if (tag.close && tail.name !== tag.name) {
@@ -323,19 +290,18 @@ function exitMdxJsxTag(token) {
   if (tag.close) {
     stack.pop()
   } else {
-    /** @type {MDXJsxFlowElement|MDXJsxTextElement} */
-    const node = {
-      type:
-        token.type === 'mdxJsxTextTag'
-          ? 'mdxJsxTextElement'
-          : 'mdxJsxFlowElement',
-      name: tag.name,
-      attributes: tag.attributes,
-      children: []
-    }
-
-    // @ts-expect-error: custom
-    this.enter(node, token)
+    this.enter(
+      {
+        type:
+          token.type === 'mdxJsxTextTag'
+            ? 'mdxJsxTextElement'
+            : 'mdxJsxFlowElement',
+        name: tag.name,
+        attributes: tag.attributes,
+        children: []
+      },
+      token
+    )
   }
 
   if (tag.selfClosing || tag.close) {

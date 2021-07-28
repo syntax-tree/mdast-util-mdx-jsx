@@ -1462,6 +1462,7 @@ test('markdown -> mdast', (t) => {
 
 test('mdast -> markdown', (t) => {
   t.deepEqual(
+    // @ts-expect-error: `attributes`, `children`, `name` missing.
     toMarkdown({type: 'mdxJsxFlowElement'}, {extensions: [mdxJsxToMarkdown]}),
     '<></>\n',
     'should serialize flow jsx w/o `name`, `attributes`, or `children`'
@@ -1469,6 +1470,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `attributes`, `children` missing.
       {type: 'mdxJsxFlowElement', name: 'x'},
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1478,6 +1480,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `attributes` missing.
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
@@ -1491,6 +1494,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `children`, `name` missing.
       {
         type: 'mdxJsxFlowElement',
         children: [{type: 'paragraph', children: [{type: 'text', value: 'y'}]}]
@@ -1504,6 +1508,7 @@ test('mdast -> markdown', (t) => {
   t.throws(
     () => {
       toMarkdown(
+        // @ts-expect-error: `children`, `name` missing.
         {
           type: 'mdxJsxFlowElement',
           attributes: [{type: 'mdxJsxExpressionAttribute', value: 'x'}]
@@ -1517,6 +1522,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `children` missing.
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
@@ -1544,6 +1550,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `children` missing.
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
@@ -1563,7 +1570,8 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
-        attributes: [{type: 'mdxJsxExpressionAttribute', value: '...{y: "z"}'}]
+        attributes: [{type: 'mdxJsxExpressionAttribute', value: '...{y: "z"}'}],
+        children: []
       },
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1576,7 +1584,10 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
-        attributes: [{type: 'mdxJsxExpressionAttribute'}]
+        attributes: [
+          // @ts-expect-error: `value` missing.
+          {type: 'mdxJsxExpressionAttribute'}
+        ]
       },
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1590,7 +1601,10 @@ test('mdast -> markdown', (t) => {
         {
           type: 'mdxJsxFlowElement',
           name: 'x',
-          attributes: [{type: 'mdxJsxAttribute', value: 'y'}]
+          attributes: [
+            // @ts-expect-error: `name` missing.
+            {type: 'mdxJsxAttribute', value: 'y'}
+          ]
         },
         {extensions: [mdxJsxToMarkdown]}
       )
@@ -1604,7 +1618,8 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
-        attributes: [{type: 'mdxJsxAttribute', name: 'y'}]
+        attributes: [{type: 'mdxJsxAttribute', name: 'y'}],
+        children: []
       },
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1617,7 +1632,8 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
-        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}]
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
+        children: []
       },
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1630,7 +1646,8 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
-        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}]
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
+        children: []
       },
       {extensions: [mdxJsxToMarkdown], quote: "'"}
     ),
@@ -1649,7 +1666,8 @@ test('mdast -> markdown', (t) => {
             name: 'y',
             value: {type: 'mdxJsxAttributeValueExpression', value: 'z'}
           }
-        ]
+        ],
+        children: []
       },
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1666,6 +1684,7 @@ test('mdast -> markdown', (t) => {
           {
             type: 'mdxJsxAttribute',
             name: 'y',
+            // @ts-expect-error: `value` missing.
             value: {type: 'mdxJsxAttributeValueExpression'}
           }
         ]
@@ -1677,6 +1696,7 @@ test('mdast -> markdown', (t) => {
   )
 
   t.deepEqual(
+    // @ts-expect-error: `attributes`, `name`, `children` missing.
     toMarkdown({type: 'mdxJsxTextElement'}, {extensions: [mdxJsxToMarkdown]}),
     '<></>\n',
     'should serialize text jsx w/o `name`, `attributes`, or `children`'
@@ -1684,6 +1704,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `attributes`, `children` missing.
       {type: 'mdxJsxTextElement', name: 'x'},
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1693,6 +1714,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
+      // @ts-expect-error: `attributes` missing.
       {
         type: 'mdxJsxTextElement',
         name: 'x',
@@ -1712,7 +1734,8 @@ test('mdast -> markdown', (t) => {
         attributes: [
           {type: 'mdxJsxAttribute', name: 'y', value: 'z'},
           {type: 'mdxJsxAttribute', name: 'a'}
-        ]
+        ],
+        children: []
       },
       {extensions: [mdxJsxToMarkdown]}
     ),
@@ -1729,6 +1752,7 @@ test('mdast -> markdown', (t) => {
           {
             type: 'mdxJsxTextElement',
             name: 'x',
+            attributes: [],
             children: [{type: 'text', value: 'y'}]
           },
           {type: 'text', value: ' z.'}
@@ -1745,6 +1769,7 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
+        attributes: [],
         children: [
           {
             type: 'blockquote',
@@ -1788,10 +1813,10 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     toMarkdown(
-      {type: 'definition', url: 'x', title: 'a\n<\nb'},
+      {type: 'definition', identifier: 'a', url: 'x', title: 'a\n<\nb'},
       {extensions: [mdxJsxToMarkdown]}
     ),
-    '[]: x "a\n\\<\nb"\n',
+    '[a]: x "a\n\\<\nb"\n',
     'should escape `<` at the start of a line'
   )
 

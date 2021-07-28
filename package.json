@@ -31,12 +31,13 @@
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
+    "complex-types.d.ts",
     "index.d.ts",
     "index.js"
   ],
   "dependencies": {
     "@types/estree-jsx": "^0.0.1",
-    "@types/mdast": "^3.0.3",
+    "@types/mdast": "^3.0.0",
     "mdast-util-to-markdown": "^1.0.0",
     "parse-entities": "^3.0.0",
     "stringify-entities": "^4.0.0",
@@ -60,7 +61,7 @@
     "xo": "^0.39.0"
   },
   "scripts": {
-    "build": "rimraf \"*.d.ts\" && tsc && type-coverage",
+    "build": "rimraf \"{index,test}.d.ts\" && tsc && type-coverage",
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
     "test-api": "node --conditions development test.js",
     "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov node --conditions development test.js",

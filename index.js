@@ -6,6 +6,7 @@
  * @typedef {import('mdast-util-from-markdown').Token} Token
  * @typedef {import('mdast-util-to-markdown').Options} ToMarkdownExtension
  * @typedef {import('mdast-util-to-markdown').Handle} ToMarkdownHandle
+ * @typedef {import('mdast-util-to-markdown').Map} ToMarkdownMap
  * @typedef {import('estree-jsx').Program} Program
  * @typedef {import('./complex-types').MDXJsxAttributeValueExpression} MDXJsxAttributeValueExpression
  * @typedef {import('./complex-types').MDXJsxAttribute} MDXJsxAttribute
@@ -22,8 +23,7 @@ import {stringifyEntitiesLight} from 'stringify-entities'
 import {containerFlow} from 'mdast-util-to-markdown/lib/util/container-flow.js'
 import {containerPhrasing} from 'mdast-util-to-markdown/lib/util/container-phrasing.js'
 import {checkQuote} from 'mdast-util-to-markdown/lib/util/check-quote.js'
-
-const eol = /\r?\n|\r/g
+import {indentLines} from 'mdast-util-to-markdown/lib/util/indent-lines.js'
 
 mdxElement.peek = peekElement
 
@@ -332,6 +332,7 @@ function mdxElement(node, _, context) {
     node.name && (!node.children || node.children.length === 0)
   const quote = checkQuote(context)
   const exit = context.enter(node.type)
+  let attributeValue = ''
   let index = -1
   /** @type {Array.<string>} */
   const attributes = []
@@ -343,6 +344,9 @@ function mdxElement(node, _, context) {
     if (!node.name) {
       throw new Error('Cannot serialize fragment w/ attributes')
     }
+
+    const isMultiFlow =
+      node.type === 'mdxJsxFlowElement' && node.attributes.length > 1
 
     while (++index < node.attributes.length) {
       const attribute = node.attributes[index]
@@ -366,19 +370,16 @@ function mdxElement(node, _, context) {
                   quote))
       }
 
-      attributes.push(result)
+      attributes.push((isMultiFlow ? '\n  ' : ' ') + result)
     }
+
+    attributeValue = attributes.join('') + (isMultiFlow ? '\n' : '')
   }
 
   const value =
     '<' +
     (node.name || '') +
-    (node.type === 'mdxJsxFlowElement' && attributes.length > 1
-      ? // Flow w/ multiple attributes.
-        '\n' + indent(attributes.join('\n')) + '\n'
-      : attributes.length > 0 // Text or flow w/ a single attribute.
-      ? ' ' + dedentStart(indent(attributes.join(' ')))
-      : '') +
+    attributeValue +
     (selfClosing ? '/' : '') +
     '>' +
     (node.children && node.children.length > 0
@@ -391,10 +392,10 @@ function mdxElement(node, _, context) {
   exit()
   return value
 }
+
 /**
  * @type {ToMarkdownHandle}
  */
-
 function peekElement() {
   return '<'
 }
@@ -403,36 +404,11 @@ function peekElement() {
  * @param {string} value
  * @returns {string}
  */
-function dedentStart(value) {
-  return value.replace(/^ +/, '')
-}
-
-/**
- * @param {string} value
- * @returns {string}
- */
 function indent(value) {
-  /** @type {Array.<string>} */
-  const result = []
-  let start = 0
-  /** @type {RegExpExecArray|null} */
-  let match
+  return indentLines(value, map)
 
-  while ((match = eol.exec(value))) {
-    one(value.slice(start, match.index))
-    result.push(match[0])
-    start = match.index + match[0].length
-  }
-
-  one(value.slice(start))
-
-  return result.join('')
-
-  /**
-   * @param {string} slice
-   * @returns {void}
-   */
-  function one(slice) {
-    result.push((slice ? '  ' : '') + slice)
+  /** @type {ToMarkdownMap} */
+  function map(line, _, blank) {
+    return (blank ? '' : '  ') + line
   }
 }

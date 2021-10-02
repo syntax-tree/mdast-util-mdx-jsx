@@ -8,12 +8,22 @@
  * @typedef {import('mdast-util-to-markdown').Handle} ToMarkdownHandle
  * @typedef {import('mdast-util-to-markdown').Map} ToMarkdownMap
  * @typedef {import('estree-jsx').Program} Program
- * @typedef {import('./complex-types').MDXJsxAttributeValueExpression} MDXJsxAttributeValueExpression
- * @typedef {import('./complex-types').MDXJsxAttribute} MDXJsxAttribute
- * @typedef {import('./complex-types').MDXJsxExpressionAttribute} MDXJsxExpressionAttribute
- * @typedef {import('./complex-types').MDXJsxFlowElement} MDXJsxFlowElement
- * @typedef {import('./complex-types').MDXJsxTextElement} MDXJsxTextElement
- * @typedef {{name: string|null, attributes: (MDXJsxAttribute|MDXJsxExpressionAttribute)[], close?: boolean, selfClosing?: boolean, start: Token['start'], end: Token['start']}} Tag
+ * @typedef {import('./complex-types').MdxJsxAttributeValueExpression} MdxJsxAttributeValueExpression
+ * @typedef {import('./complex-types').MdxJsxAttribute} MdxJsxAttribute
+ * @typedef {import('./complex-types').MdxJsxExpressionAttribute} MdxJsxExpressionAttribute
+ * @typedef {import('./complex-types').MdxJsxFlowElement} MdxJsxFlowElement
+ * @typedef {import('./complex-types').MdxJsxTextElement} MdxJsxTextElement
+ * @typedef {{name: string|null, attributes: (MdxJsxAttribute|MdxJsxExpressionAttribute)[], close?: boolean, selfClosing?: boolean, start: Token['start'], end: Token['start']}} Tag
+ */
+
+/**
+ * Legacy names:
+ *
+ * @typedef {MdxJsxAttributeValueExpression} MDXJsxAttributeValueExpression
+ * @typedef {MdxJsxAttribute} MDXJsxAttribute
+ * @typedef {MdxJsxExpressionAttribute} MDXJsxExpressionAttribute
+ * @typedef {MdxJsxFlowElement} MDXJsxFlowElement
+ * @typedef {MdxJsxTextElement} MDXJsxTextElement
  */
 
 import {parseEntities} from 'parse-entities'
@@ -197,7 +207,7 @@ function enterMdxJsxTagExpressionAttribute(token) {
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagExpressionAttribute(token) {
   const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
-  const tail = /** @type {MDXJsxExpressionAttribute} */ (
+  const tail = /** @type {MdxJsxExpressionAttribute} */ (
     tag.attributes[tag.attributes.length - 1]
   )
   /** @type {Program|undefined} */
@@ -214,7 +224,7 @@ function exitMdxJsxTagExpressionAttribute(token) {
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeNamePrimary(token) {
   const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
-  const node = /** @type {MDXJsxAttribute} */ (
+  const node = /** @type {MdxJsxAttribute} */ (
     tag.attributes[tag.attributes.length - 1]
   )
   node.name = this.sliceSerialize(token)
@@ -223,7 +233,7 @@ function exitMdxJsxTagAttributeNamePrimary(token) {
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeNameLocal(token) {
   const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
-  const node = /** @type {MDXJsxAttribute} */ (
+  const node = /** @type {MdxJsxAttribute} */ (
     tag.attributes[tag.attributes.length - 1]
   )
   node.name += ':' + this.sliceSerialize(token)
@@ -241,10 +251,10 @@ function exitMdxJsxTagAttributeValueLiteral() {
 /** @type {FromMarkdownHandle} */
 function exitMdxJsxTagAttributeValueExpression(token) {
   const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
-  const tail = /** @type {MDXJsxAttribute} */ (
+  const tail = /** @type {MdxJsxAttribute} */ (
     tag.attributes[tag.attributes.length - 1]
   )
-  /** @type {MDXJsxAttributeValueExpression} */
+  /** @type {MdxJsxAttributeValueExpression} */
   const node = {type: 'mdxJsxAttributeValueExpression', value: this.resume()}
   /** @type {Program|undefined} */
   // @ts-expect-error: custom.
@@ -324,7 +334,7 @@ function serializeAbbreviatedTag(tag) {
 
 /**
  * @type {ToMarkdownHandle}
- * @param {MDXJsxFlowElement|MDXJsxTextElement} node
+ * @param {MdxJsxFlowElement|MdxJsxTextElement} node
  */
 // eslint-disable-next-line complexity
 function mdxElement(node, _, context) {

@@ -2,43 +2,43 @@ import {Node} from 'unist'
 import {Parent, Literal, BlockContent, PhrasingContent} from 'mdast'
 import {Program} from 'estree-jsx'
 
-export interface MDXJsxAttributeValueExpression extends Literal {
+export interface MdxJsxAttributeValueExpression extends Literal {
   type: 'mdxJsxAttributeValueExpression'
   data?: {estree?: Program} & Literal['data']
 }
 
-export interface MDXJsxAttribute extends Node {
+export interface MdxJsxAttribute extends Node {
   type: 'mdxJsxAttribute'
   name: string
-  value?: MDXJsxAttributeValueExpression | string | null
+  value?: MdxJsxAttributeValueExpression | string | null
 }
 
-export interface MDXJsxExpressionAttribute extends Literal {
+export interface MdxJsxExpressionAttribute extends Literal {
   type: 'mdxJsxExpressionAttribute'
   data?: {estree?: Program} & Literal['data']
 }
 
-interface MDXJsxElementFields {
+interface MdxJsxElementFields {
   name: string | null
-  attributes: Array<MDXJsxAttribute | MDXJsxExpressionAttribute>
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
 }
 
-export interface MDXJsxFlowElement extends MDXJsxElementFields, Parent {
+export interface MdxJsxFlowElement extends MdxJsxElementFields, Parent {
   type: 'mdxJsxFlowElement'
   children: BlockContent[]
 }
 
-export interface MDXJsxTextElement extends MDXJsxElementFields, Parent {
+export interface MdxJsxTextElement extends MdxJsxElementFields, Parent {
   type: 'mdxJsxTextElement'
   children: PhrasingContent[]
 }
 
 declare module 'mdast' {
   interface StaticPhrasingContentMap {
-    mdxJsxTextElement: MDXJsxTextElement
+    mdxJsxTextElement: MdxJsxTextElement
   }
 
   interface BlockContentMap {
-    mdxJsxFlowElement: MDXJsxFlowElement
+    mdxJsxFlowElement: MdxJsxFlowElement
   }
 }

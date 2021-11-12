@@ -7,6 +7,7 @@
  * @typedef {import('mdast-util-to-markdown').Options} ToMarkdownExtension
  * @typedef {import('mdast-util-to-markdown').Handle} ToMarkdownHandle
  * @typedef {import('mdast-util-to-markdown').Map} ToMarkdownMap
+ * @typedef {import('mdast-util-from-markdown').OnError} OnError
  * @typedef {import('estree-jsx').Program} Program
  * @typedef {import('./complex-types').MdxJsxAttributeValueExpression} MdxJsxAttributeValueExpression
  * @typedef {import('./complex-types').MdxJsxAttribute} MdxJsxAttribute
@@ -310,7 +311,8 @@ function exitMdxJsxTag(token) {
         attributes: tag.attributes,
         children: []
       },
-      token
+      token,
+      onError
     )
   }
 
@@ -319,6 +321,26 @@ function exitMdxJsxTag(token) {
   } else {
     stack.push(tag)
   }
+}
+
+/** @type {OnError} */
+function onError(closing, open) {
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  const place = closing ? ' before the end of `' + closing.type + '`' : ''
+  const position = closing
+    ? {start: closing.start, end: closing.end}
+    : undefined
+
+  throw new VFileMessage(
+    'Expected a closing tag for `' +
+      serializeAbbreviatedTag(tag) +
+      '` (' +
+      stringifyPosition({start: open.start, end: open.end}) +
+      ')' +
+      place,
+    position,
+    'mdast-util-mdx-jsx:end-tag-mismatch'
+  )
 }
 
 /**
@@ -344,7 +366,7 @@ function mdxElement(node, _, context) {
   const exit = context.enter(node.type)
   let attributeValue = ''
   let index = -1
-  /** @type {Array.<string>} */
+  /** @type {Array<string>} */
   const attributes = []
   /** @type {string} */
   let result

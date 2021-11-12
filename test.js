@@ -205,7 +205,7 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       })
     },
-    /Cannot close `paragraph` \(1:1-1:8\): a different token \(`mdxJsxTextTag`, 1:3-1:6\) is open/,
+    /Expected a closing tag for `<b>` \(1:3-1:6\) before the end of `paragraph`/,
     'should crash on an unclosed text jsx (agnostic)'
   )
 
@@ -216,7 +216,7 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       })
     },
-    /Cannot close document, a token \(`mdxJsxFlowTag`, 1:1-1:4\) is still open/,
+    /Expected a closing tag for `<a>` \(1:1-1:4\)/,
     'should crash on an unclosed flow jsx (agnostic)'
   )
 
@@ -1076,7 +1076,7 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       })
     },
-    /Cannot close `emphasis` \(1:3-1:19\): a different token \(`mdxJsxTextTag`, 1:9-1:12\) is open/,
+    /Expected a closing tag for `<b>` \(1:9-1:12\) before the end of `emphasis`/,
     'should crash when misnesting w/ attention (emphasis)'
   )
 
@@ -1087,7 +1087,7 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       })
     },
-    /Cannot close `strong` \(1:3-1:21\): a different token \(`mdxJsxTextTag`, 1:10-1:13\) is open/,
+    /Expected a closing tag for `<b>` \(1:10-1:13\) before the end of `strong`/,
     'should crash when misnesting w/ attention (strong)'
   )
 
@@ -1098,7 +1098,7 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       })
     },
-    /Cannot close `link` \(1:3-1:22\): a different token \(`mdxJsxTextTag`, 1:9-1:12\) is open/,
+    /Expected a closing tag for `<b>` \(1:9-1:12\) before the end of `link`/,
     'should crash when misnesting w/ label (link)'
   )
 
@@ -1109,7 +1109,7 @@ test('markdown -> mdast', (t) => {
         mdastExtensions: [mdxJsxFromMarkdown]
       })
     },
-    /Cannot close `image` \(1:3-1:23\): a different token \(`mdxJsxTextTag`, 1:10-1:13\) is open/,
+    /Expected a closing tag for `<b>` \(1:10-1:13\) before the end of `image`/,
     'should crash when misnesting w/ label (image)'
   )
 

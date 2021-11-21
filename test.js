@@ -1113,6 +1113,17 @@ test('markdown -> mdast', (t) => {
     'should crash when misnesting w/ label (image)'
   )
 
+  t.throws(
+    () => {
+      fromMarkdown('<b> a *open </b> close* d.', {
+        extensions: [mdxJsx()],
+        mdastExtensions: [mdxJsxFromMarkdown]
+      })
+    },
+    /Expected the closing tag `<\/b>` either after the end of `emphasis` \(1:24\) or another opening tag after the start of `emphasis` \(1:7\)/,
+    'should crash when misnesting w/ attention (emphasis)'
+  )
+
   t.deepEqual(
     removePosition(
       fromMarkdown('> a <b>\n> c </b> d.', {

@@ -7,7 +7,8 @@
  * @typedef {import('mdast-util-to-markdown').Options} ToMarkdownExtension
  * @typedef {import('mdast-util-to-markdown').Handle} ToMarkdownHandle
  * @typedef {import('mdast-util-to-markdown').Map} ToMarkdownMap
- * @typedef {import('mdast-util-from-markdown').OnError} OnError
+ * @typedef {import('mdast-util-from-markdown').OnEnterError} OnEnterError
+ * @typedef {import('mdast-util-from-markdown').OnExitError} OnExitError
  * @typedef {import('estree-jsx').Program} Program
  * @typedef {import('./complex-types').MdxJsxAttributeValueExpression} MdxJsxAttributeValueExpression
  * @typedef {import('./complex-types').MdxJsxAttribute} MdxJsxAttribute
@@ -312,19 +313,19 @@ function exitMdxJsxTag(token) {
         children: []
       },
       token,
-      onError
+      onErrorRightIsTag
     )
   }
 
   if (tag.selfClosing || tag.close) {
-    this.exit(token)
+    this.exit(token, onErrorLeftIsTag)
   } else {
     stack.push(tag)
   }
 }
 
-/** @type {OnError} */
-function onError(closing, open) {
+/** @type {OnEnterError} */
+function onErrorRightIsTag(closing, open) {
   const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
   const place = closing ? ' before the end of `' + closing.type + '`' : ''
   const position = closing
@@ -339,6 +340,26 @@ function onError(closing, open) {
       ')' +
       place,
     position,
+    'mdast-util-mdx-jsx:end-tag-mismatch'
+  )
+}
+
+/** @type {OnExitError} */
+function onErrorLeftIsTag(a, b) {
+  const tag = /** @type {Tag} */ (this.getData('mdxJsxTag'))
+  throw new VFileMessage(
+    'Expected the closing tag `' +
+      serializeAbbreviatedTag(tag) +
+      '` either after the end of `' +
+      b.type +
+      '` (' +
+      stringifyPosition(b.end) +
+      ') or another opening tag after the start of `' +
+      b.type +
+      '` (' +
+      stringifyPosition(b.start) +
+      ')',
+    {start: a.start, end: a.end},
     'mdast-util-mdx-jsx:end-tag-mismatch'
   )
 }

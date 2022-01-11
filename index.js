@@ -6,13 +6,4 @@
  * @typedef {import('./lib/index.js').MdxJsxTextElement} MdxJsxTextElement
  */
 
-/**
- * Legacy names:
- * @typedef {MdxJsxAttributeValueExpression} MDXJsxAttributeValueExpression
- * @typedef {MdxJsxAttribute} MDXJsxAttribute
- * @typedef {MdxJsxExpressionAttribute} MDXJsxExpressionAttribute
- * @typedef {MdxJsxFlowElement} MDXJsxFlowElement
- * @typedef {MdxJsxTextElement} MDXJsxTextElement
- */
-
 export {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './lib/index.js'

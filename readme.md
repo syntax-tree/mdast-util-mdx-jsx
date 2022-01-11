@@ -8,33 +8,76 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Extension for [`mdast-util-from-markdown`][from-markdown] and/or
-[`mdast-util-to-markdown`][to-markdown] to support MDX (or MDX.js) JSX.
-When parsing (`from-markdown`), must be combined with
-[`micromark-extension-mdx-jsx`][extension].
+Extensions to parse and serialize JSX between mdast and markdown
 
-This utility handles parsing and serializing.
-See [`micromark-extension-mdx-jsx`][extension] for how the syntax works.
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When to use this](#when-to-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`mdxJsxFromMarkdown()`](#mdxjsxfrommarkdown)
+    *   [`mdxJsxToMarkdown()`](#mdxjsxtomarkdown)
+*   [Syntax tree](#syntax-tree)
+    *   [Nodes](#nodes)
+    *   [Mixin](#mixin)
+    *   [Content model](#content-model)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package contains extensions that add support for the JSX syntax enabled by
+MDX to [`mdast-util-from-markdown`][mdast-util-from-markdown] and
+[`mdast-util-to-markdown`][mdast-util-to-markdown].
+
+[JSX][] is an XML-like syntax extension to ECMAScript (JavaScript), which MDX
+brings to markdown.
+For more info on MDX, see [What is MDX?][what-is-mdx]
 
 ## When to use this
 
-Use [`mdast-util-mdx`][mdast-util-mdx] if you want all of MDX / MDX.js.
-Use this otherwise.
+These tools are all rather low-level.
+In most cases, you’d want to use [`remark-mdx`][remark-mdx] with [remark][]
+instead.
+
+When you are working with syntax trees, and want all of MDX, use
+[`mdast-util-mdx`][mdast-util-mdx] instead.
+
+When working with `micromark` (through `mdast-util-from-markdown`), you’d want
+to combine this package with
+[`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx].
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install mdast-util-mdx-jsx
 ```
 
+In Deno with [Skypack][]:
+
+```js
+import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://cdn.skypack.dev/mdast-util-mdx-jsx@1?dts'
+```
+
+In browsers with [Skypack][]:
+
+```html
+<script type="module">
+  import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://cdn.skypack.dev/mdast-util-mdx-jsx@1?min'
+</script>
+```
+
 ## Use
 
-Say we have an MDX.js file, `example.mdx`:
+Say our document `example.mdx` contains:
 
 ```mdx
 <Box>
@@ -46,7 +89,7 @@ Say we have an MDX.js file, `example.mdx`:
 <abbr title="Hypertext Markup Language">HTML</abbr> is a lovely language.
 ```
 
-And our module, `example.js`, looks as follows:
+…and our module `example.js` looks as follows:
 
 ```js
 import fs from 'node:fs'
@@ -70,7 +113,7 @@ const out = toMarkdown(tree, {extensions: [mdxJsxToMarkdown()]})
 console.log(out)
 ```
 
-Now, running `node example` yields (positional info removed for brevity):
+…now running `node example.js` yields (positional info removed for brevity):
 
 ```js
 {
@@ -164,23 +207,32 @@ Now, running `node example` yields (positional info removed for brevity):
 
 ## API
 
+This package exports the following identifiers: `mdxJsxFromMarkdown`,
+`mdxJsxToMarkdown`.
+There is no default export.
+
 ### `mdxJsxFromMarkdown()`
+
+Function that can be called to get an extension for
+[`mdast-util-from-markdown`][mdast-util-from-markdown].
+
+When using [`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx]
+with `options.addResult`, nodes will have a `data.estree` field set to an
+[ESTree][].
 
 ### `mdxJsxToMarkdown()`
 
-Support MDX (or MDX.js) JSX.
-The exports are extensions, respectively for
-[`mdast-util-from-markdown`][from-markdown] and
-[`mdast-util-to-markdown`][to-markdown].
+Function that can be called to get an extension for
+[`mdast-util-to-markdown`][mdast-util-to-markdown].
 
-When using the [syntax extension][extension] with `addResult`, nodes will have a
-`data.estree` field set to an [ESTree][].
+This extension configures `mdast-util-to-markdown` with
+[`options.fences: true`][mdast-util-to-markdown-fences] and
+[`options.resourceLink: true`][mdast-util-to-markdown-resourcelink] too, do not
+overwrite them!
 
-There are no options, but passing [`options.quote`][quote] to
-`mdast-util-to-markdown` is honored for attributes.
-
-this extension configures [`mdast-util-to-markdown`][to-markdown] with
-`fences: true` and `resourceLink: true` too, do not overwrite them!
+Passing [`options.quote`][mdast-util-to-markdown-quote] to
+`mdast-util-to-markdown` is honored for
+attributes.
 
 ## Syntax tree
 
@@ -188,19 +240,19 @@ The following interfaces are added to **[mdast][]** by this utility.
 
 ### Nodes
 
-#### `MDXJsxFlowElement`
+###### `MdxJsxFlowElement`
 
 ```idl
-interface MDXJsxFlowElement <: Parent {
+interface MdxJsxFlowElement <: Parent {
   type: "mdxJsxFlowElement"
 }
 
-MDXJsxFlowElement includes MDXJsxElement
+MdxJsxFlowElement includes MdxJsxElement
 ```
 
-**MDXJsxFlowElement** (**[Parent][dfn-parent]**) represents JSX in flow (block).
+**MdxJsxFlowElement** (**[Parent][dfn-parent]**) represents JSX in flow (block).
 It can be used where **[flow][dfn-content-flow]** content is expected.
-It includes the mixin **[MDXJsxElement][dfn-mixin-mdx-jsx-element]**.
+It includes the mixin **[MdxJsxElement][dfn-mixin-mdx-jsx-element]**.
 
 For example, the following markdown:
 
@@ -221,21 +273,21 @@ Yields:
 }
 ```
 
-#### `MDXJsxTextElement`
+###### `MdxJsxTextElement`
 
 ```idl
-interface MDXJsxTextElement <: Parent {
+interface MdxJsxTextElement <: Parent {
   type: "mdxJsxTextElement"
 }
 
-MDXJsxTextElement includes MDXJsxElement
+MdxJsxTextElement includes MdxJsxElement
 ```
 
-**MDXJsxTextElement** (**[Parent][dfn-parent]**) represents JSX in text (span,
+**MdxJsxTextElement** (**[Parent][dfn-parent]**) represents JSX in text (span,
 inline).
 It can be used where **[phrasing][dfn-content-phrasing]** content is
 expected.
-It includes the mixin **[MDXJsxElement][dfn-mixin-mdx-jsx-element]**.
+It includes the mixin **[MdxJsxElement][dfn-mixin-mdx-jsx-element]**.
 
 For example, the following markdown:
 
@@ -256,43 +308,43 @@ Yields:
 
 ### Mixin
 
-### `MDXJsxElement`
+###### `MdxJsxElement`
 
 ```idl
-interface mixin MDXJsxElement {
+interface mixin MdxJsxElement {
   name: string?
-  attributes: [MDXJsxExpressionAttribute | MDXJsxAttribute]
+  attributes: [MdxJsxExpressionAttribute | MdxJsxAttribute]
 }
 
-interface MDXJsxExpressionAttribute <: Literal {
+interface MdxJsxExpressionAttribute <: Literal {
   type: "mdxJsxExpressionAttribute"
 }
 
-interface MDXJsxAttribute <: Node {
+interface MdxJsxAttribute <: Node {
   type: "mdxJsxAttribute"
   name: string
-  value: MDXJsxAttributeValueExpression | string?
+  value: MdxJsxAttributeValueExpression | string?
 }
 
-interface MDXJsxAttributeValueExpression <: Literal {
+interface MdxJsxAttributeValueExpression <: Literal {
   type: "mdxJsxAttributeValueExpression"
 }
 ```
 
-**MDXJsxElement** represents a JSX element.
+**MdxJsxElement** represents a JSX element.
 
 The `name` field can be present and represents an identifier.
 Without `name`, the element represents a fragment, in which case no attributes
 must be present.
 
 The `attributes` field represents information associated with the node.
-The value of the `attributes` field is a list of **MDXJsxExpressionAttribute**
-and **MDXJsxAttribute** nodes.
+The value of the `attributes` field is a list of **MdxJsxExpressionAttribute**
+and **MdxJsxAttribute** nodes.
 
-**MDXJsxExpressionAttribute** represents an expression (typically in a
+**MdxJsxExpressionAttribute** represents an expression (typically in a
 programming language) that when evaluated results in multiple attributes.
 
-**MDXJsxAttribute** represents a single attribute.
+**MdxJsxAttribute** represents a single attribute.
 The `name` field must be present.
 The `value` field can be present, in which case it is either a string (a static
 value) or an expression (typically in a programming language) that when
@@ -300,34 +352,60 @@ evaluated results in an attribute value.
 
 ### Content model
 
-#### `FlowContent` (MDX JSX)
+###### `FlowContent` (MDX JSX)
 
 ```idl
-type MDXJsxFlowContent = MDXJsxFlowElement | FlowContent
+type MdxJsxFlowContent = MdxJsxFlowElement | FlowContent
 ```
 
-#### `PhrasingContent` (MDX JSX)
+###### `PhrasingContent` (MDX JSX)
 
 ```idl
-type MDXJsxPhrasingContent = MDXJsxTextElement | PhrasingContent
+type MdxJsxPhrasingContent = MdxJsxTextElement | PhrasingContent
 ```
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports the `MdxJsxAttributeValueExpression`, `MdxJsxAttribute`,
+`MdxJsxExpressionAttribute`, `MdxJsxFlowElement`, and `MdxJsxTextElement` types.
+
+It also registers the node types with `@types/mdast`
+
+If you’re working with the syntax tree, make sure to import this plugin
+somewhere in your types, as that registers the new node types in the tree.
+
+```js
+/** @typedef {import('remark-math')} */
+
+import {visit} from 'unist-util-visit'
+
+/** @type {import('mdast').Root} */
+const tree = getMdastNodeSomeHow()
+
+visit(tree, (node) => {
+  // `node` can now be one of the JSX nodes.
+})
+```
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
+This plugin works with `mdast-util-from-markdown` version 1+ and
+`mdast-util-to-markdown` version 1+.
 
 ## Related
 
-*   [`remarkjs/remark`][remark]
-    — markdown processor powered by plugins
-*   [`remarkjs/remark-mdx`][remark-mdx]
-    — remark plugin to support MDX
-*   [`syntax-tree/mdast-util-from-markdown`][from-markdown]
-    — mdast parser using `micromark` to create mdast from markdown
-*   [`syntax-tree/mdast-util-to-markdown`][to-markdown]
-    — mdast serializer to create markdown from mdast
+*   [`micromark/micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx]
+    — support MDX JSX in micromark
 *   [`syntax-tree/mdast-util-mdx`][mdast-util-mdx]
-    — mdast utility to support all of MDX
-*   [`micromark/micromark`][micromark]
-    — the smallest commonmark-compliant markdown parser that exists
-*   [`micromark/micromark-extension-mdx-jsx`][extension]
-    — micromark extension to parse JSX
+    — support MDX in mdast
+*   [`remarkjs/remark-mdx`][remark-mdx]
+    — support MDX in remark
 
 ## Contribute
 
@@ -371,6 +449,8 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[skypack]: https://www.skypack.dev
+
 [license]: license
 
 [author]: https://wooorm.com
@@ -381,21 +461,19 @@ abide by its terms.
 
 [coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[typescript]: https://www.typescriptlang.org
+
 [mdast]: https://github.com/syntax-tree/mdast
 
 [remark]: https://github.com/remarkjs/remark
 
-[from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
 
-[to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
-
-[micromark]: https://github.com/micromark/micromark
-
-[extension]: https://github.com/micromark/micromark-extension-mdxjs-esm
+[mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
 
 [mdast-util-mdx]: https://github.com/syntax-tree/mdast-util-mdx
-
-[quote]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsquote
 
 [estree]: https://github.com/estree/estree
 
@@ -408,3 +486,15 @@ abide by its terms.
 [dfn-mixin-mdx-jsx-element]: #mdxjsxelement
 
 [remark-mdx]: https://github.com/mdx-js/mdx/tree/main/packages/remark-mdx
+
+[jsx]: https://facebook.github.io/jsx/
+
+[what-is-mdx]: https://mdxjs.com/docs/what-is-mdx/
+
+[micromark-extension-mdx-jsx]: https://github.com/micromark/micromark-extension-mdx-jsx
+
+[mdast-util-to-markdown-quote]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsquote
+
+[mdast-util-to-markdown-fences]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsfences
+
+[mdast-util-to-markdown-resourcelink]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsresourcelink

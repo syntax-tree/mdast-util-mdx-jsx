@@ -10,7 +10,7 @@ test('markdown -> mdast', (t) => {
   t.deepEqual(
     fromMarkdown('<a />', {
       extensions: [mdxJsx()],
-      mdastExtensions: [mdxJsxFromMarkdown]
+      mdastExtensions: [mdxJsxFromMarkdown()]
     }),
     {
       type: 'root',
@@ -38,7 +38,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<x>\t \n</x>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -55,7 +55,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b/> c.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -84,7 +84,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b></b> c.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -113,7 +113,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b>c</b> d.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -142,7 +142,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b>*c*</b> d.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -173,7 +173,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <></> b.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -202,7 +202,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <b> c', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected a closing tag for `<b>` \(1:3-1:6\) before the end of `paragraph`/,
@@ -213,7 +213,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('<a>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected a closing tag for `<a>` \(1:1-1:4\)/,
@@ -224,7 +224,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b {1 + 1} /> c', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -253,7 +253,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b c={1 + 1} /> d', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -291,7 +291,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b {...c} /> d', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -320,7 +320,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<a {...{b: 1, c: Infinity, d: false}} />', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -349,7 +349,7 @@ test('markdown -> mdast', (t) => {
         removePosition(
           fromMarkdown('<a {...b} />', {
             extensions: [mdxJsx({acorn, addResult: true})],
-            mdastExtensions: [mdxJsxFromMarkdown]
+            mdastExtensions: [mdxJsxFromMarkdown()]
           }),
           true
         )
@@ -436,7 +436,7 @@ test('markdown -> mdast', (t) => {
         removePosition(
           fromMarkdown('<a b={1} />', {
             extensions: [mdxJsx({acorn, addResult: true})],
-            mdastExtensions: [mdxJsxFromMarkdown]
+            mdastExtensions: [mdxJsxFromMarkdown()]
           }),
           true
         )
@@ -507,7 +507,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <b {1 + 1} /> c', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Could not parse expression with acorn: Unexpected token/,
@@ -518,7 +518,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <b c={?} /> d', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Could not parse expression with acorn: Unexpected token/,
@@ -529,7 +529,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a < \t>b</>', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing slash `\/` in tag, expected an open tag first/,
@@ -540,7 +540,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b\t>c</b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -568,7 +568,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<π />', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -585,7 +585,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<a\u200Cb />', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -602,7 +602,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<abc . def.ghi />', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -624,7 +624,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<svg: rect>b</  svg :rect>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -651,7 +651,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b c     d="d"\t\tefg=\'h\'>i</b>.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -684,7 +684,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<a xml :\tlang\n= "de-CH" foo:bar/>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -709,7 +709,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<b a b : c d : e = "f" g/>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -736,7 +736,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <>`<`</> c', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -765,7 +765,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<>\n```js\n<\n```\n</>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -787,7 +787,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a </> c', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing slash `\/` in tag, expected an open tag first/,
@@ -798,7 +798,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('</>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing slash `\/` in tag, expected an open tag first/,
@@ -809,7 +809,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <></b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/b>`, expected corresponding closing tag for `<>` \(1:3-1:5\)/,
@@ -819,7 +819,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <b></>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/>`, expected corresponding closing tag for `<b>` \(1:3-1:6\)/,
@@ -829,7 +829,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a.b></a>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a>`, expected corresponding closing tag for `<a\.b>` \(1:3-1:8\)/,
@@ -839,7 +839,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a></a.b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a\.b>`, expected corresponding closing tag for `<a>` \(1:3-1:6\)/,
@@ -849,7 +849,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a.b></a.c>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a\.c>`, expected corresponding closing tag for `<a\.b>` \(1:3-1:8\)/,
@@ -859,7 +859,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a:b></a>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a>`, expected corresponding closing tag for `<a:b>` \(1:3-1:8\)/,
@@ -869,7 +869,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a></a:b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a:b>`, expected corresponding closing tag for `<a>` \(1:3-1:6\)/,
@@ -879,7 +879,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a:b></a:c>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a:c>`, expected corresponding closing tag for `<a:b>` \(1:3-1:8\)/,
@@ -889,7 +889,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a <a:b></a.b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected closing tag `<\/a\.b>`, expected corresponding closing tag for `<a:b>` \(1:3-1:8\)/,
@@ -900,7 +900,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('<a>b</a/>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected self-closing slash `\/` in closing tag, expected the end of the tag/,
@@ -911,7 +911,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('<a>b</a b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Unexpected attribute in closing tag, expected the end of the tag/,
@@ -922,7 +922,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('a <b>c <>d</> e</b>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -959,7 +959,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<a> <>\nb\n</>\n</a>', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -992,7 +992,7 @@ test('markdown -> mdast', (t) => {
         '<x y="Character references can be used: &quot;, &apos;, &lt;, &gt;, &#x7B;, and &#x7D;, they can be named, decimal, or hexadecimal: &copy; &#8800; &#x1D306;" />',
         {
           extensions: [mdxJsx()],
-          mdastExtensions: [mdxJsxFromMarkdown]
+          mdastExtensions: [mdxJsxFromMarkdown()]
         }
       ),
       true
@@ -1022,7 +1022,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<x />.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1050,7 +1050,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('.<x />', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1073,7 +1073,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a *open <b> close* </b> c.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected a closing tag for `<b>` \(1:9-1:12\) before the end of `emphasis`/,
@@ -1084,7 +1084,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a **open <b> close** </b> c.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected a closing tag for `<b>` \(1:10-1:13\) before the end of `strong`/,
@@ -1095,7 +1095,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a [open <b> close](c) </b> d.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected a closing tag for `<b>` \(1:9-1:12\) before the end of `link`/,
@@ -1106,7 +1106,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('a ![open <b> close](c) </b> d.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected a closing tag for `<b>` \(1:10-1:13\) before the end of `image`/,
@@ -1117,7 +1117,7 @@ test('markdown -> mdast', (t) => {
     () => {
       fromMarkdown('<b> a *open </b> close* d.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
     /Expected the closing tag `<\/b>` either after the end of `emphasis` \(1:24\) or another opening tag after the start of `emphasis` \(1:7\)/,
@@ -1128,7 +1128,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('> a <b>\n> c </b> d.', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1162,7 +1162,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('> a <b c="d\n> e" /> f', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1198,7 +1198,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('> a <b c={d\n> e} /> f', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1241,7 +1241,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('> a <b {c\n> d} /> e', {
         extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1277,7 +1277,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('> a <b {...[1,\n> 2]} /> c', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1313,7 +1313,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<a>\n> b\nc\n> d\n</a>', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1345,7 +1345,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<a>\n- b\nc\n- d\n</a>', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1395,7 +1395,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('> a\n- b\nc\n- d', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1441,7 +1441,7 @@ test('markdown -> mdast', (t) => {
     removePosition(
       fromMarkdown('<x><y>\n\nz\n\n</y></x>', {
         extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown]
+        mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       true
     ),
@@ -1474,7 +1474,7 @@ test('markdown -> mdast', (t) => {
 test('mdast -> markdown', (t) => {
   t.deepEqual(
     // @ts-expect-error: `attributes`, `children`, `name` missing.
-    toMarkdown({type: 'mdxJsxFlowElement'}, {extensions: [mdxJsxToMarkdown]}),
+    toMarkdown({type: 'mdxJsxFlowElement'}, {extensions: [mdxJsxToMarkdown()]}),
     '<></>\n',
     'should serialize flow jsx w/o `name`, `attributes`, or `children`'
   )
@@ -1483,7 +1483,7 @@ test('mdast -> markdown', (t) => {
     toMarkdown(
       // @ts-expect-error: `attributes`, `children` missing.
       {type: 'mdxJsxFlowElement', name: 'x'},
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x/>\n',
     'should serialize flow jsx w/ `name` w/o `attributes`, `children`'
@@ -1497,7 +1497,7 @@ test('mdast -> markdown', (t) => {
         name: 'x',
         children: [{type: 'paragraph', children: [{type: 'text', value: 'y'}]}]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x>\n  y\n</x>\n',
     'should serialize flow jsx w/ `name`, `children` w/o `attributes`'
@@ -1510,7 +1510,7 @@ test('mdast -> markdown', (t) => {
         type: 'mdxJsxFlowElement',
         children: [{type: 'paragraph', children: [{type: 'text', value: 'y'}]}]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<>\n  y\n</>\n',
     'should serialize flow jsx w/ `children` w/o `name`, `attributes`'
@@ -1524,7 +1524,7 @@ test('mdast -> markdown', (t) => {
           type: 'mdxJsxFlowElement',
           attributes: [{type: 'mdxJsxExpressionAttribute', value: 'x'}]
         },
-        {extensions: [mdxJsxToMarkdown]}
+        {extensions: [mdxJsxToMarkdown()]}
       )
     },
     /Cannot serialize fragment w\/ attributes/,
@@ -1539,7 +1539,7 @@ test('mdast -> markdown', (t) => {
         name: 'x',
         attributes: [{type: 'mdxJsxExpressionAttribute', value: 'y'}]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x {y}/>\n',
     'should serialize flow jsx w/ `name`, `attributes` w/o `children`'
@@ -1553,7 +1553,7 @@ test('mdast -> markdown', (t) => {
         attributes: [{type: 'mdxJsxExpressionAttribute', value: 'y'}],
         children: [{type: 'paragraph', children: [{type: 'text', value: 'z'}]}]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x {y}>\n  z\n</x>\n',
     'should serialize flow jsx w/ `name`, `attributes`, `children`'
@@ -1570,7 +1570,7 @@ test('mdast -> markdown', (t) => {
           {type: 'mdxJsxExpressionAttribute', value: 'z'}
         ]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x\n  {y}\n  {z}\n/>\n',
     'should serialize flow jsx w/ `name`, multiple `attributes` w/o `children`'
@@ -1584,7 +1584,7 @@ test('mdast -> markdown', (t) => {
         attributes: [{type: 'mdxJsxExpressionAttribute', value: '...{y: "z"}'}],
         children: []
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x {...{y: "z"}}/>\n',
     'should serialize expression attributes'
@@ -1600,7 +1600,7 @@ test('mdast -> markdown', (t) => {
           {type: 'mdxJsxExpressionAttribute'}
         ]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x {}/>\n',
     'should serialize expression attributes w/o `value`'
@@ -1617,7 +1617,7 @@ test('mdast -> markdown', (t) => {
             {type: 'mdxJsxAttribute', value: 'y'}
           ]
         },
-        {extensions: [mdxJsxToMarkdown]}
+        {extensions: [mdxJsxToMarkdown()]}
       )
     },
     / Cannot serialize attribute w\/o name/,
@@ -1632,7 +1632,7 @@ test('mdast -> markdown', (t) => {
         attributes: [{type: 'mdxJsxAttribute', name: 'y'}],
         children: []
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x y/>\n',
     'should serialize boolean attributes'
@@ -1646,7 +1646,7 @@ test('mdast -> markdown', (t) => {
         attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
         children: []
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x y="z"/>\n',
     'should serialize value attributes'
@@ -1660,7 +1660,7 @@ test('mdast -> markdown', (t) => {
         attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
         children: []
       },
-      {extensions: [mdxJsxToMarkdown], quote: "'"}
+      {extensions: [mdxJsxToMarkdown()], quote: "'"}
     ),
     "<x y='z'/>\n",
     'should serialize value attributes honoring `quote`'
@@ -1680,7 +1680,7 @@ test('mdast -> markdown', (t) => {
         ],
         children: []
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x y={z}/>\n',
     'should serialize value expression attributes'
@@ -1700,7 +1700,7 @@ test('mdast -> markdown', (t) => {
           }
         ]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x y={}/>\n',
     'should serialize value expression attributes w/o `value`'
@@ -1708,7 +1708,7 @@ test('mdast -> markdown', (t) => {
 
   t.deepEqual(
     // @ts-expect-error: `attributes`, `name`, `children` missing.
-    toMarkdown({type: 'mdxJsxTextElement'}, {extensions: [mdxJsxToMarkdown]}),
+    toMarkdown({type: 'mdxJsxTextElement'}, {extensions: [mdxJsxToMarkdown()]}),
     '<></>\n',
     'should serialize text jsx w/o `name`, `attributes`, or `children`'
   )
@@ -1717,7 +1717,7 @@ test('mdast -> markdown', (t) => {
     toMarkdown(
       // @ts-expect-error: `attributes`, `children` missing.
       {type: 'mdxJsxTextElement', name: 'x'},
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x/>\n',
     'should serialize text jsx w/ `name` w/o `attributes`, `children`'
@@ -1731,7 +1731,7 @@ test('mdast -> markdown', (t) => {
         name: 'x',
         children: [{type: 'strong', children: [{type: 'text', value: 'y'}]}]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x>**y**</x>\n',
     'should serialize text jsx w/ `name`, `children` w/o `attributes`'
@@ -1748,7 +1748,7 @@ test('mdast -> markdown', (t) => {
         ],
         children: []
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x y="z" a/>\n',
     'should serialize text jsx w/ attributes'
@@ -1769,7 +1769,7 @@ test('mdast -> markdown', (t) => {
           {type: 'text', value: ' z.'}
         ]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     'w <x>y</x> z.\n',
     'should serialize text jsx in flow'
@@ -1807,7 +1807,7 @@ test('mdast -> markdown', (t) => {
           }
         ]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '<x>\n  > a\n\n  *   b\n      c\n\n  *   d\n</x>\n',
     'should serialize flow in flow jsx'
@@ -1816,7 +1816,7 @@ test('mdast -> markdown', (t) => {
   t.deepEqual(
     toMarkdown(
       {type: 'paragraph', children: [{type: 'text', value: 'a < b'}]},
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     'a \\< b\n',
     'should escape `<` in text'
@@ -1825,7 +1825,7 @@ test('mdast -> markdown', (t) => {
   t.deepEqual(
     toMarkdown(
       {type: 'definition', identifier: 'a', url: 'x', title: 'a\n<\nb'},
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '[a]: x "a\n\\<\nb"\n',
     'should escape `<` at the start of a line'
@@ -1838,14 +1838,14 @@ test('mdast -> markdown', (t) => {
         url: 'svg:rect',
         children: [{type: 'text', value: 'svg:rect'}]
       },
-      {extensions: [mdxJsxToMarkdown]}
+      {extensions: [mdxJsxToMarkdown()]}
     ),
     '[svg:rect](svg:rect)\n',
     'should not serialize links as autolinks'
   )
 
   t.deepEqual(
-    toMarkdown({type: 'code', value: 'x'}, {extensions: [mdxJsxToMarkdown]}),
+    toMarkdown({type: 'code', value: 'x'}, {extensions: [mdxJsxToMarkdown()]}),
     '```\nx\n```\n',
     'should not serialize code as indented'
   )

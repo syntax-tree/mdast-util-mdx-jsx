@@ -60,12 +60,12 @@ const doc = fs.readFileSync('example.mdx')
 
 const tree = fromMarkdown(doc, {
   extensions: [mdxJsx({acorn: acorn, addResult: true})],
-  mdastExtensions: [mdxJsxFromMarkdown]
+  mdastExtensions: [mdxJsxFromMarkdown()]
 })
 
 console.log(tree)
 
-const out = toMarkdown(tree, {extensions: [mdxJsxToMarkdown]})
+const out = toMarkdown(tree, {extensions: [mdxJsxToMarkdown()]})
 
 console.log(out)
 ```
@@ -164,9 +164,9 @@ Now, running `node example` yields (positional info removed for brevity):
 
 ## API
 
-### `mdxJsxFromMarkdown`
+### `mdxJsxFromMarkdown()`
 
-### `mdxJsxToMarkdown`
+### `mdxJsxToMarkdown()`
 
 Support MDX (or MDX.js) JSX.
 The exports are extensions, respectively for

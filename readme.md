@@ -18,7 +18,7 @@ Extensions to parse and serialize JSX between mdast and markdown
 *   [Use](#use)
 *   [API](#api)
     *   [`mdxJsxFromMarkdown()`](#mdxjsxfrommarkdown)
-    *   [`mdxJsxToMarkdown()`](#mdxjsxtomarkdown)
+    *   [`mdxJsxToMarkdown(options?)`](#mdxjsxtomarkdownoptions)
 *   [Syntax tree](#syntax-tree)
     *   [Nodes](#nodes)
     *   [Mixin](#mixin)
@@ -220,7 +220,7 @@ When using [`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx]
 with `options.addResult`, nodes will have a `data.estree` field set to an
 [ESTree][].
 
-### `mdxJsxToMarkdown()`
+### `mdxJsxToMarkdown(options?)`
 
 Function that can be called to get an extension for
 [`mdast-util-to-markdown`][mdast-util-to-markdown].
@@ -230,9 +230,13 @@ This extension configures `mdast-util-to-markdown` with
 [`options.resourceLink: true`][mdast-util-to-markdown-resourcelink] too, do not
 overwrite them!
 
-Passing [`options.quote`][mdast-util-to-markdown-quote] to
-`mdast-util-to-markdown` is honored for
-attributes.
+##### `options`
+
+Configuration (optional).
+
+###### `options.quote`
+
+Quote to use around attribute values (`'"'` or `"'"`, default: `'"'`).
 
 ## Syntax tree
 
@@ -368,7 +372,10 @@ type MdxJsxPhrasingContent = MdxJsxTextElement | PhrasingContent
 
 This package is fully typed with [TypeScript][].
 It exports the `MdxJsxAttributeValueExpression`, `MdxJsxAttribute`,
-`MdxJsxExpressionAttribute`, `MdxJsxFlowElement`, and `MdxJsxTextElement` types.
+`MdxJsxExpressionAttribute`, `MdxJsxFlowElement`, and `MdxJsxTextElement` types
+that represents the supported nodes.
+It also exports `ToMarkdownOptions`, which represents the structure of the
+respective options.
 
 It also registers the node types with `@types/mdast`
 
@@ -492,8 +499,6 @@ abide by its terms.
 [what-is-mdx]: https://mdxjs.com/docs/what-is-mdx/
 
 [micromark-extension-mdx-jsx]: https://github.com/micromark/micromark-extension-mdx-jsx
-
-[mdast-util-to-markdown-quote]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsquote
 
 [mdast-util-to-markdown-fences]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsfences
 

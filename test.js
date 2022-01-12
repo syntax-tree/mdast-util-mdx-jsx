@@ -1657,20 +1657,6 @@ test('mdast -> markdown', (t) => {
       {
         type: 'mdxJsxFlowElement',
         name: 'x',
-        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
-        children: []
-      },
-      {extensions: [mdxJsxToMarkdown()], quote: "'"}
-    ),
-    "<x y='z'/>\n",
-    'should serialize value attributes honoring `quote`'
-  )
-
-  t.deepEqual(
-    toMarkdown(
-      {
-        type: 'mdxJsxFlowElement',
-        name: 'x',
         attributes: [
           {
             type: 'mdxJsxAttribute',
@@ -1848,6 +1834,37 @@ test('mdast -> markdown', (t) => {
     toMarkdown({type: 'code', value: 'x'}, {extensions: [mdxJsxToMarkdown()]}),
     '```\nx\n```\n',
     'should not serialize code as indented'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({quote: "'"})]}
+    ),
+    "<x y='z'/>\n",
+    'should support `options.quote` to quote attribute values'
+  )
+
+  t.throws(
+    () => {
+      toMarkdown(
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'x',
+          attributes: [],
+          children: []
+        },
+        // @ts-expect-error: runtime exception.
+        {extensions: [mdxJsxToMarkdown({quote: '!'})]}
+      )
+    },
+    /Cannot serialize attribute values with `!` for `options.quote`, expected `"`, or `'`/,
+    'should crash on an unclosed text jsx (agnostic)'
   )
 
   t.end()

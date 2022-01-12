@@ -242,6 +242,11 @@ Preferred quote to use around attribute values (`'"'` or `"'"`, default: `'"'`).
 
 Use the other quote if that results in less bytes (`boolean`, default: `false`).
 
+###### `options.tightSelfClosing`
+
+Do not use an extra space when closing self-closing elements: `<img/>` instead
+of `<img />` (`boolean`, default: `true`).
+
 ## Syntax tree
 
 The following interfaces are added to **[mdast][]** by this utility.

@@ -1923,5 +1923,23 @@ test('mdast -> markdown', (t) => {
     'should support `options.quoteSmart`: use quote w/ more alternative quotes'
   )
 
+  t.deepEqual(
+    toMarkdown(
+      {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
+      {extensions: [mdxJsxToMarkdown({tightSelfClosing: false})]}
+    ),
+    '<x />\n',
+    'should support `options.tightSelfClosing`: no space when `false`'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
+      {extensions: [mdxJsxToMarkdown({tightSelfClosing: true})]}
+    ),
+    '<x/>\n',
+    'should support `options.tightSelfClosing`: space when `true`'
+  )
+
   t.end()
 })

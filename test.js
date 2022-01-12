@@ -1485,7 +1485,7 @@ test('mdast -> markdown', (t) => {
       {type: 'mdxJsxFlowElement', name: 'x'},
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x/>\n',
+    '<x />\n',
     'should serialize flow jsx w/ `name` w/o `attributes`, `children`'
   )
 
@@ -1541,7 +1541,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x {y}/>\n',
+    '<x {y} />\n',
     'should serialize flow jsx w/ `name`, `attributes` w/o `children`'
   )
 
@@ -1586,7 +1586,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x {...{y: "z"}}/>\n',
+    '<x {...{y: "z"}} />\n',
     'should serialize expression attributes'
   )
 
@@ -1602,7 +1602,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x {}/>\n',
+    '<x {} />\n',
     'should serialize expression attributes w/o `value`'
   )
 
@@ -1634,7 +1634,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x y/>\n',
+    '<x y />\n',
     'should serialize boolean attributes'
   )
 
@@ -1648,7 +1648,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x y="z"/>\n',
+    '<x y="z" />\n',
     'should serialize value attributes'
   )
 
@@ -1668,7 +1668,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x y={z}/>\n',
+    '<x y={z} />\n',
     'should serialize value expression attributes'
   )
 
@@ -1688,7 +1688,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x y={}/>\n',
+    '<x y={} />\n',
     'should serialize value expression attributes w/o `value`'
   )
 
@@ -1705,7 +1705,7 @@ test('mdast -> markdown', (t) => {
       {type: 'mdxJsxTextElement', name: 'x'},
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x/>\n',
+    '<x />\n',
     'should serialize text jsx w/ `name` w/o `attributes`, `children`'
   )
 
@@ -1736,7 +1736,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x y="z" a/>\n',
+    '<x y="z" a />\n',
     'should serialize text jsx w/ attributes'
   )
 
@@ -1846,7 +1846,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown({quote: "'"})]}
     ),
-    "<x y='z'/>\n",
+    "<x y='z' />\n",
     'should support `options.quote` to quote attribute values'
   )
 
@@ -1877,7 +1877,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
     ),
-    '<x y="z"/>\n',
+    '<x y="z" />\n',
     'should support `options.quoteSmart`: prefer `quote` w/o quotes'
   )
 
@@ -1891,7 +1891,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
     ),
-    '<x y="z&#x22;a\'b"/>\n',
+    '<x y="z&#x22;a\'b" />\n',
     'should support `options.quoteSmart`: prefer `quote` w/ equal quotes'
   )
 
@@ -1905,7 +1905,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
     ),
-    '<x y=\'z"a&#x27;b"c\'/>\n',
+    '<x y=\'z"a&#x27;b"c\' />\n',
     'should support `options.quoteSmart`: use alternative w/ more preferred quotes'
   )
 
@@ -1919,7 +1919,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
     ),
-    '<x y="z&#x22;a\'b\'c"/>\n',
+    '<x y="z&#x22;a\'b\'c" />\n',
     'should support `options.quoteSmart`: use quote w/ more alternative quotes'
   )
 

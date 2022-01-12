@@ -236,7 +236,11 @@ Configuration (optional).
 
 ###### `options.quote`
 
-Quote to use around attribute values (`'"'` or `"'"`, default: `'"'`).
+Preferred quote to use around attribute values (`'"'` or `"'"`, default: `'"'`).
+
+###### `options.quoteSmart`
+
+Use the other quote if that results in less bytes (`boolean`, default: `false`).
 
 ## Syntax tree
 

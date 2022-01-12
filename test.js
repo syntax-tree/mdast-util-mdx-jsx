@@ -1867,5 +1867,61 @@ test('mdast -> markdown', (t) => {
     'should crash on an unclosed text jsx (agnostic)'
   )
 
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z'}],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
+    ),
+    '<x y="z"/>\n',
+    'should support `options.quoteSmart`: prefer `quote` w/o quotes'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z"a\'b'}],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
+    ),
+    '<x y="z&#x22;a\'b"/>\n',
+    'should support `options.quoteSmart`: prefer `quote` w/ equal quotes'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: 'z"a\'b"c'}],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
+    ),
+    '<x y=\'z"a&#x27;b"c\'/>\n',
+    'should support `options.quoteSmart`: use alternative w/ more preferred quotes'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [{type: 'mdxJsxAttribute', name: 'y', value: "z\"a'b'c"}],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({quoteSmart: true})]}
+    ),
+    '<x y="z&#x22;a\'b\'c"/>\n',
+    'should support `options.quoteSmart`: use quote w/ more alternative quotes'
+  )
+
   t.end()
 })

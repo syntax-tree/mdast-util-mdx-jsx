@@ -8,7 +8,7 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Extensions to parse and serialize JSX between mdast and markdown
+Extensions to parse and serialize JSX between mdast and markdown.
 
 ## Contents
 
@@ -42,15 +42,13 @@ For more info on MDX, see [What is MDX?][what-is-mdx]
 ## When to use this
 
 These tools are all rather low-level.
-In most cases, you’d want to use [`remark-mdx`][remark-mdx] with [remark][]
-instead.
+In most cases, you’d want to use [`remark-mdx`][remark-mdx] with remark instead.
 
-When you are working with syntax trees, and want all of MDX, use
+When you are working with syntax trees and want all of MDX, use
 [`mdast-util-mdx`][mdast-util-mdx] instead.
 
-When working with `micromark` (through `mdast-util-from-markdown`), you’d want
-to combine this package with
-[`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx].
+When working with `mdast-util-from-markdown`, you’d want to combine this package
+with [`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx].
 
 ## Install
 
@@ -386,13 +384,12 @@ that represents the supported nodes.
 It also exports `ToMarkdownOptions`, which represents the structure of the
 respective options.
 
-It also registers the node types with `@types/mdast`
-
+It also registers the node types with `@types/mdast`.
 If you’re working with the syntax tree, make sure to import this plugin
 somewhere in your types, as that registers the new node types in the tree.
 
 ```js
-/** @typedef {import('remark-math')} */
+/** @typedef {import('mdast-util-mdx-jsx')} */
 
 import {visit} from 'unist-util-visit'
 
@@ -482,8 +479,6 @@ abide by its terms.
 [typescript]: https://www.typescriptlang.org
 
 [mdast]: https://github.com/syntax-tree/mdast
-
-[remark]: https://github.com/remarkjs/remark
 
 [mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
 

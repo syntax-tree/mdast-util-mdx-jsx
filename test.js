@@ -1572,7 +1572,7 @@ test('mdast -> markdown', (t) => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x\n  {y}\n  {z}\n/>\n',
+    '<x {y} {z} />\n',
     'should serialize flow jsx w/ `name`, multiple `attributes` w/o `children`'
   )
 
@@ -1939,6 +1939,52 @@ test('mdast -> markdown', (t) => {
     ),
     '<x/>\n',
     'should support `options.tightSelfClosing`: space when `true`'
+  )
+
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [
+          {type: 'mdxJsxAttribute', name: 'y', value: 'aaa'},
+          {type: 'mdxJsxAttribute', name: 'z', value: 'aa'}
+        ],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({printWidth: 20})]}
+    ),
+    '<x y="aaa" z="aa" />\n',
+    'should support attributes on one line up to the given `options.printWidth`'
+  )
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [
+          {type: 'mdxJsxAttribute', name: 'y', value: 'aaa'},
+          {type: 'mdxJsxAttribute', name: 'z', value: 'aaa'}
+        ],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({printWidth: 20})]}
+    ),
+    '<x\n  y="aaa"\n  z="aaa"\n/>\n',
+    'should support attributes on separate lines up to the given `options.printWidth`'
+  )
+  t.deepEqual(
+    toMarkdown(
+      {
+        type: 'mdxJsxFlowElement',
+        name: 'x',
+        attributes: [{type: 'mdxJsxExpressionAttribute', value: '\n  ...a\n'}],
+        children: []
+      },
+      {extensions: [mdxJsxToMarkdown({printWidth: 20})]}
+    ),
+    '<x\n  {\n    ...a\n  }\n/>\n',
+    'should support attributes on separate lines if they contain line endings'
   )
 
   t.end()

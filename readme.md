@@ -245,6 +245,14 @@ Use the other quote if that results in less bytes (`boolean`, default: `false`).
 Do not use an extra space when closing self-closing elements: `<img/>` instead
 of `<img />` (`boolean`, default: `false`).
 
+###### `options.printWidth`
+
+Try and wrap syntax as this width (`number`, default: `Infinity`).
+When set to a finite number (say, `80`), the formatter will print attributes on
+separate lines when a tag doesn’t fit on one line.
+The normal behavior is to print attributes with spaces between them instead of
+line endings.
+
 ## Syntax tree
 
 The following interfaces are added to **[mdast][]** by this utility.

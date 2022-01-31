@@ -39,7 +39,7 @@
     "@types/estree-jsx": "^0.0.1",
     "@types/mdast": "^3.0.0",
     "ccount": "^2.0.0",
-    "mdast-util-to-markdown": "^1.0.0",
+    "mdast-util-to-markdown": "^1.3.0",
     "parse-entities": "^4.0.0",
     "stringify-entities": "^4.0.0",
     "unist-util-remove-position": "^4.0.0",

@@ -50,7 +50,7 @@ declare module 'hast' {
   }
 
   interface ElementContentMap {
-    mdxJsxFlowElement: MdxJsxFlowElement
+    mdxJsxTextElement: MdxJsxTextElement
     mdxJsxFlowElement: MdxJsxFlowElement
   }
 }

@@ -42,3 +42,15 @@ declare module 'mdast' {
     mdxJsxFlowElement: MdxJsxFlowElement
   }
 }
+
+declare module 'hast' {
+  interface RootContentMap {
+    mdxJsxTextElement: MdxJsxTextElement
+    mdxJsxFlowElement: MdxJsxFlowElement
+  }
+
+  interface ElementContentMap {
+    mdxJsxFlowElement: MdxJsxFlowElement
+    mdxJsxFlowElement: MdxJsxFlowElement
+  }
+}

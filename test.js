@@ -4,6 +4,7 @@ import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {removePosition} from 'unist-util-remove-position'
 import {mdxJsx} from 'micromark-extension-mdx-jsx'
+import {mdxMd} from 'micromark-extension-mdx-md'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './index.js'
 
 test('markdown -> mdast', (t) => {
@@ -1986,6 +1987,85 @@ test('mdast -> markdown', (t) => {
     '<x\n  {\n    ...a\n  }\n/>\n',
     'should support attributes on separate lines if they contain line endings'
   )
+
+  t.end()
+})
+
+test('roundtrip', (t) => {
+  equal('<a x="a\nb\nc" />', '<a\n  x="a\n  b\n  c"\n/>\n', 'attribute')
+
+  equal(
+    '<a>\n<b x="a\nb\nc" />\n</a>',
+    '<a>\n  <b\n    x="a\n    b\n    c"\n  />\n</a>\n',
+    'attribute in nested element'
+  )
+
+  equal(
+    '<a>\n  <b>\n    <c x="a\nb\nc" />\n  </b>\n</a>',
+    '<a>\n  <b>\n    <c\n      x="a\n      b\n      c"\n    />\n  </b>\n</a>\n',
+    'attribute in nested elements'
+  )
+
+  equal(
+    '<a x={`a\nb\nc`} />',
+    '<a\n  x={`a\n  b\n  c`}\n/>\n',
+    'attribute expression'
+  )
+
+  equal(
+    '<a>\n<b x={`a\nb\nc`} />\n</a>',
+    '<a>\n  <b\n    x={`a\n    b\n    c`}\n  />\n</a>\n',
+    'attribute expression in nested element'
+  )
+
+  equal(
+    '<a>\n  <b>\n    <c x={`a\nb\nc`} />\n  </b>\n</a>',
+    '<a>\n  <b>\n    <c\n      x={`a\n      b\n      c`}\n    />\n  </b>\n</a>\n',
+    'attribute expression in nested elements'
+  )
+
+  equal('<a {\n...a\n} />', '<a\n  {\n  ...a\n  }\n/>\n', 'expression')
+
+  equal(
+    '<a>\n<b {\n...a\n} />\n</a>',
+    '<a>\n  <b\n    {\n    ...a\n    }\n  />\n</a>\n',
+    'expression in nested element'
+  )
+
+  equal(
+    '<a>\n  <b>\n    <c {\n...a\n} />\n  </b>\n</a>',
+    '<a>\n  <b>\n    <c\n      {\n      ...a\n      }\n    />\n  </b>\n</a>\n',
+    'expression in nested elements'
+  )
+
+  /**
+   * @param {string} input
+   * @param {string} output
+   * @param {string} message
+   */
+  function equal(input, output, message) {
+    const intermediate1 = process(input)
+    t.equal(intermediate1, output, message + ' (#1)')
+    const intermediate2 = process(intermediate1)
+    t.equal(intermediate2, output, message + ' (#2)')
+    const intermediate3 = process(intermediate2)
+    t.equal(intermediate3, output, message + ' (#3)')
+    const intermediate4 = process(intermediate3)
+    t.equal(intermediate4, output, message + ' (#4)')
+  }
+
+  /**
+   * @param {string} input
+   */
+  function process(input) {
+    return toMarkdown(
+      fromMarkdown(input, {
+        extensions: [mdxMd, mdxJsx()],
+        mdastExtensions: [mdxJsxFromMarkdown()]
+      }),
+      {extensions: [mdxJsxToMarkdown()]}
+    )
+  }
 
   t.end()
 })

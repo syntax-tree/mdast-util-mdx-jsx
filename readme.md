@@ -59,17 +59,17 @@ In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 npm install mdast-util-mdx-jsx
 ```
 
-In Deno with [Skypack][]:
+In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://cdn.skypack.dev/mdast-util-mdx-jsx@1?dts'
+import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@1'
 ```
 
-In browsers with [Skypack][]:
+In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://cdn.skypack.dev/mdast-util-mdx-jsx@1?min'
+  import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@1?bundle'
 </script>
 ```
 
@@ -470,7 +470,7 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[skypack]: https://www.skypack.dev
+[esmsh]: https://esm.sh
 
 [license]: license
 

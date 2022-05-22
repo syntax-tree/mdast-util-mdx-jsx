@@ -379,8 +379,8 @@ test('markdown -> mdast', (t) => {
                         start: 4,
                         end: 8,
                         loc: {
-                          start: {line: 1, column: 4},
-                          end: {line: 1, column: 8}
+                          start: {line: 1, column: 4, offset: 4},
+                          end: {line: 1, column: 8, offset: 8}
                         },
                         properties: [
                           {
@@ -388,16 +388,16 @@ test('markdown -> mdast', (t) => {
                             start: 4,
                             end: 8,
                             loc: {
-                              start: {line: 1, column: 4},
-                              end: {line: 1, column: 8}
+                              start: {line: 1, column: 4, offset: 4},
+                              end: {line: 1, column: 8, offset: 8}
                             },
                             argument: {
                               type: 'Identifier',
                               start: 7,
                               end: 8,
                               loc: {
-                                start: {line: 1, column: 7},
-                                end: {line: 1, column: 8}
+                                start: {line: 1, column: 7, offset: 7},
+                                end: {line: 1, column: 8, offset: 8}
                               },
                               name: 'b',
                               range: [7, 8]
@@ -410,15 +410,18 @@ test('markdown -> mdast', (t) => {
                       start: 4,
                       end: 8,
                       loc: {
-                        start: {line: 1, column: 4},
-                        end: {line: 1, column: 8}
+                        start: {line: 1, column: 4, offset: 4},
+                        end: {line: 1, column: 8, offset: 8}
                       },
                       range: [4, 8]
                     }
                   ],
                   sourceType: 'module',
                   comments: [],
-                  loc: {start: {line: 1, column: 4}, end: {line: 1, column: 8}},
+                  loc: {
+                    start: {line: 1, column: 4, offset: 4},
+                    end: {line: 1, column: 8, offset: 8}
+                  },
                   range: [4, 8]
                 }
               }
@@ -469,8 +472,8 @@ test('markdown -> mdast', (t) => {
                           start: 6,
                           end: 7,
                           loc: {
-                            start: {line: 1, column: 6},
-                            end: {line: 1, column: 7}
+                            start: {line: 1, column: 6, offset: 6},
+                            end: {line: 1, column: 7, offset: 7}
                           },
                           value: 1,
                           raw: '1',
@@ -479,8 +482,8 @@ test('markdown -> mdast', (t) => {
                         start: 6,
                         end: 7,
                         loc: {
-                          start: {line: 1, column: 6},
-                          end: {line: 1, column: 7}
+                          start: {line: 1, column: 6, offset: 6},
+                          end: {line: 1, column: 7, offset: 7}
                         },
                         range: [6, 7]
                       }
@@ -488,8 +491,8 @@ test('markdown -> mdast', (t) => {
                     sourceType: 'module',
                     comments: [],
                     loc: {
-                      start: {line: 1, column: 6},
-                      end: {line: 1, column: 7}
+                      start: {line: 1, column: 6, offset: 6},
+                      end: {line: 1, column: 7, offset: 7}
                     },
                     range: [6, 7]
                   }

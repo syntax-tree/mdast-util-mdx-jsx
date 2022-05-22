@@ -8,7 +8,7 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Extensions to parse and serialize JSX between mdast and markdown.
+[mdast][] extensions to parse and serialize [MDX][] JSX.
 
 ## Contents
 
@@ -31,8 +31,8 @@ Extensions to parse and serialize JSX between mdast and markdown.
 
 ## What is this?
 
-This package contains extensions that add support for the JSX syntax enabled by
-MDX to [`mdast-util-from-markdown`][mdast-util-from-markdown] and
+This package contains extensions that add support for the JSX syntax enabled
+by MDX to [`mdast-util-from-markdown`][mdast-util-from-markdown] and
 [`mdast-util-to-markdown`][mdast-util-to-markdown].
 
 [JSX][] is an XML-like syntax extension to ECMAScript (JavaScript), which MDX
@@ -62,14 +62,14 @@ npm install mdast-util-mdx-jsx
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@1'
+import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@2'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@1?bundle'
+  import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@2?bundle'
 </script>
 ```
 
@@ -205,7 +205,7 @@ console.log(out)
 
 ## API
 
-This package exports the following identifiers: `mdxJsxFromMarkdown`,
+This package exports the identifiers `mdxJsxFromMarkdown` and
 `mdxJsxToMarkdown`.
 There is no default export.
 
@@ -214,9 +214,8 @@ There is no default export.
 Function that can be called to get an extension for
 [`mdast-util-from-markdown`][mdast-util-from-markdown].
 
-When using [`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx]
-with `options.addResult`, nodes will have a `data.estree` field set to an
-[ESTree][].
+When using the [syntax extension with `addResult`][micromark-extension-mdx-jsx],
+nodes will have a `data.estree` field set to an [ESTree][].
 
 ### `mdxJsxToMarkdown(options?)`
 
@@ -247,7 +246,7 @@ of `<img />` (`boolean`, default: `false`).
 
 ###### `options.printWidth`
 
-Try and wrap syntax as this width (`number`, default: `Infinity`).
+Try and wrap syntax at this width (`number`, default: `Infinity`).
 When set to a finite number (say, `80`), the formatter will print attributes on
 separate lines when a tag doesn’t fit on one line.
 The normal behavior is to print attributes with spaces between them instead of
@@ -386,18 +385,18 @@ type MdxJsxPhrasingContent = MdxJsxTextElement | PhrasingContent
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the `MdxJsxAttributeValueExpression`, `MdxJsxAttribute`,
-`MdxJsxExpressionAttribute`, `MdxJsxFlowElement`, and `MdxJsxTextElement` types
-that represents the supported nodes.
-It also exports `ToMarkdownOptions`, which represents the structure of the
-respective options.
+It exports the additional types `MdxJsxAttributeValueExpression`,
+`MdxJsxAttribute`, `MdxJsxExpressionAttribute`, `MdxJsxFlowElement`,
+`MdxJsxTextElement`, and `ToMarkdownOptions`.
 
 It also registers the node types with `@types/mdast`.
 If you’re working with the syntax tree, make sure to import this plugin
 somewhere in your types, as that registers the new node types in the tree.
 
 ```js
-/** @typedef {import('mdast-util-mdx-jsx')} */
+/**
+ * @typedef {import('mdast-util-mdx-jsx')}
+ */
 
 import {visit} from 'unist-util-visit'
 
@@ -430,8 +429,8 @@ This plugin works with `mdast-util-from-markdown` version 1+ and
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`syntax-tree/.github`][health] for
+ways to get started.
 See [`support.md`][support] for ways to get help.
 
 This project has a [code of conduct][coc].
@@ -476,11 +475,13 @@ abide by its terms.
 
 [author]: https://wooorm.com
 
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
+[health]: https://github.com/syntax-tree/.github
 
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
 [esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
@@ -504,8 +505,6 @@ abide by its terms.
 
 [dfn-mixin-mdx-jsx-element]: #mdxjsxelement
 
-[remark-mdx]: https://github.com/mdx-js/mdx/tree/main/packages/remark-mdx
-
 [jsx]: https://facebook.github.io/jsx/
 
 [what-is-mdx]: https://mdxjs.com/docs/what-is-mdx/
@@ -515,3 +514,7 @@ abide by its terms.
 [mdast-util-to-markdown-fences]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsfences
 
 [mdast-util-to-markdown-resourcelink]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsresourcelink
+
+[remark-mdx]: https://mdxjs.com/packages/remark-mdx/
+
+[mdx]: https://mdxjs.com

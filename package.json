@@ -36,7 +36,7 @@
     "index.js"
   ],
   "dependencies": {
-    "@types/estree-jsx": "^0.0.1",
+    "@types/estree-jsx": "^1.0.0",
     "@types/hast": "^2.0.0",
     "@types/mdast": "^3.0.0",
     "ccount": "^2.0.0",

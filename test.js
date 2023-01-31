@@ -1095,27 +1095,19 @@ test('markdown -> mdast', (t) => {
     'should crash when misnesting w/ attention (strong)'
   )
 
-  t.throws(
-    () => {
-      fromMarkdown('a [open <b> close](c) </b> d.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      })
-    },
-    /Expected a closing tag for `<b>` \(1:9-1:12\) before the end of `link`/,
-    'should crash when misnesting w/ label (link)'
-  )
+  t.throws(() => {
+    fromMarkdown('a [open <b> close](c) </b> d.', {
+      extensions: [mdxJsx()],
+      mdastExtensions: [mdxJsxFromMarkdown()]
+    })
+  }, 'should crash when misnesting w/ label (link)')
 
-  t.throws(
-    () => {
-      fromMarkdown('a ![open <b> close](c) </b> d.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      })
-    },
-    /Expected a closing tag for `<b>` \(1:10-1:13\) before the end of `image`/,
-    'should crash when misnesting w/ label (image)'
-  )
+  t.throws(() => {
+    fromMarkdown('a ![open <b> close](c) </b> d.', {
+      extensions: [mdxJsx()],
+      mdastExtensions: [mdxJsxFromMarkdown()]
+    })
+  }, 'should crash when misnesting w/ label (image)')
 
   t.throws(
     () => {

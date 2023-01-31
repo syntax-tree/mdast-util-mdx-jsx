@@ -7,6 +7,15 @@ import {removePosition} from 'unist-util-remove-position'
 import {mdxJsx} from 'micromark-extension-mdx-jsx'
 import {mdxMd} from 'micromark-extension-mdx-md'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './index.js'
+import * as mod from './index.js'
+
+test('core', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['mdxJsxFromMarkdown', 'mdxJsxToMarkdown'],
+    'should expose the public api'
+  )
+})
 
 test('mdxJsxFromMarkdown', () => {
   assert.deepEqual(

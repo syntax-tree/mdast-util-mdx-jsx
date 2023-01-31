@@ -8,7 +8,7 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[mdast][] extensions to parse and serialize [MDX][] JSX.
+[mdast][] extensions to parse and serialize [MDX][] JSX (`<a />`).
 
 ## Contents
 
@@ -19,6 +19,16 @@
 *   [API](#api)
     *   [`mdxJsxFromMarkdown()`](#mdxjsxfrommarkdown)
     *   [`mdxJsxToMarkdown(options?)`](#mdxjsxtomarkdownoptions)
+    *   [`MdxJsxAttribute`](#mdxjsxattribute)
+    *   [`MdxJsxAttributeValueExpression`](#mdxjsxattributevalueexpression)
+    *   [`MdxJsxExpressionAttribute`](#mdxjsxexpressionattribute)
+    *   [`MdxJsxFlowElement`](#mdxjsxflowelement)
+    *   [`MdxJsxFlowElementHast`](#mdxjsxflowelementhast)
+    *   [`MdxJsxTextElement`](#mdxjsxtextelement)
+    *   [`MdxJsxTextElementHast`](#mdxjsxtextelementhast)
+    *   [`ToMarkdownOptions`](#tomarkdownoptions)
+*   [HTML](#html)
+*   [Syntax](#syntax)
 *   [Syntax tree](#syntax-tree)
     *   [Nodes](#nodes)
     *   [Mixin](#mixin)
@@ -31,9 +41,13 @@
 
 ## What is this?
 
-This package contains extensions that add support for the JSX syntax enabled
-by MDX to [`mdast-util-from-markdown`][mdast-util-from-markdown] and
-[`mdast-util-to-markdown`][mdast-util-to-markdown].
+This package contains two extensions that add support for MDX JSX syntax in
+markdown to [mdast][].
+These extensions plug into
+[`mdast-util-from-markdown`][mdast-util-from-markdown] (to support parsing
+JSX in markdown into a syntax tree) and
+[`mdast-util-to-markdown`][mdast-util-to-markdown] (to support serializing
+JSX in syntax trees to markdown).
 
 [JSX][] is an XML-like syntax extension to ECMAScript (JavaScript), which MDX
 brings to markdown.
@@ -41,19 +55,23 @@ For more info on MDX, see [What is MDX?][what-is-mdx]
 
 ## When to use this
 
-These tools are all rather low-level.
-In most cases, you’d want to use [`remark-mdx`][remark-mdx] with remark instead.
+You can use these extensions when you are working with
+`mdast-util-from-markdown` and `mdast-util-to-markdown` already.
+
+When working with `mdast-util-from-markdown`, you must combine this package
+with [`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx].
 
 When you are working with syntax trees and want all of MDX, use
 [`mdast-util-mdx`][mdast-util-mdx] instead.
 
-When working with `mdast-util-from-markdown`, you’d want to combine this package
-with [`micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx].
+All these packages are used in [`remark-mdx`][remark-mdx], which
+focusses on making it easier to transform content by abstracting these
+internals away.
 
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install mdast-util-mdx-jsx
@@ -90,14 +108,14 @@ Say our document `example.mdx` contains:
 …and our module `example.js` looks as follows:
 
 ```js
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import * as acorn from 'acorn'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {mdxJsx} from 'micromark-extension-mdx-jsx'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'mdast-util-mdx-jsx'
 
-const doc = fs.readFileSync('example.mdx')
+const doc = await fs.readFile('example.mdx')
 
 const tree = fromMarkdown(doc, {
   extensions: [mdxJsx({acorn: acorn, addResult: true})],
@@ -205,52 +223,196 @@ console.log(out)
 
 ## API
 
-This package exports the identifiers `mdxJsxFromMarkdown` and
-`mdxJsxToMarkdown`.
+This package exports the identifiers
+[`mdxJsxFromMarkdown`][api-mdx-jsx-from-markdown] and
+[`mdxJsxToMarkdown`][api-mdx-jsx-to-markdown].
 There is no default export.
 
 ### `mdxJsxFromMarkdown()`
 
-Function that can be called to get an extension for
-[`mdast-util-from-markdown`][mdast-util-from-markdown].
+Create an extension for
+[`mdast-util-from-markdown`][mdast-util-from-markdown]
+to enable MDX JSX.
 
-When using the [syntax extension with `addResult`][micromark-extension-mdx-jsx],
-nodes will have a `data.estree` field set to an [ESTree][].
+###### Returns
+
+Extension for `mdast-util-from-markdown` to enable MDX JSX
+([`FromMarkdownExtension`][from-markdown-extension]).
+
+When using the [micromark syntax extension][micromark-extension-mdx-jsx] with
+`addResult`, nodes will have a `data.estree` field set to an ESTree
+[`Program`][program] node.
 
 ### `mdxJsxToMarkdown(options?)`
 
-Function that can be called to get an extension for
-[`mdast-util-to-markdown`][mdast-util-to-markdown].
+Create an extension for
+[`mdast-util-to-markdown`][mdast-util-to-markdown]
+to enable MDX JSX.
 
 This extension configures `mdast-util-to-markdown` with
 [`options.fences: true`][mdast-util-to-markdown-fences] and
 [`options.resourceLink: true`][mdast-util-to-markdown-resourcelink] too, do not
 overwrite them!
 
-##### `options`
+###### Parameters
 
-Configuration (optional).
+*   `options` ([`ToMarkdownOptions`][api-to-markdown-options])
+    — configuration
 
-###### `options.quote`
+###### Returns
 
-Preferred quote to use around attribute values (`'"'` or `"'"`, default: `'"'`).
+Extension for `mdast-util-to-markdown` to enable MDX JSX
+([`FromMarkdownExtension`][to-markdown-extension]).
 
-###### `options.quoteSmart`
+### `MdxJsxAttribute`
 
-Use the other quote if that results in less bytes (`boolean`, default: `false`).
+MDX JSX attribute with a key (TypeScript type).
 
-###### `options.tightSelfClosing`
+###### Type
 
-Do not use an extra space when closing self-closing elements: `<img/>` instead
-of `<img />` (`boolean`, default: `false`).
+```ts
+import type {Literal} from 'mdast'
 
-###### `options.printWidth`
+interface MdxJsxAttribute extends Literal {
+  type: 'mdxJsxAttribute'
+  name: string
+  value?: MdxJsxAttributeValueExpression | string | null | undefined
+}
+```
 
-Try and wrap syntax at this width (`number`, default: `Infinity`).
-When set to a finite number (say, `80`), the formatter will print attributes on
-separate lines when a tag doesn’t fit on one line.
-The normal behavior is to print attributes with spaces between them instead of
-line endings.
+### `MdxJsxAttributeValueExpression`
+
+MDX JSX attribute value set to an expression (TypeScript type).
+
+###### Type
+
+```ts
+import type {Program} from 'estree-jsx'
+import type {Literal} from 'mdast'
+
+interface MdxJsxAttributeValueExpression extends Literal {
+  type: 'mdxJsxAttributeValueExpression'
+  data?: {estree?: Program | null | undefined} & Literal['data']
+}
+```
+
+### `MdxJsxExpressionAttribute`
+
+MDX JSX attribute as an expression (TypeScript type).
+
+###### Type
+
+```ts
+import type {Program} from 'estree-jsx'
+import type {Literal} from 'mdast'
+
+interface MdxJsxExpressionAttribute extends Literal {
+  type: 'mdxJsxExpressionAttribute'
+  data?: {estree?: Program | null | undefined} & Literal['data']
+}
+```
+
+### `MdxJsxFlowElement`
+
+MDX JSX element node, occurring in flow (block) (TypeScript type).
+
+###### Type
+
+```ts
+import type {BlockContent, DefinitionContent, Parent} from 'mdast'
+
+export interface MdxJsxFlowElement extends Parent {
+  type: 'mdxJsxFlowElement'
+  name: string | null
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
+  children: Array<BlockContent | DefinitionContent>
+}
+```
+
+### `MdxJsxFlowElementHast`
+
+Same as [`MdxJsxFlowElement`][api-mdx-jsx-flow-element], but registered with
+`@types/hast` (TypeScript type).
+
+###### Type
+
+```ts
+import type {ElementContent, Parent} from 'hast'
+
+export interface MdxJsxFlowElementHast extends Parent {
+  type: 'mdxJsxFlowElement'
+  name: string | null
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
+  children: Array<ElementContent>
+}
+```
+
+### `MdxJsxTextElement`
+
+MDX JSX element node, occurring in text (phrasing) (TypeScript type).
+
+###### Type
+
+```ts
+import type {Parent, PhrasingContent} from 'mdast'
+
+export interface MdxJsxTextElement extends Parent {
+  type: 'mdxJsxTextElement'
+  name: string | null
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
+  children: Array<PhrasingContent>
+}
+```
+
+### `MdxJsxTextElementHast`
+
+Same as [`MdxJsxTextElement`][api-mdx-jsx-text-element], but registered with
+`@types/hast` (TypeScript type).
+
+###### Type
+
+```ts
+import type {ElementContent, Parent} from 'hast'
+
+export interface MdxJsxTextElementHast extends Parent {
+  type: 'mdxJsxTextElement'
+  name: string | null
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
+  children: Array<ElementContent>
+}
+```
+
+### `ToMarkdownOptions`
+
+Configuration (TypeScript type).
+
+##### Fields
+
+*   `quote` (`'"'` or `"'"`, default: `'"'`)
+    — preferred quote to use around attribute values
+*   `quoteSmart` (`boolean`, default: `false`)
+    — use the other quote if that results in less bytes
+*   `tightSelfClosing` (`boolean`, default: `false`)
+    — do not use an extra space when closing self-closing elements: `<img/>`
+    instead of `<img />`
+*   `printWidth` (`number`, default: `Infinity`)
+    — try and wrap syntax at this width.
+    When set to a finite number (say, `80`), the formatter will print
+    attributes on separate lines when a tag doesn’t fit on one line.
+    The normal behavior is to print attributes with spaces between them instead
+    of line endings
+
+## HTML
+
+MDX JSX has no representation in HTML.
+Though, when you are dealing with MDX, you will likely go *through* hast.
+You can enable passing MDX JSX through to hast by configuring
+[`mdast-util-to-hast`][mdast-util-to-hast] with
+`passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement']`.
+
+## Syntax
+
+See [Syntax in `micromark-extension-mdx-jsx`][syntax].
 
 ## Syntax tree
 
@@ -258,7 +420,7 @@ The following interfaces are added to **[mdast][]** by this utility.
 
 ### Nodes
 
-###### `MdxJsxFlowElement`
+#### `MdxJsxFlowElement`
 
 ```idl
 interface MdxJsxFlowElement <: Parent {
@@ -291,7 +453,7 @@ Yields:
 }
 ```
 
-###### `MdxJsxTextElement`
+#### `MdxJsxTextElement`
 
 ```idl
 interface MdxJsxTextElement <: Parent {
@@ -326,7 +488,7 @@ Yields:
 
 ### Mixin
 
-###### `MdxJsxElement`
+#### `MdxJsxElement`
 
 ```idl
 interface mixin MdxJsxElement {
@@ -385,12 +547,17 @@ type MdxJsxPhrasingContent = MdxJsxTextElement | PhrasingContent
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional types `MdxJsxAttributeValueExpression`,
-`MdxJsxAttribute`, `MdxJsxExpressionAttribute`, `MdxJsxFlowElement`,
-`MdxJsxTextElement`, and `ToMarkdownOptions`.
+It exports the additional types  [`MdxJsxAttribute`][api-mdx-jsx-attribute],
+[`MdxJsxAttributeValueExpression`][api-mdx-jsx-attribute-value-expression],
+[`MdxJsxExpressionAttribute`][api-mdx-jsx-expression-attribute],
+[`MdxJsxFlowElement`][api-mdx-jsx-flow-element],
+[`MdxJsxFlowElementHast`][api-mdx-jsx-flow-element-hast],
+[`MdxJsxTextElement`][api-mdx-jsx-text-element],
+[`MdxJsxTextElementHast`][api-mdx-jsx-text-element-hast], and
+[`ToMarkdownOptions`][api-to-markdown-options].
 
-It also registers the node types with `@types/mdast`.
-If you’re working with the syntax tree, make sure to import this plugin
+It also registers the node types with `@types/mdast` and `@types/hast`.
+If you’re working with the syntax tree, make sure to import this utility
 somewhere in your types, as that registers the new node types in the tree.
 
 ```js
@@ -412,7 +579,7 @@ visit(tree, (node) => {
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 This plugin works with `mdast-util-from-markdown` version 1+ and
@@ -489,13 +656,19 @@ abide by its terms.
 
 [mdast]: https://github.com/syntax-tree/mdast
 
+[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
 [mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+
+[from-markdown-extension]: https://github.com/syntax-tree/mdast-util-from-markdown#extension
 
 [mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
 
+[to-markdown-extension]: https://github.com/syntax-tree/mdast-util-to-markdown#options
+
 [mdast-util-mdx]: https://github.com/syntax-tree/mdast-util-mdx
 
-[estree]: https://github.com/estree/estree
+[program]: https://github.com/estree/estree/blob/master/es2015.md#programs
 
 [dfn-parent]: https://github.com/syntax-tree/mdast#parent
 
@@ -511,6 +684,8 @@ abide by its terms.
 
 [micromark-extension-mdx-jsx]: https://github.com/micromark/micromark-extension-mdx-jsx
 
+[syntax]: https://github.com/micromark/micromark-extension-mdx-jsx#syntax
+
 [mdast-util-to-markdown-fences]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsfences
 
 [mdast-util-to-markdown-resourcelink]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsresourcelink
@@ -518,3 +693,23 @@ abide by its terms.
 [remark-mdx]: https://mdxjs.com/packages/remark-mdx/
 
 [mdx]: https://mdxjs.com
+
+[api-mdx-jsx-from-markdown]: #mdxjsxfrommarkdown
+
+[api-mdx-jsx-to-markdown]: #mdxjsxtomarkdownoptions
+
+[api-mdx-jsx-attribute]: #mdxjsxattribute
+
+[api-mdx-jsx-attribute-value-expression]: #mdxjsxattributevalueexpression
+
+[api-mdx-jsx-expression-attribute]: #mdxjsxexpressionattribute
+
+[api-mdx-jsx-flow-element]: #mdxjsxflowelement
+
+[api-mdx-jsx-flow-element-hast]: #mdxjsxflowelementhast
+
+[api-mdx-jsx-text-element]: #mdxjsxtextelement
+
+[api-mdx-jsx-text-element-hast]: #mdxjsxtextelementhast
+
+[api-to-markdown-options]: #tomarkdownoptions

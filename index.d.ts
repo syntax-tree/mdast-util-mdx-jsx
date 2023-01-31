@@ -6,6 +6,7 @@ import type {
   DefinitionContent,
   PhrasingContent
 } from 'mdast'
+import type {ElementContent, Parent as HastParent} from 'hast'
 import type {Program} from 'estree-jsx'
 
 import type {Tag} from './lib/index.js'
@@ -136,6 +137,54 @@ export interface MdxJsxTextElement extends MdastParent {
   children: PhrasingContent[]
 }
 
+/**
+ * MDX JSX element node, occurring in flow (block), for hast.
+ */
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export interface MdxJsxFlowElementHast extends HastParent {
+  /**
+   * Node type.
+   */
+  type: 'mdxJsxFlowElement'
+  /**
+   * MDX JSX element name (`null` for fragments).
+   */
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: string | null
+  /**
+   * MDX JSX element attributes.
+   */
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
+  /**
+   * Content.
+   */
+  children: ElementContent[]
+}
+
+/**
+ * MDX JSX element node, occurring in text (phrasing), for hast.
+ */
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export interface MdxJsxTextElementHast extends HastParent {
+  /**
+   * Node type.
+   */
+  type: 'mdxJsxTextElement'
+  /**
+   * MDX JSX element name (`null` for fragments).
+   */
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  name: string | null
+  /**
+   * MDX JSX element attributes.
+   */
+  attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>
+  /**
+   * Content.
+   */
+  children: ElementContent[]
+}
+
 // Add nodes to mdast content.
 declare module 'mdast' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -162,11 +211,11 @@ declare module 'hast' {
     /**
      * MDX JSX element node, occurring in text (phrasing).
      */
-    mdxJsxTextElement: MdxJsxTextElement
+    mdxJsxTextElement: MdxJsxTextElementHast
     /**
      * MDX JSX element node, occurring in flow (block).
      */
-    mdxJsxFlowElement: MdxJsxFlowElement
+    mdxJsxFlowElement: MdxJsxFlowElementHast
   }
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -174,11 +223,11 @@ declare module 'hast' {
     /**
      * MDX JSX element node, occurring in text (phrasing).
      */
-    mdxJsxTextElement: MdxJsxTextElement
+    mdxJsxTextElement: MdxJsxTextElementHast
     /**
      * MDX JSX element node, occurring in flow (block).
      */
-    mdxJsxFlowElement: MdxJsxFlowElement
+    mdxJsxFlowElement: MdxJsxFlowElementHast
   }
 }
 

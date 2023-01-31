@@ -1,4 +1,5 @@
-import test from 'tape'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import * as acorn from 'acorn'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
@@ -7,8 +8,8 @@ import {mdxJsx} from 'micromark-extension-mdx-jsx'
 import {mdxMd} from 'micromark-extension-mdx-md'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './index.js'
 
-test('markdown -> mdast', (t) => {
-  t.deepEqual(
+test('mdxJsxFromMarkdown', () => {
+  assert.deepEqual(
     fromMarkdown('<a />', {
       extensions: [mdxJsx()],
       mdastExtensions: [mdxJsxFromMarkdown()]
@@ -35,7 +36,7 @@ test('markdown -> mdast', (t) => {
     'should support flow jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<x>\t \n</x>', {
         extensions: [mdxJsx()],
@@ -52,7 +53,7 @@ test('markdown -> mdast', (t) => {
     'should support flow jsx (agnostic) w/ just whitespace'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b/> c.', {
         extensions: [mdxJsx()],
@@ -81,7 +82,7 @@ test('markdown -> mdast', (t) => {
     'should support self-closing text jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b></b> c.', {
         extensions: [mdxJsx()],
@@ -110,7 +111,7 @@ test('markdown -> mdast', (t) => {
     'should support a closed text jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b>c</b> d.', {
         extensions: [mdxJsx()],
@@ -139,7 +140,7 @@ test('markdown -> mdast', (t) => {
     'should support text jsx (agnostic) w/ content'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b>*c*</b> d.', {
         extensions: [mdxJsx()],
@@ -170,7 +171,7 @@ test('markdown -> mdast', (t) => {
     'should support text jsx (agnostic) w/ markdown content'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <></> b.', {
         extensions: [mdxJsx()],
@@ -199,7 +200,7 @@ test('markdown -> mdast', (t) => {
     'should support a fragment text jsx (agnostic)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <b> c', {
         extensions: [mdxJsx()],
@@ -210,7 +211,7 @@ test('markdown -> mdast', (t) => {
     'should crash on an unclosed text jsx (agnostic)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('<a>', {
         extensions: [mdxJsx()],
@@ -221,7 +222,7 @@ test('markdown -> mdast', (t) => {
     'should crash on an unclosed flow jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b {1 + 1} /> c', {
         extensions: [mdxJsx()],
@@ -250,7 +251,7 @@ test('markdown -> mdast', (t) => {
     'should support an attribute expression in text jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b c={1 + 1} /> d', {
         extensions: [mdxJsx()],
@@ -288,7 +289,7 @@ test('markdown -> mdast', (t) => {
     'should support an attribute value expression in text jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b {...c} /> d', {
         extensions: [mdxJsx({acorn})],
@@ -317,7 +318,7 @@ test('markdown -> mdast', (t) => {
     'should support an attribute expression in text jsx (gnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<a {...{b: 1, c: Infinity, d: false}} />', {
         extensions: [mdxJsx({acorn})],
@@ -344,7 +345,7 @@ test('markdown -> mdast', (t) => {
     'should support an complex attribute expression in flow jsx (gnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     JSON.parse(
       JSON.stringify(
         removePosition(
@@ -434,7 +435,7 @@ test('markdown -> mdast', (t) => {
     'should support an `estree` for an attribute expression in flow jsx (gnostic) w/ `addResult`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     JSON.parse(
       JSON.stringify(
         removePosition(
@@ -507,7 +508,7 @@ test('markdown -> mdast', (t) => {
     'should support an `estree` for an attribute value expression in flow jsx (gnostic) w/ `addResult`'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <b {1 + 1} /> c', {
         extensions: [mdxJsx({acorn})],
@@ -518,7 +519,7 @@ test('markdown -> mdast', (t) => {
     'should crash on a non-spread attribute expression'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <b c={?} /> d', {
         extensions: [mdxJsx({acorn})],
@@ -529,7 +530,7 @@ test('markdown -> mdast', (t) => {
     'should crash on invalid JS in an attribute expression'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a < \t>b</>', {
         extensions: [mdxJsx({acorn})],
@@ -540,7 +541,7 @@ test('markdown -> mdast', (t) => {
     'should *not* support whitespace in the opening tag (fragment)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b\t>c</b>', {
         extensions: [mdxJsx()],
@@ -568,7 +569,7 @@ test('markdown -> mdast', (t) => {
     'should support whitespace in the opening tag (named)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<π />', {
         extensions: [mdxJsx()],
@@ -585,7 +586,7 @@ test('markdown -> mdast', (t) => {
     'should support non-ascii identifier start characters'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<a\u200Cb />', {
         extensions: [mdxJsx()],
@@ -602,7 +603,7 @@ test('markdown -> mdast', (t) => {
     'should support non-ascii identifier continuation characters'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<abc . def.ghi />', {
         extensions: [mdxJsx()],
@@ -624,7 +625,7 @@ test('markdown -> mdast', (t) => {
     'should support dots in names for method names'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<svg: rect>b</  svg :rect>', {
         extensions: [mdxJsx()],
@@ -651,7 +652,7 @@ test('markdown -> mdast', (t) => {
     'should support colons in names for local names'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b c     d="d"\t\tefg=\'h\'>i</b>.', {
         extensions: [mdxJsx()],
@@ -684,7 +685,7 @@ test('markdown -> mdast', (t) => {
     'should support attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<a xml :\tlang\n= "de-CH" foo:bar/>', {
         extensions: [mdxJsx()],
@@ -709,7 +710,7 @@ test('markdown -> mdast', (t) => {
     'should support prefixed attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<b a b : c d : e = "f" g/>', {
         extensions: [mdxJsx()],
@@ -736,7 +737,7 @@ test('markdown -> mdast', (t) => {
     'should support prefixed and normal attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <>`<`</> c', {
         extensions: [mdxJsx()],
@@ -765,7 +766,7 @@ test('markdown -> mdast', (t) => {
     'should support code (text) in jsx (text)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<>\n```js\n<\n```\n</>', {
         extensions: [mdxJsx()],
@@ -787,7 +788,7 @@ test('markdown -> mdast', (t) => {
     'should support code (fenced) in jsx (flow)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a </> c', {
         extensions: [mdxJsx()],
@@ -798,7 +799,7 @@ test('markdown -> mdast', (t) => {
     'should crash on a closing tag w/o open elements (text)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('</>', {
         extensions: [mdxJsx()],
@@ -809,7 +810,7 @@ test('markdown -> mdast', (t) => {
     'should crash on a closing tag w/o open elements (flow)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <></b>', {
         extensions: [mdxJsx()],
@@ -819,7 +820,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/b>`, expected corresponding closing tag for `<>` \(1:3-1:5\)/,
     'should crash on mismatched tags (1)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <b></>', {
         extensions: [mdxJsx()],
@@ -829,7 +830,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/>`, expected corresponding closing tag for `<b>` \(1:3-1:6\)/,
     'should crash on mismatched tags (2)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a.b></a>', {
         extensions: [mdxJsx()],
@@ -839,7 +840,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/a>`, expected corresponding closing tag for `<a\.b>` \(1:3-1:8\)/,
     'should crash on mismatched tags (3)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a></a.b>', {
         extensions: [mdxJsx()],
@@ -849,7 +850,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/a\.b>`, expected corresponding closing tag for `<a>` \(1:3-1:6\)/,
     'should crash on mismatched tags (4)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a.b></a.c>', {
         extensions: [mdxJsx()],
@@ -859,7 +860,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/a\.c>`, expected corresponding closing tag for `<a\.b>` \(1:3-1:8\)/,
     'should crash on mismatched tags (5)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a:b></a>', {
         extensions: [mdxJsx()],
@@ -869,7 +870,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/a>`, expected corresponding closing tag for `<a:b>` \(1:3-1:8\)/,
     'should crash on mismatched tags (6)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a></a:b>', {
         extensions: [mdxJsx()],
@@ -879,7 +880,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/a:b>`, expected corresponding closing tag for `<a>` \(1:3-1:6\)/,
     'should crash on mismatched tags (7)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a:b></a:c>', {
         extensions: [mdxJsx()],
@@ -889,7 +890,7 @@ test('markdown -> mdast', (t) => {
     /Unexpected closing tag `<\/a:c>`, expected corresponding closing tag for `<a:b>` \(1:3-1:8\)/,
     'should crash on mismatched tags (8)'
   )
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a <a:b></a.b>', {
         extensions: [mdxJsx()],
@@ -900,7 +901,7 @@ test('markdown -> mdast', (t) => {
     'should crash on mismatched tags (9)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('<a>b</a/>', {
         extensions: [mdxJsx()],
@@ -911,7 +912,7 @@ test('markdown -> mdast', (t) => {
     'should crash on a closing self-closing tag'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('<a>b</a b>', {
         extensions: [mdxJsx()],
@@ -922,7 +923,7 @@ test('markdown -> mdast', (t) => {
     'should crash on a closing tag w/ attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('a <b>c <>d</> e</b>', {
         extensions: [mdxJsx()],
@@ -959,7 +960,7 @@ test('markdown -> mdast', (t) => {
     'should support nested jsx (text)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<a> <>\nb\n</>\n</a>', {
         extensions: [mdxJsx()],
@@ -990,7 +991,7 @@ test('markdown -> mdast', (t) => {
     'should support nested jsx (flow)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown(
         '<x y="Character references can be used: &quot;, &apos;, &lt;, &gt;, &#x7B;, and &#x7D;, they can be named, decimal, or hexadecimal: &copy; &#8800; &#x1D306;" />',
@@ -1022,7 +1023,7 @@ test('markdown -> mdast', (t) => {
     'should support character references in attribute values'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<x />.', {
         extensions: [mdxJsx()],
@@ -1050,7 +1051,7 @@ test('markdown -> mdast', (t) => {
     'should support as text if the tag is not the last thing'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('.<x />', {
         extensions: [mdxJsx()],
@@ -1073,7 +1074,7 @@ test('markdown -> mdast', (t) => {
     'should support as text if the tag is not the first thing'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a *open <b> close* </b> c.', {
         extensions: [mdxJsx()],
@@ -1084,7 +1085,7 @@ test('markdown -> mdast', (t) => {
     'should crash when misnesting w/ attention (emphasis)'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('a **open <b> close** </b> c.', {
         extensions: [mdxJsx()],
@@ -1095,21 +1096,21 @@ test('markdown -> mdast', (t) => {
     'should crash when misnesting w/ attention (strong)'
   )
 
-  t.throws(() => {
+  assert.throws(() => {
     fromMarkdown('a [open <b> close](c) </b> d.', {
       extensions: [mdxJsx()],
       mdastExtensions: [mdxJsxFromMarkdown()]
     })
   }, 'should crash when misnesting w/ label (link)')
 
-  t.throws(() => {
+  assert.throws(() => {
     fromMarkdown('a ![open <b> close](c) </b> d.', {
       extensions: [mdxJsx()],
       mdastExtensions: [mdxJsxFromMarkdown()]
     })
   }, 'should crash when misnesting w/ label (image)')
 
-  t.throws(
+  assert.throws(
     () => {
       fromMarkdown('<b> a *open </b> close* d.', {
         extensions: [mdxJsx()],
@@ -1120,7 +1121,7 @@ test('markdown -> mdast', (t) => {
     'should crash when misnesting w/ attention (emphasis)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('> a <b>\n> c </b> d.', {
         extensions: [mdxJsx()],
@@ -1154,7 +1155,7 @@ test('markdown -> mdast', (t) => {
     'should support line endings in elements'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('> a <b c="d\n> e" /> f', {
         extensions: [mdxJsx()],
@@ -1190,7 +1191,7 @@ test('markdown -> mdast', (t) => {
     'should support line endings in attribute values'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('> a <b c={d\n> e} /> f', {
         extensions: [mdxJsx()],
@@ -1233,7 +1234,7 @@ test('markdown -> mdast', (t) => {
     'should support line endings in attribute value expressions'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('> a <b {c\n> d} /> e', {
         extensions: [mdxJsx()],
@@ -1269,7 +1270,7 @@ test('markdown -> mdast', (t) => {
     'should support line endings in attribute expressions'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('> a <b {...[1,\n> 2]} /> c', {
         extensions: [mdxJsx({acorn})],
@@ -1305,7 +1306,7 @@ test('markdown -> mdast', (t) => {
     'should support line endings in attribute expressions (gnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<a>\n> b\nc\n> d\n</a>', {
         extensions: [mdxJsx({acorn})],
@@ -1337,7 +1338,7 @@ test('markdown -> mdast', (t) => {
     'should support block quotes in flow'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<a>\n- b\nc\n- d\n</a>', {
         extensions: [mdxJsx({acorn})],
@@ -1387,7 +1388,7 @@ test('markdown -> mdast', (t) => {
     'should support lists in flow'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('> a\n- b\nc\n- d', {
         extensions: [mdxJsx({acorn})],
@@ -1433,7 +1434,7 @@ test('markdown -> mdast', (t) => {
     'should support normal markdown w/o jsx'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     removePosition(
       fromMarkdown('<x><y>\n\nz\n\n</y></x>', {
         extensions: [mdxJsx({acorn})],
@@ -1463,19 +1464,17 @@ test('markdown -> mdast', (t) => {
     },
     'should support multiple flow elements with their tags on the same line'
   )
-
-  t.end()
 })
 
-test('mdast -> markdown', (t) => {
-  t.deepEqual(
+test('mdxJsxToMarkdown', () => {
+  assert.deepEqual(
     // @ts-expect-error: `attributes`, `children`, `name` missing.
     toMarkdown({type: 'mdxJsxFlowElement'}, {extensions: [mdxJsxToMarkdown()]}),
     '<></>\n',
     'should serialize flow jsx w/o `name`, `attributes`, or `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `attributes`, `children` missing.
       {type: 'mdxJsxFlowElement', name: 'x'},
@@ -1485,7 +1484,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow jsx w/ `name` w/o `attributes`, `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `attributes` missing.
       {
@@ -1499,7 +1498,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow jsx w/ `name`, `children` w/o `attributes`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `children`, `name` missing.
       {
@@ -1512,7 +1511,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow jsx w/ `children` w/o `name`, `attributes`'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       toMarkdown(
         // @ts-expect-error: `children`, `name` missing.
@@ -1527,7 +1526,7 @@ test('mdast -> markdown', (t) => {
     'should crash when serializing fragment w/ attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `children` missing.
       {
@@ -1541,7 +1540,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow jsx w/ `name`, `attributes` w/o `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1555,7 +1554,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow jsx w/ `name`, `attributes`, `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `children` missing.
       {
@@ -1572,7 +1571,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow jsx w/ `name`, multiple `attributes` w/o `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1586,7 +1585,7 @@ test('mdast -> markdown', (t) => {
     'should serialize expression attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1602,7 +1601,7 @@ test('mdast -> markdown', (t) => {
     'should serialize expression attributes w/o `value`'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       toMarkdown(
         {
@@ -1620,7 +1619,7 @@ test('mdast -> markdown', (t) => {
     'should crash when serializing attribute w/o name'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1634,7 +1633,7 @@ test('mdast -> markdown', (t) => {
     'should serialize boolean attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1648,7 +1647,7 @@ test('mdast -> markdown', (t) => {
     'should serialize value attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1668,7 +1667,7 @@ test('mdast -> markdown', (t) => {
     'should serialize value expression attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1688,14 +1687,14 @@ test('mdast -> markdown', (t) => {
     'should serialize value expression attributes w/o `value`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     // @ts-expect-error: `attributes`, `name`, `children` missing.
     toMarkdown({type: 'mdxJsxTextElement'}, {extensions: [mdxJsxToMarkdown()]}),
     '<></>\n',
     'should serialize text jsx w/o `name`, `attributes`, or `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `attributes`, `children` missing.
       {type: 'mdxJsxTextElement', name: 'x'},
@@ -1705,7 +1704,7 @@ test('mdast -> markdown', (t) => {
     'should serialize text jsx w/ `name` w/o `attributes`, `children`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       // @ts-expect-error: `attributes` missing.
       {
@@ -1719,7 +1718,7 @@ test('mdast -> markdown', (t) => {
     'should serialize text jsx w/ `name`, `children` w/o `attributes`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxTextElement',
@@ -1736,7 +1735,7 @@ test('mdast -> markdown', (t) => {
     'should serialize text jsx w/ attributes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'paragraph',
@@ -1757,7 +1756,7 @@ test('mdast -> markdown', (t) => {
     'should serialize text jsx in flow'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1795,7 +1794,7 @@ test('mdast -> markdown', (t) => {
     'should serialize flow in flow jsx'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {type: 'paragraph', children: [{type: 'text', value: 'a < b'}]},
       {extensions: [mdxJsxToMarkdown()]}
@@ -1804,7 +1803,7 @@ test('mdast -> markdown', (t) => {
     'should escape `<` in text'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {type: 'definition', identifier: 'a', url: 'x', title: 'a\n<\nb'},
       {extensions: [mdxJsxToMarkdown()]}
@@ -1813,7 +1812,7 @@ test('mdast -> markdown', (t) => {
     'should escape `<` at the start of a line'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'link',
@@ -1826,13 +1825,13 @@ test('mdast -> markdown', (t) => {
     'should not serialize links as autolinks'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown({type: 'code', value: 'x'}, {extensions: [mdxJsxToMarkdown()]}),
     '```\nx\n```\n',
     'should not serialize code as indented'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1846,7 +1845,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.quote` to quote attribute values'
   )
 
-  t.throws(
+  assert.throws(
     () => {
       toMarkdown(
         {
@@ -1863,7 +1862,7 @@ test('mdast -> markdown', (t) => {
     'should crash on an unclosed text jsx (agnostic)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1877,7 +1876,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.quoteSmart`: prefer `quote` w/o quotes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1891,7 +1890,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.quoteSmart`: prefer `quote` w/ equal quotes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1905,7 +1904,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.quoteSmart`: use alternative w/ more preferred quotes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1919,7 +1918,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.quoteSmart`: use quote w/ more alternative quotes'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
       {extensions: [mdxJsxToMarkdown({tightSelfClosing: false})]}
@@ -1928,7 +1927,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.tightSelfClosing`: no space when `false`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
       {extensions: [mdxJsxToMarkdown({tightSelfClosing: true})]}
@@ -1937,7 +1936,7 @@ test('mdast -> markdown', (t) => {
     'should support `options.tightSelfClosing`: space when `true`'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1953,7 +1952,7 @@ test('mdast -> markdown', (t) => {
     '<x y="aaa" z="aa" />\n',
     'should support attributes on one line up to the given `options.printWidth`'
   )
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1969,7 +1968,7 @@ test('mdast -> markdown', (t) => {
     '<x\n  y="aaa"\n  z="aaa"\n/>\n',
     'should support attributes on separate lines up to the given `options.printWidth`'
   )
-  t.deepEqual(
+  assert.deepEqual(
     toMarkdown(
       {
         type: 'mdxJsxFlowElement',
@@ -1982,11 +1981,9 @@ test('mdast -> markdown', (t) => {
     '<x\n  {\n    ...a\n  }\n/>\n',
     'should support attributes on separate lines if they contain line endings'
   )
-
-  t.end()
 })
 
-test('roundtrip', (t) => {
+test('roundtrip', () => {
   equal('<a x="a\nb\nc" />', '<a\n  x="a\n  b\n  c"\n/>\n', 'attribute')
 
   equal(
@@ -2040,13 +2037,13 @@ test('roundtrip', (t) => {
    */
   function equal(input, output, message) {
     const intermediate1 = process(input)
-    t.equal(intermediate1, output, message + ' (#1)')
+    assert.equal(intermediate1, output, message + ' (#1)')
     const intermediate2 = process(intermediate1)
-    t.equal(intermediate2, output, message + ' (#2)')
+    assert.equal(intermediate2, output, message + ' (#2)')
     const intermediate3 = process(intermediate2)
-    t.equal(intermediate3, output, message + ' (#3)')
+    assert.equal(intermediate3, output, message + ' (#3)')
     const intermediate4 = process(intermediate3)
-    t.equal(intermediate4, output, message + ' (#4)')
+    assert.equal(intermediate4, output, message + ' (#4)')
   }
 
   /**
@@ -2061,6 +2058,4 @@ test('roundtrip', (t) => {
       {extensions: [mdxJsxToMarkdown()]}
     )
   }
-
-  t.end()
 })

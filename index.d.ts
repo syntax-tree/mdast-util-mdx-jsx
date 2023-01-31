@@ -7,6 +7,8 @@ import type {
 } from 'mdast'
 import type {Program} from 'estree-jsx'
 
+import type {Tag} from './lib/index.js'
+
 // Expose JavaScript API.
 export {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './lib/index.js'
 
@@ -76,5 +78,21 @@ declare module 'hast' {
   interface ElementContentMap {
     mdxJsxTextElement: MdxJsxTextElement
     mdxJsxFlowElement: MdxJsxFlowElement
+  }
+}
+
+// Add custom data tracked to turn markdown into a tree.
+declare module 'mdast-util-from-markdown' {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface CompileData {
+    /**
+     * Current MDX JSX tag.
+     */
+    mdxJsxTag?: Tag | undefined
+
+    /**
+     * Current stack of open MDX JSX tags.
+     */
+    mdxJsxTagStack?: Tag[] | undefined
   }
 }

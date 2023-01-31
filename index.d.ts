@@ -96,3 +96,29 @@ declare module 'mdast-util-from-markdown' {
     mdxJsxTagStack?: Tag[] | undefined
   }
 }
+
+// Add custom data tracked to turn a syntax tree into markdown.
+declare module 'mdast-util-to-markdown' {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface ConstructNameMap {
+    /**
+     * Whole JSX element, in flow.
+     *
+     * ```markdown
+     * > | <a />
+     *     ^^^^^
+     * ```
+     */
+    mdxJsxFlowElement: 'mdxJsxFlowElement'
+
+    /**
+     * Whole JSX element, in text.
+     *
+     * ```markdown
+     * > | a <b />.
+     *       ^^^^^
+     * ```
+     */
+    mdxJsxTextElement: 'mdxJsxTextElement'
+  }
+}

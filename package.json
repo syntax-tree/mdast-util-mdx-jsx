@@ -79,10 +79,7 @@
     "trailingComma": "none"
   },
   "xo": {
-    "prettier": true,
-    "rules": {
-      "@typescript-eslint/ban-types": "off"
-    }
+    "prettier": true
   },
   "remarkConfig": {
     "plugins": [

@@ -1,5 +1,5 @@
+import type {Node as MdastNode} from 'unist'
 import type {
-  Node as MdastNode,
   Parent as MdastParent,
   Literal as MdastLiteral,
   BlockContent,

@@ -8,7 +8,6 @@ import type {
 } from 'mdast'
 import type {ElementContent, Parent as HastParent} from 'hast'
 import type {Program} from 'estree-jsx'
-
 import type {Tag} from './lib/index.js'
 
 // Expose JavaScript API.

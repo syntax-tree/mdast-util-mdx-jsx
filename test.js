@@ -1987,56 +1987,94 @@ test('mdxJsxToMarkdown', () => {
       },
       {extensions: [mdxJsxToMarkdown({printWidth: 20})]}
     ),
-    '<x\n  {\n    ...a\n  }\n/>\n',
+    '<x\n  {\n  ...a\n}\n/>\n',
     'should support attributes on separate lines if they contain line endings'
   )
 })
 
 test('roundtrip', () => {
-  equal('<a x="a\nb\nc" />', '<a\n  x="a\n  b\n  c"\n/>\n', 'attribute')
+  equal('<a x="a\nb\nc" />', '<a\n  x="a\nb\nc"\n/>\n', 'attribute')
 
   equal(
     '<a>\n<b x="a\nb\nc" />\n</a>',
-    '<a>\n  <b\n    x="a\n    b\n    c"\n  />\n</a>\n',
+    '<a>\n  <b\n    x="a\nb\nc"\n  />\n</a>\n',
     'attribute in nested element'
   )
 
   equal(
     '<a>\n  <b>\n    <c x="a\nb\nc" />\n  </b>\n</a>',
-    '<a>\n  <b>\n    <c\n      x="a\n      b\n      c"\n    />\n  </b>\n</a>\n',
+    '<a>\n  <b>\n    <c\n      x="a\nb\nc"\n    />\n  </b>\n</a>\n',
     'attribute in nested elements'
   )
 
   equal(
     '<a x={`a\nb\nc`} />',
-    '<a\n  x={`a\n  b\n  c`}\n/>\n',
+    '<a\n  x={`a\nb\nc`}\n/>\n',
     'attribute expression'
   )
 
   equal(
     '<a>\n<b x={`a\nb\nc`} />\n</a>',
-    '<a>\n  <b\n    x={`a\n    b\n    c`}\n  />\n</a>\n',
+    '<a>\n  <b\n    x={`a\nb\nc`}\n  />\n</a>\n',
     'attribute expression in nested element'
   )
 
   equal(
     '<a>\n  <b>\n    <c x={`a\nb\nc`} />\n  </b>\n</a>',
-    '<a>\n  <b>\n    <c\n      x={`a\n      b\n      c`}\n    />\n  </b>\n</a>\n',
+    '<a>\n  <b>\n    <c\n      x={`a\nb\nc`}\n    />\n  </b>\n</a>\n',
     'attribute expression in nested elements'
   )
 
-  equal('<a {\n...a\n} />', '<a\n  {\n  ...a\n  }\n/>\n', 'expression')
+  equal('<a {\n...a\n} />', '<a\n  {\n...a\n}\n/>\n', 'expression')
 
   equal(
     '<a>\n<b {\n...a\n} />\n</a>',
-    '<a>\n  <b\n    {\n    ...a\n    }\n  />\n</a>\n',
+    '<a>\n  <b\n    {\n...a\n}\n  />\n</a>\n',
     'expression in nested element'
   )
 
   equal(
     '<a>\n  <b>\n    <c {\n...a\n} />\n  </b>\n</a>',
-    '<a>\n  <b>\n    <c\n      {\n      ...a\n      }\n    />\n  </b>\n</a>\n',
+    '<a>\n  <b>\n    <c\n      {\n...a\n}\n    />\n  </b>\n</a>\n',
     'expression in nested elements'
+  )
+
+  equal(
+    `<a>
+  <b>
+    <c>
+      > # d
+      - e
+      ---
+      1. f
+      ~~~js
+      g
+      ~~~
+      <h/>
+    </c>
+  </b>
+</a>`,
+    `<a>
+  <b>
+    <c>
+      > # d
+
+      *   e
+
+      ***
+
+      1.  f
+
+      \`\`\`js
+      g
+      \`\`\`
+
+      <h />
+    </c>
+  </b>
+</a>
+`,
+    'children in nested elements'
   )
 
   /**

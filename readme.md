@@ -118,7 +118,7 @@ import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'mdast-util-mdx-jsx'
 const doc = await fs.readFile('example.mdx')
 
 const tree = fromMarkdown(doc, {
-  extensions: [mdxJsx({acorn: acorn, addResult: true})],
+  extensions: [mdxJsx({acorn, addResult: true})],
   mdastExtensions: [mdxJsxFromMarkdown()]
 })
 

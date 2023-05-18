@@ -2077,6 +2077,20 @@ test('roundtrip', () => {
     'children in nested elements'
   )
 
+  equal(
+    `<video src="#">
+  Download the <a href="#">WEBM</a> or
+  <a href="#">MP4</a> video.
+</video>
+`,
+    `<video src="#">
+  Download the <a href="#">WEBM</a> or
+  <a href="#">MP4</a> video.
+</video>
+`,
+    'text children in flow elements'
+  )
+
   /**
    * @param {string} input
    * @param {string} output

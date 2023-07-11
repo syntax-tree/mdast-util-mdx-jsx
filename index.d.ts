@@ -187,7 +187,19 @@ export interface MdxJsxTextElementHast extends HastParent {
 // Add nodes to mdast content.
 declare module 'mdast' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-  interface StaticPhrasingContentMap {
+  interface RootContentMap {
+    /**
+     * MDX JSX element node, occurring in flow (block).
+     */
+    mdxJsxFlowElement: MdxJsxFlowElement
+    /**
+     * MDX JSX element node, occurring in text (phrasing).
+     */
+    mdxJsxTextElement: MdxJsxTextElement
+  }
+
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface PhrasingContentMap {
     /**
      * MDX JSX element node, occurring in text (phrasing).
      */

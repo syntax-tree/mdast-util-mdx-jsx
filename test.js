@@ -45,14 +45,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support flow jsx (agnostic)'
   )
 
+  let tree = fromMarkdown('<x>\t \n</x>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<x>\t \n</x>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -62,14 +63,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support flow jsx (agnostic) w/ just whitespace'
   )
 
+  tree = fromMarkdown('a <b/> c.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b/> c.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -91,14 +93,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support self-closing text jsx (agnostic)'
   )
 
+  tree = fromMarkdown('a <b></b> c.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b></b> c.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -120,14 +123,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support a closed text jsx (agnostic)'
   )
 
+  tree = fromMarkdown('a <b>c</b> d.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b>c</b> d.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -149,14 +153,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support text jsx (agnostic) w/ content'
   )
 
+  tree = fromMarkdown('a <b>*c*</b> d.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b>*c*</b> d.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -180,14 +185,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support text jsx (agnostic) w/ markdown content'
   )
 
+  tree = fromMarkdown('a <></> b.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <></> b.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -231,14 +237,15 @@ test('mdxJsxFromMarkdown', () => {
     'should crash on an unclosed flow jsx (agnostic)'
   )
 
+  tree = fromMarkdown('a <b {1 + 1} /> c', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b {1 + 1} /> c', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -260,14 +267,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support an attribute expression in text jsx (agnostic)'
   )
 
+  tree = fromMarkdown('a <b c={1 + 1} /> d', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b c={1 + 1} /> d', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -298,14 +306,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support an attribute value expression in text jsx (agnostic)'
   )
 
+  tree = fromMarkdown('a <b {...c} /> d', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b {...c} /> d', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -327,14 +336,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support an attribute expression in text jsx (gnostic)'
   )
 
+  tree = fromMarkdown('<a {...{b: 1, c: Infinity, d: false}} />', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<a {...{b: 1, c: Infinity, d: false}} />', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -354,18 +364,17 @@ test('mdxJsxFromMarkdown', () => {
     'should support an complex attribute expression in flow jsx (gnostic)'
   )
 
+  tree = fromMarkdown('<a {...b} />', {
+    extensions: [mdxJsx({acorn, addResult: true})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
+  tree = JSON.parse(JSON.stringify(tree))
+
   assert.deepEqual(
-    JSON.parse(
-      JSON.stringify(
-        removePosition(
-          fromMarkdown('<a {...b} />', {
-            extensions: [mdxJsx({acorn, addResult: true})],
-            mdastExtensions: [mdxJsxFromMarkdown()]
-          }),
-          true
-        )
-      )
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -444,18 +453,17 @@ test('mdxJsxFromMarkdown', () => {
     'should support an `estree` for an attribute expression in flow jsx (gnostic) w/ `addResult`'
   )
 
+  tree = fromMarkdown('<a b={1} />', {
+    extensions: [mdxJsx({acorn, addResult: true})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
+  tree = JSON.parse(JSON.stringify(tree))
+
   assert.deepEqual(
-    JSON.parse(
-      JSON.stringify(
-        removePosition(
-          fromMarkdown('<a b={1} />', {
-            extensions: [mdxJsx({acorn, addResult: true})],
-            mdastExtensions: [mdxJsxFromMarkdown()]
-          }),
-          true
-        )
-      )
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -524,7 +532,7 @@ test('mdxJsxFromMarkdown', () => {
         mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
-    /Could not parse expression with acorn: Unexpected token/,
+    /Could not parse expression with acorn/,
     'should crash on a non-spread attribute expression'
   )
 
@@ -535,7 +543,7 @@ test('mdxJsxFromMarkdown', () => {
         mdastExtensions: [mdxJsxFromMarkdown()]
       })
     },
-    /Could not parse expression with acorn: Unexpected token/,
+    /Could not parse expression with acorn/,
     'should crash on invalid JS in an attribute expression'
   )
 
@@ -550,14 +558,15 @@ test('mdxJsxFromMarkdown', () => {
     'should *not* support whitespace in the opening tag (fragment)'
   )
 
+  tree = fromMarkdown('a <b\t>c</b>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b\t>c</b>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -578,14 +587,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support whitespace in the opening tag (named)'
   )
 
+  tree = fromMarkdown('<π />', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<π />', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -595,14 +605,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support non-ascii identifier start characters'
   )
 
+  tree = fromMarkdown('<a\u200Cb />', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<a\u200Cb />', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -612,14 +623,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support non-ascii identifier continuation characters'
   )
 
+  tree = fromMarkdown('<abc . def.ghi />', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<abc . def.ghi />', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -634,14 +646,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support dots in names for method names'
   )
 
+  tree = fromMarkdown('<svg: rect>b</  svg :rect>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<svg: rect>b</  svg :rect>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -661,14 +674,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support colons in names for local names'
   )
 
+  tree = fromMarkdown('a <b c     d="d"\t\tefg=\'h\'>i</b>.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b c     d="d"\t\tefg=\'h\'>i</b>.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -694,14 +708,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support attributes'
   )
 
+  tree = fromMarkdown('<a xml :\tlang\n= "de-CH" foo:bar/>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<a xml :\tlang\n= "de-CH" foo:bar/>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -719,14 +734,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support prefixed attributes'
   )
 
+  tree = fromMarkdown('<b a b : c d : e = "f" g/>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<b a b : c d : e = "f" g/>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -746,14 +762,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support prefixed and normal attributes'
   )
 
+  tree = fromMarkdown('a <>`<`</> c', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <>`<`</> c', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -775,14 +792,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support code (text) in jsx (text)'
   )
 
+  tree = fromMarkdown('<>\n```js\n<\n```\n</>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<>\n```js\n<\n```\n</>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -932,14 +950,15 @@ test('mdxJsxFromMarkdown', () => {
     'should crash on a closing tag w/ attributes'
   )
 
+  tree = fromMarkdown('a <b>c <>d</> e</b>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('a <b>c <>d</> e</b>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -969,14 +988,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support nested jsx (text)'
   )
 
+  tree = fromMarkdown('<a> <>\nb\n</>\n</a>', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<a> <>\nb\n</>\n</a>', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1000,17 +1020,18 @@ test('mdxJsxFromMarkdown', () => {
     'should support nested jsx (flow)'
   )
 
+  tree = fromMarkdown(
+    '<x y="Character references can be used: &quot;, &apos;, &lt;, &gt;, &#x7B;, and &#x7D;, they can be named, decimal, or hexadecimal: &copy; &#8800; &#x1D306;" />',
+    {
+      extensions: [mdxJsx()],
+      mdastExtensions: [mdxJsxFromMarkdown()]
+    }
+  )
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown(
-        '<x y="Character references can be used: &quot;, &apos;, &lt;, &gt;, &#x7B;, and &#x7D;, they can be named, decimal, or hexadecimal: &copy; &#8800; &#x1D306;" />',
-        {
-          extensions: [mdxJsx()],
-          mdastExtensions: [mdxJsxFromMarkdown()]
-        }
-      ),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1032,14 +1053,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support character references in attribute values'
   )
 
+  tree = fromMarkdown('<x />.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<x />.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1060,14 +1082,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support as text if the tag is not the last thing'
   )
 
+  tree = fromMarkdown('.<x />', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('.<x />', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1130,14 +1153,15 @@ test('mdxJsxFromMarkdown', () => {
     'should crash when misnesting w/ attention (emphasis)'
   )
 
+  tree = fromMarkdown('> a <b>\n> c </b> d.', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('> a <b>\n> c </b> d.', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1164,14 +1188,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support line endings in elements'
   )
 
+  tree = fromMarkdown('> a <b c="d\n> e" /> f', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('> a <b c="d\n> e" /> f', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1200,14 +1225,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support line endings in attribute values'
   )
 
+  tree = fromMarkdown('> a <b c={d\n> e} /> f', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('> a <b c={d\n> e} /> f', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1243,14 +1269,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support line endings in attribute value expressions'
   )
 
+  tree = fromMarkdown('> a <b {c\n> d} /> e', {
+    extensions: [mdxJsx()],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('> a <b {c\n> d} /> e', {
-        extensions: [mdxJsx()],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1279,14 +1306,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support line endings in attribute expressions'
   )
 
+  tree = fromMarkdown('> a <b {...[1,\n> 2]} /> c', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('> a <b {...[1,\n> 2]} /> c', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1315,14 +1343,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support line endings in attribute expressions (gnostic)'
   )
 
+  tree = fromMarkdown('<a>\n> b\nc\n> d\n</a>', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<a>\n> b\nc\n> d\n</a>', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1347,14 +1376,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support block quotes in flow'
   )
 
+  tree = fromMarkdown('<a>\n- b\nc\n- d\n</a>', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<a>\n- b\nc\n- d\n</a>', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1397,14 +1427,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support lists in flow'
   )
 
+  tree = fromMarkdown('> a\n- b\nc\n- d', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('> a\n- b\nc\n- d', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1443,14 +1474,15 @@ test('mdxJsxFromMarkdown', () => {
     'should support normal markdown w/o jsx'
   )
 
+  tree = fromMarkdown('<x><y>\n\nz\n\n</y></x>', {
+    extensions: [mdxJsx({acorn})],
+    mdastExtensions: [mdxJsxFromMarkdown()]
+  })
+
+  removePosition(tree, {force: true})
+
   assert.deepEqual(
-    removePosition(
-      fromMarkdown('<x><y>\n\nz\n\n</y></x>', {
-        extensions: [mdxJsx({acorn})],
-        mdastExtensions: [mdxJsxFromMarkdown()]
-      }),
-      true
-    ),
+    tree,
     {
       type: 'root',
       children: [
@@ -1799,7 +1831,7 @@ test('mdxJsxToMarkdown', () => {
       },
       {extensions: [mdxJsxToMarkdown()]}
     ),
-    '<x>\n  > a\n\n  *   b\n      c\n\n  *   d\n</x>\n',
+    '<x>\n  > a\n\n  * b\n    c\n\n  * d\n</x>\n',
     'should serialize flow in flow jsx'
   )
 
@@ -2059,11 +2091,11 @@ test('roundtrip', () => {
     <c>
       > # d
 
-      *   e
+      * e
 
       ***
 
-      1.  f
+      1. f
 
       \`\`\`js
       g
@@ -2113,7 +2145,7 @@ test('roundtrip', () => {
   function process(input) {
     return toMarkdown(
       fromMarkdown(input, {
-        extensions: [mdxMd, mdxJsx()],
+        extensions: [mdxMd(), mdxJsx()],
         mdastExtensions: [mdxJsxFromMarkdown()]
       }),
       {extensions: [mdxJsxToMarkdown()]}

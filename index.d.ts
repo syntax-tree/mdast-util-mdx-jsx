@@ -25,7 +25,6 @@ export type {ToMarkdownOptions} from './lib/index.js'
  *          ^^^
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxAttributeValueExpression extends MdastLiteral {
   /**
    * Node type.
@@ -35,7 +34,6 @@ export interface MdxJsxAttributeValueExpression extends MdastLiteral {
     /**
      * Program node from estree.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
     estree?: Program | null | undefined
   } & MdastLiteral['data']
 }
@@ -48,7 +46,6 @@ export interface MdxJsxAttributeValueExpression extends MdastLiteral {
  *        ^^^^^^
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxExpressionAttribute extends MdastLiteral {
   /**
    * Node type.
@@ -58,7 +55,6 @@ export interface MdxJsxExpressionAttribute extends MdastLiteral {
     /**
      * Program node from estree.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
     estree?: Program | null | undefined
   } & MdastLiteral['data']
 }
@@ -71,7 +67,6 @@ export interface MdxJsxExpressionAttribute extends MdastLiteral {
  *        ^^^^^
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxAttribute extends MdastNode {
   /**
    * Node type.
@@ -84,14 +79,12 @@ export interface MdxJsxAttribute extends MdastNode {
   /**
    * Attribute value.
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   value?: MdxJsxAttributeValueExpression | string | null | undefined
 }
 
 /**
  * MDX JSX element node, occurring in flow (block).
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxFlowElement extends MdastParent {
   /**
    * Node type.
@@ -100,7 +93,6 @@ export interface MdxJsxFlowElement extends MdastParent {
   /**
    * MDX JSX element name (`null` for fragments).
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   name: string | null
   /**
    * MDX JSX element attributes.
@@ -115,7 +107,6 @@ export interface MdxJsxFlowElement extends MdastParent {
 /**
  * MDX JSX element node, occurring in text (phrasing).
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxTextElement extends MdastParent {
   /**
    * Node type.
@@ -124,7 +115,6 @@ export interface MdxJsxTextElement extends MdastParent {
   /**
    * MDX JSX element name (`null` for fragments).
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   name: string | null
   /**
    * MDX JSX element attributes.
@@ -139,7 +129,6 @@ export interface MdxJsxTextElement extends MdastParent {
 /**
  * MDX JSX element node, occurring in flow (block), for hast.
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxFlowElementHast extends HastParent {
   /**
    * Node type.
@@ -148,7 +137,6 @@ export interface MdxJsxFlowElementHast extends HastParent {
   /**
    * MDX JSX element name (`null` for fragments).
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   name: string | null
   /**
    * MDX JSX element attributes.
@@ -163,7 +151,6 @@ export interface MdxJsxFlowElementHast extends HastParent {
 /**
  * MDX JSX element node, occurring in text (phrasing), for hast.
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface MdxJsxTextElementHast extends HastParent {
   /**
    * Node type.
@@ -172,7 +159,6 @@ export interface MdxJsxTextElementHast extends HastParent {
   /**
    * MDX JSX element name (`null` for fragments).
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
   name: string | null
   /**
    * MDX JSX element attributes.
@@ -186,7 +172,6 @@ export interface MdxJsxTextElementHast extends HastParent {
 
 // Add nodes to mdast content.
 declare module 'mdast' {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface RootContentMap {
     /**
      * MDX JSX element node, occurring in flow (block).
@@ -198,7 +183,6 @@ declare module 'mdast' {
     mdxJsxTextElement: MdxJsxTextElement
   }
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface PhrasingContentMap {
     /**
      * MDX JSX element node, occurring in text (phrasing).
@@ -206,7 +190,6 @@ declare module 'mdast' {
     mdxJsxTextElement: MdxJsxTextElement
   }
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface BlockContentMap {
     /**
      * MDX JSX element node, occurring in flow (block).
@@ -217,7 +200,6 @@ declare module 'mdast' {
 
 // Add nodes to hast content.
 declare module 'hast' {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface RootContentMap {
     /**
      * MDX JSX element node, occurring in text (phrasing).
@@ -229,7 +211,6 @@ declare module 'hast' {
     mdxJsxFlowElement: MdxJsxFlowElementHast
   }
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface ElementContentMap {
     /**
      * MDX JSX element node, occurring in text (phrasing).
@@ -244,7 +225,6 @@ declare module 'hast' {
 
 // Add custom data tracked to turn markdown into a tree.
 declare module 'mdast-util-from-markdown' {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface CompileData {
     /**
      * Current MDX JSX tag.
@@ -260,7 +240,6 @@ declare module 'mdast-util-from-markdown' {
 
 // Add custom data tracked to turn a syntax tree into markdown.
 declare module 'mdast-util-to-markdown' {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface ConstructNameMap {
     /**
      * Whole JSX element, in flow.

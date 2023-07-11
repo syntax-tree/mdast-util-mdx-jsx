@@ -41,6 +41,7 @@
     "@types/mdast": "^4.0.0",
     "@types/unist": "^3.0.0",
     "ccount": "^2.0.0",
+    "devlop": "^1.1.0",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-to-markdown": "^2.0.0",
     "parse-entities": "^4.0.0",
@@ -90,6 +91,17 @@
     "strict": true
   },
   "xo": {
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts"
+        ],
+        "rules": {
+          "@typescript-eslint/ban-types": "off",
+          "@typescript-eslint/consistent-type-definitions": "off"
+        }
+      }
+    ],
     "prettier": true
   }
 }

@@ -71,7 +71,7 @@ internals away.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install mdast-util-mdx-jsx
@@ -110,10 +110,10 @@ Say our document `example.mdx` contains:
 ```js
 import fs from 'node:fs/promises'
 import * as acorn from 'acorn'
-import {fromMarkdown} from 'mdast-util-from-markdown'
-import {toMarkdown} from 'mdast-util-to-markdown'
 import {mdxJsx} from 'micromark-extension-mdx-jsx'
+import {fromMarkdown} from 'mdast-util-from-markdown'
 import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'mdast-util-mdx-jsx'
+import {toMarkdown} from 'mdast-util-to-markdown'
 
 const doc = await fs.readFile('example.mdx')
 
@@ -424,7 +424,7 @@ The following interfaces are added to **[mdast][]** by this utility.
 
 ```idl
 interface MdxJsxFlowElement <: Parent {
-  type: "mdxJsxFlowElement"
+  type: 'mdxJsxFlowElement'
 }
 
 MdxJsxFlowElement includes MdxJsxElement
@@ -457,7 +457,7 @@ Yields:
 
 ```idl
 interface MdxJsxTextElement <: Parent {
-  type: "mdxJsxTextElement"
+  type: 'mdxJsxTextElement'
 }
 
 MdxJsxTextElement includes MdxJsxElement
@@ -497,17 +497,17 @@ interface mixin MdxJsxElement {
 }
 
 interface MdxJsxExpressionAttribute <: Literal {
-  type: "mdxJsxExpressionAttribute"
+  type: 'mdxJsxExpressionAttribute'
 }
 
 interface MdxJsxAttribute <: Node {
-  type: "mdxJsxAttribute"
+  type: 'mdxJsxAttribute'
   name: string
   value: MdxJsxAttributeValueExpression | string?
 }
 
 interface MdxJsxAttributeValueExpression <: Literal {
-  type: "mdxJsxAttributeValueExpression"
+  type: 'mdxJsxAttributeValueExpression'
 }
 ```
 
@@ -577,12 +577,15 @@ visit(tree, function (node) {
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
 
-This plugin works with `mdast-util-from-markdown` version 1+ and
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `mdast-util-mdx-jsx@^2`,
+compatible with Node.js 12.
+
+This utility works with `mdast-util-from-markdown` version 1+ and
 `mdast-util-to-markdown` version 1+.
 
 ## Related
@@ -620,9 +623,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/mdast-util-mdx-jsx
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/mdast-util-mdx-jsx.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=mdast-util-mdx-jsx
 
-[size]: https://bundlephobia.com/result?p=mdast-util-mdx-jsx
+[size]: https://bundlejs.com/?q=mdast-util-mdx-jsx
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 

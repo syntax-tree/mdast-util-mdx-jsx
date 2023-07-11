@@ -4,13 +4,13 @@ import * as acorn from 'acorn'
 import {mdxJsx} from 'micromark-extension-mdx-jsx'
 import {mdxMd} from 'micromark-extension-mdx-md'
 import {fromMarkdown} from 'mdast-util-from-markdown'
+import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'mdast-util-mdx-jsx'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {removePosition} from 'unist-util-remove-position'
-import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from './index.js'
 
 test('core', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('mdast-util-mdx-jsx')).sort(), [
       'mdxJsxFromMarkdown',
       'mdxJsxToMarkdown'
     ])

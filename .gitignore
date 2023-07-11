@@ -4,5 +4,4 @@ node_modules/
 *.log
 .DS_Store
 yarn.lock
-!/complex-types.d.ts
 !/index.d.ts

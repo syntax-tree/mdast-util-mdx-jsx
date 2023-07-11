@@ -1,13 +1,15 @@
-import type {Node as MdastNode} from 'unist'
+import type {Program} from 'estree-jsx'
+import type {Data as HastData, ElementContent, Parent as HastParent} from 'hast'
 import type {
-  Parent as MdastParent,
-  Literal as MdastLiteral,
   BlockContent,
+  Data as MdastData,
   DefinitionContent,
+  Literal as MdastLiteral,
+  Node as MdastNode,
+  Parent as MdastParent,
   PhrasingContent
 } from 'mdast'
-import type {ElementContent, Parent as HastParent} from 'hast'
-import type {Program} from 'estree-jsx'
+import type {Data, Node} from 'unist'
 import type {Tag} from './lib/index.js'
 
 // Expose JavaScript API.
@@ -25,17 +27,32 @@ export type {ToMarkdownOptions} from './lib/index.js'
  *          ^^^
  * ```
  */
-export interface MdxJsxAttributeValueExpression extends MdastLiteral {
+export interface MdxJsxAttributeValueExpression extends Node {
   /**
    * Node type.
    */
   type: 'mdxJsxAttributeValueExpression'
-  data?: {
-    /**
-     * Program node from estree.
-     */
-    estree?: Program | null | undefined
-  } & MdastLiteral['data']
+
+  /**
+   * Value.
+   */
+  value: string
+
+  /**
+   * Data associated with the mdast MDX JSX attribute value expression.
+   */
+  data?: MdxJsxAttributeValueExpressionData | undefined
+}
+
+/**
+ * Info associated with mdast MDX JSX attribute value expression nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxAttributeValueExpressionData extends Data {
+  /**
+   * Program node from estree.
+   */
+  estree?: Program | null | undefined
 }
 
 /**
@@ -46,17 +63,32 @@ export interface MdxJsxAttributeValueExpression extends MdastLiteral {
  *        ^^^^^^
  * ```
  */
-export interface MdxJsxExpressionAttribute extends MdastLiteral {
+export interface MdxJsxExpressionAttribute extends Node {
   /**
    * Node type.
    */
   type: 'mdxJsxExpressionAttribute'
-  data?: {
-    /**
-     * Program node from estree.
-     */
-    estree?: Program | null | undefined
-  } & MdastLiteral['data']
+
+  /**
+   * Value.
+   */
+  value: string
+
+  /**
+   * Data associated with the mdast MDX JSX expression attributes.
+   */
+  data?: MdxJsxExpressionAttributeData | undefined
+}
+
+/**
+ * Info associated with mdast MDX JSX expression attribute nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxExpressionAttributeData extends Data {
+  /**
+   * Program node from estree.
+   */
+  estree?: Program | null | undefined
 }
 
 /**
@@ -67,7 +99,7 @@ export interface MdxJsxExpressionAttribute extends MdastLiteral {
  *        ^^^^^
  * ```
  */
-export interface MdxJsxAttribute extends MdastNode {
+export interface MdxJsxAttribute extends Node {
   /**
    * Node type.
    */
@@ -80,7 +112,17 @@ export interface MdxJsxAttribute extends MdastNode {
    * Attribute value.
    */
   value?: MdxJsxAttributeValueExpression | string | null | undefined
+  /**
+   * Data associated with the mdast MDX JSX attribute.
+   */
+  data?: MdxJsxAttributeData | undefined
 }
+
+/**
+ * Info associated with mdast MDX JSX attribute nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxAttributeData extends Data {}
 
 /**
  * MDX JSX element node, occurring in flow (block).
@@ -102,7 +144,17 @@ export interface MdxJsxFlowElement extends MdastParent {
    * Content.
    */
   children: Array<BlockContent | DefinitionContent>
+  /**
+   * Data associated with the mdast MDX JSX elements (flow).
+   */
+  data?: MdxJsxFlowElementData | undefined
 }
+
+/**
+ * Info associated with mdast MDX JSX element (flow) nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxFlowElementData extends MdastData {}
 
 /**
  * MDX JSX element node, occurring in text (phrasing).
@@ -124,7 +176,17 @@ export interface MdxJsxTextElement extends MdastParent {
    * Content.
    */
   children: PhrasingContent[]
+  /**
+   * Data associated with the mdast MDX JSX elements (text).
+   */
+  data?: MdxJsxTextElementData | undefined
 }
+
+/**
+ * Info associated with mdast MDX JSX element (text) nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxTextElementData extends MdastData {}
 
 /**
  * MDX JSX element node, occurring in flow (block), for hast.
@@ -146,7 +208,17 @@ export interface MdxJsxFlowElementHast extends HastParent {
    * Content.
    */
   children: ElementContent[]
+  /**
+   * Data associated with the hast MDX JSX elements (flow).
+   */
+  data?: MdxJsxFlowElementHastData | undefined
 }
+
+/**
+ * Info associated with hast MDX JSX element (flow) nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxFlowElementHastData extends HastData {}
 
 /**
  * MDX JSX element node, occurring in text (phrasing), for hast.
@@ -168,19 +240,25 @@ export interface MdxJsxTextElementHast extends HastParent {
    * Content.
    */
   children: ElementContent[]
+  /**
+   * Data associated with the hast MDX JSX elements (text).
+   */
+  data?: MdxJsxTextElementHastData | undefined
 }
+
+/**
+ * Info associated with hast MDX JSX element (text) nodes by the
+ * ecosystem.
+ */
+export interface MdxJsxTextElementHastData extends HastData {}
 
 // Add nodes to mdast content.
 declare module 'mdast' {
-  interface RootContentMap {
+  interface BlockContentMap {
     /**
      * MDX JSX element node, occurring in flow (block).
      */
     mdxJsxFlowElement: MdxJsxFlowElement
-    /**
-     * MDX JSX element node, occurring in text (phrasing).
-     */
-    mdxJsxTextElement: MdxJsxTextElement
   }
 
   interface PhrasingContentMap {
@@ -190,17 +268,21 @@ declare module 'mdast' {
     mdxJsxTextElement: MdxJsxTextElement
   }
 
-  interface BlockContentMap {
+  interface RootContentMap {
     /**
      * MDX JSX element node, occurring in flow (block).
      */
     mdxJsxFlowElement: MdxJsxFlowElement
+    /**
+     * MDX JSX element node, occurring in text (phrasing).
+     */
+    mdxJsxTextElement: MdxJsxTextElement
   }
 }
 
 // Add nodes to hast content.
 declare module 'hast' {
-  interface RootContentMap {
+  interface ElementContentMap {
     /**
      * MDX JSX element node, occurring in text (phrasing).
      */
@@ -211,7 +293,7 @@ declare module 'hast' {
     mdxJsxFlowElement: MdxJsxFlowElementHast
   }
 
-  interface ElementContentMap {
+  interface RootContentMap {
     /**
      * MDX JSX element node, occurring in text (phrasing).
      */

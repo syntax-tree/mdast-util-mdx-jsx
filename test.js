@@ -303,6 +303,18 @@ test('mdxJsxFromMarkdown', async function (t) {
                   {
                     type: 'mdxJsxAttribute',
                     name: 'c',
+                    position: {
+                      end: {
+                        column: 15,
+                        line: 1,
+                        offset: 14
+                      },
+                      start: {
+                        column: 6,
+                        line: 1,
+                        offset: 5
+                      }
+                    },
                     value: {
                       type: 'mdxJsxAttributeValueExpression',
                       value: '1 + 1'
@@ -493,6 +505,18 @@ test('mdxJsxFromMarkdown', async function (t) {
               {
                 type: 'mdxJsxAttribute',
                 name: 'b',
+                position: {
+                  end: {
+                    column: 9,
+                    line: 1,
+                    offset: 8
+                  },
+                  start: {
+                    column: 4,
+                    line: 1,
+                    offset: 3
+                  }
+                },
                 value: {
                   type: 'mdxJsxAttributeValueExpression',
                   value: '1',
@@ -715,18 +739,77 @@ test('mdxJsxFromMarkdown', async function (t) {
         {
           type: 'paragraph',
           children: [
-            {type: 'text', value: 'a '},
+            {
+              type: 'text',
+              value: 'a '
+            },
             {
               type: 'mdxJsxTextElement',
               name: 'b',
               attributes: [
-                {type: 'mdxJsxAttribute', name: 'c', value: null},
-                {type: 'mdxJsxAttribute', name: 'd', value: 'd'},
-                {type: 'mdxJsxAttribute', name: 'efg', value: 'h'}
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'c',
+                  value: null,
+                  position: {
+                    start: {
+                      line: 1,
+                      column: 6,
+                      offset: 5
+                    },
+                    end: {
+                      line: 1,
+                      column: 7,
+                      offset: 6
+                    }
+                  }
+                },
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'd',
+                  value: 'd',
+                  position: {
+                    start: {
+                      line: 1,
+                      column: 12,
+                      offset: 11
+                    },
+                    end: {
+                      line: 1,
+                      column: 17,
+                      offset: 16
+                    }
+                  }
+                },
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'efg',
+                  value: 'h',
+                  position: {
+                    start: {
+                      line: 1,
+                      column: 19,
+                      offset: 18
+                    },
+                    end: {
+                      line: 1,
+                      column: 26,
+                      offset: 25
+                    }
+                  }
+                }
               ],
-              children: [{type: 'text', value: 'i'}]
+              children: [
+                {
+                  type: 'text',
+                  value: 'i'
+                }
+              ]
             },
-            {type: 'text', value: '.'}
+            {
+              type: 'text',
+              value: '.'
+            }
           ]
         }
       ]
@@ -748,8 +831,40 @@ test('mdxJsxFromMarkdown', async function (t) {
           type: 'mdxJsxFlowElement',
           name: 'a',
           attributes: [
-            {type: 'mdxJsxAttribute', name: 'xml:lang', value: 'de-CH'},
-            {type: 'mdxJsxAttribute', name: 'foo:bar', value: null}
+            {
+              type: 'mdxJsxAttribute',
+              name: 'xml:lang',
+              position: {
+                end: {
+                  column: 10,
+                  line: 2,
+                  offset: 23
+                },
+                start: {
+                  column: 4,
+                  line: 1,
+                  offset: 3
+                }
+              },
+              value: 'de-CH'
+            },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'foo:bar',
+              position: {
+                end: {
+                  column: 18,
+                  line: 2,
+                  offset: 31
+                },
+                start: {
+                  column: 11,
+                  line: 2,
+                  offset: 24
+                }
+              },
+              value: null
+            }
           ],
           children: []
         }
@@ -767,6 +882,7 @@ test('mdxJsxFromMarkdown', async function (t) {
 
       removePosition(tree, {force: true})
 
+      // @todo check it, includes spaces at end of tags
       assert.deepEqual(tree, {
         type: 'root',
         children: [
@@ -774,10 +890,74 @@ test('mdxJsxFromMarkdown', async function (t) {
             type: 'mdxJsxFlowElement',
             name: 'b',
             attributes: [
-              {type: 'mdxJsxAttribute', name: 'a', value: null},
-              {type: 'mdxJsxAttribute', name: 'b:c', value: null},
-              {type: 'mdxJsxAttribute', name: 'd:e', value: 'f'},
-              {type: 'mdxJsxAttribute', name: 'g', value: null}
+              {
+                type: 'mdxJsxAttribute',
+                name: 'a',
+                value: null,
+                position: {
+                  start: {
+                    line: 1,
+                    column: 4,
+                    offset: 3
+                  },
+                  end: {
+                    line: 1,
+                    column: 5,
+                    offset: 4
+                  }
+                }
+              },
+              {
+                type: 'mdxJsxAttribute',
+                name: 'b:c',
+                value: null,
+                position: {
+                  start: {
+                    line: 1,
+                    column: 6,
+                    offset: 5
+                  },
+                  end: {
+                    line: 1,
+                    column: 11,
+                    offset: 10
+                  }
+                }
+              },
+              {
+                type: 'mdxJsxAttribute',
+                name: 'd:e',
+                value: 'f',
+                position: {
+                  start: {
+                    line: 1,
+                    column: 12,
+                    offset: 11
+                  },
+                  end: {
+                    line: 1,
+                    column: 23,
+                    offset: 22
+                  }
+                }
+              },
+              {
+                type: 'mdxJsxAttribute',
+                name: 'g',
+                value: null,
+                position: {
+                  start: {
+                    line: 1,
+                    column: 24,
+                    offset: 23
+                  },
+                  end: {
+                    line: 1,
+                    column: 25,
+                    offset: 24
+                  }
+                }
+              }
             ],
             children: []
           }
@@ -1050,6 +1230,18 @@ test('mdxJsxFromMarkdown', async function (t) {
               {
                 type: 'mdxJsxAttribute',
                 name: 'y',
+                position: {
+                  end: {
+                    column: 158,
+                    line: 1,
+                    offset: 157
+                  },
+                  start: {
+                    column: 4,
+                    line: 1,
+                    offset: 3
+                  }
+                },
                 value:
                   'Character references can be used: ", \', <, >, {, and }, they can be named, decimal, or hexadecimal: © ≠ 𝌆'
               }
@@ -1238,7 +1430,23 @@ test('mdxJsxFromMarkdown', async function (t) {
                     type: 'mdxJsxTextElement',
                     name: 'b',
                     attributes: [
-                      {type: 'mdxJsxAttribute', name: 'c', value: 'd\ne'}
+                      {
+                        type: 'mdxJsxAttribute',
+                        name: 'c',
+                        position: {
+                          end: {
+                            column: 5,
+                            line: 2,
+                            offset: 16
+                          },
+                          start: {
+                            column: 8,
+                            line: 1,
+                            offset: 7
+                          }
+                        },
+                        value: 'd\ne'
+                      }
                     ],
                     children: []
                   },
@@ -1279,6 +1487,18 @@ test('mdxJsxFromMarkdown', async function (t) {
                       {
                         type: 'mdxJsxAttribute',
                         name: 'c',
+                        position: {
+                          end: {
+                            column: 5,
+                            line: 2,
+                            offset: 16
+                          },
+                          start: {
+                            column: 8,
+                            line: 1,
+                            offset: 7
+                          }
+                        },
                         value: {
                           type: 'mdxJsxAttributeValueExpression',
                           value: 'd\ne'

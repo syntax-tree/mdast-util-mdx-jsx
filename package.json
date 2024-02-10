@@ -52,7 +52,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "acorn": "^8.0.0",
-    "c8": "^8.0.0",
+    "c8": "^9.0.0",
     "micromark-extension-mdx-jsx": "^3.0.0",
     "micromark-extension-mdx-md": "^2.0.0",
     "prettier": "^3.0.0",
@@ -60,7 +60,7 @@
     "remark-preset-wooorm": "^9.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^5.0.0",
-    "xo": "^0.56.0"
+    "xo": "^0.57.0"
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
@@ -105,6 +105,7 @@
     ],
     "prettier": true,
     "rules": {
+      "logical-assignment-operators": "off",
       "unicorn/prefer-at": "off"
     }
   }

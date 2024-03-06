@@ -247,6 +247,18 @@ test('mdxJsxFromMarkdown', async function (t) {
   )
 
   await t.test(
+    'should crash on unclosed jsx after closed jsx',
+    async function () {
+      assert.throws(function () {
+        fromMarkdown('<a><b></b>', {
+          extensions: [mdxJsx()],
+          mdastExtensions: [mdxJsxFromMarkdown()]
+        })
+      }, /Expected a closing tag for `<a>` \(1:1-1:4\)/)
+    }
+  )
+
+  await t.test(
     'should support an attribute expression in text jsx (agnostic)',
     async function () {
       const tree = fromMarkdown('a <b {1 + 1} /> c', {

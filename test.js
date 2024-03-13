@@ -2549,6 +2549,40 @@ test('roundtrip', async function (t) {
       )
     }
   )
+
+  await t.test('should roundtrip `nested JSXs and lists`', async function () {
+    const source = `<JSX>
+  * list item
+
+    <JSX>
+      * list item
+
+        <JSX>
+          <JSX>
+            * list item
+
+              * list item
+
+                <JSX>
+                  content
+                </JSX>
+
+              <JSX>
+                content
+              </JSX>
+          </JSX>
+        </JSX>
+    </JSX>
+
+  <JSX>
+    <JSX>
+      content
+    </JSX>
+  </JSX>
+</JSX>
+`
+    equal(source, source)
+  })
 })
 
 /**

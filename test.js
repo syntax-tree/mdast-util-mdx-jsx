@@ -2551,35 +2551,35 @@ test('roundtrip', async function (t) {
   )
 
   await t.test('should roundtrip `nested JSXs and lists`', async function () {
-    const source = `<JSX>
-  * list item
+    const source = `<x>
+  * Alpha
 
-    <JSX>
-      * list item
+    <y>
+      * Bravo
 
-        <JSX>
-          <JSX>
-            * list item
+        <z>
+          <a>
+            * Charlie
 
-              * list item
+              * Delta
 
-                <JSX>
-                  content
-                </JSX>
+                <b>
+                  Echo
+                </b>
 
-              <JSX>
-                content
-              </JSX>
-          </JSX>
-        </JSX>
-    </JSX>
+              <b>
+                Foxtrot
+              </b>
+          </a>
+        </z>
+    </y>
 
-  <JSX>
-    <JSX>
-      content
-    </JSX>
-  </JSX>
-</JSX>
+  <y>
+    <z>
+      Golf
+    </z>
+  </y>
+</x>
 `
     equal(source, source)
   })

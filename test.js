@@ -2550,7 +2550,7 @@ test('roundtrip', async function (t) {
     }
   )
 
-  await t.test('should roundtrip `nested JSXs and lists`', async function () {
+  await t.test('should roundtrip `nested JSX and lists`', async function () {
     const source = `<x>
   * Alpha
 
@@ -2583,6 +2583,43 @@ test('roundtrip', async function (t) {
 `
     equal(source, source)
   })
+
+  await t.test(
+    'should roundtrip `nested JSX and block quotes`',
+    async function () {
+      const source = `<x>
+  > Alpha
+  >
+  > <y>
+  >   > Bravo
+  >   >
+  >   > <z>
+  >   >   <a>
+  >   >     > Charlie
+  >   >     >
+  >   >     > > Delta
+  >   >     > >
+  >   >     > > <b>
+  >   >     > >   Echo
+  >   >     > > </b>
+  >   >     >
+  >   >     > <b>
+  >   >     >   Foxtrot
+  >   >     > </b>
+  >   >   </a>
+  >   > </z>
+  > </y>
+
+  <y>
+    <z>
+      Golf
+    </z>
+  </y>
+</x>
+`
+      equal(source, source)
+    }
+  )
 })
 
 /**

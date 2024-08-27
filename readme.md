@@ -12,32 +12,32 @@
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When to use this](#when-to-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`mdxJsxFromMarkdown()`](#mdxjsxfrommarkdown)
-    *   [`mdxJsxToMarkdown(options?)`](#mdxjsxtomarkdownoptions)
-    *   [`MdxJsxAttribute`](#mdxjsxattribute)
-    *   [`MdxJsxAttributeValueExpression`](#mdxjsxattributevalueexpression)
-    *   [`MdxJsxExpressionAttribute`](#mdxjsxexpressionattribute)
-    *   [`MdxJsxFlowElement`](#mdxjsxflowelement)
-    *   [`MdxJsxFlowElementHast`](#mdxjsxflowelementhast)
-    *   [`MdxJsxTextElement`](#mdxjsxtextelement)
-    *   [`MdxJsxTextElementHast`](#mdxjsxtextelementhast)
-    *   [`ToMarkdownOptions`](#tomarkdownoptions)
-*   [HTML](#html)
-*   [Syntax](#syntax)
-*   [Syntax tree](#syntax-tree)
-    *   [Nodes](#nodes)
-    *   [Mixin](#mixin)
-    *   [Content model](#content-model)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When to use this](#when-to-use-this)
+* [Install](#install)
+* [Use](#use)
+* [API](#api)
+  * [`mdxJsxFromMarkdown()`](#mdxjsxfrommarkdown)
+  * [`mdxJsxToMarkdown(options?)`](#mdxjsxtomarkdownoptions)
+  * [`MdxJsxAttribute`](#mdxjsxattribute)
+  * [`MdxJsxAttributeValueExpression`](#mdxjsxattributevalueexpression)
+  * [`MdxJsxExpressionAttribute`](#mdxjsxexpressionattribute)
+  * [`MdxJsxFlowElement`](#mdxjsxflowelement)
+  * [`MdxJsxFlowElementHast`](#mdxjsxflowelementhast)
+  * [`MdxJsxTextElement`](#mdxjsxtextelement)
+  * [`MdxJsxTextElementHast`](#mdxjsxtextelementhast)
+  * [`ToMarkdownOptions`](#tomarkdownoptions)
+* [HTML](#html)
+* [Syntax](#syntax)
+* [Syntax tree](#syntax-tree)
+  * [Nodes](#nodes)
+  * [Mixin](#mixin)
+  * [Content model](#content-model)
+* [Types](#types)
+* [Compatibility](#compatibility)
+* [Related](#related)
+* [Contribute](#contribute)
+* [License](#license)
 
 ## What is this?
 
@@ -256,8 +256,8 @@ overwrite them!
 
 ###### Parameters
 
-*   `options` ([`ToMarkdownOptions`][api-to-markdown-options])
-    — configuration
+* `options` ([`ToMarkdownOptions`][api-to-markdown-options])
+  — configuration
 
 ###### Returns
 
@@ -388,19 +388,19 @@ Configuration (TypeScript type).
 
 ##### Fields
 
-*   `quote` (`'"'` or `"'"`, default: `'"'`)
-    — preferred quote to use around attribute values
-*   `quoteSmart` (`boolean`, default: `false`)
-    — use the other quote if that results in less bytes
-*   `tightSelfClosing` (`boolean`, default: `false`)
-    — do not use an extra space when closing self-closing elements: `<img/>`
-    instead of `<img />`
-*   `printWidth` (`number`, default: `Infinity`)
-    — try and wrap syntax at this width.
-    When set to a finite number (say, `80`), the formatter will print
-    attributes on separate lines when a tag doesn’t fit on one line.
-    The normal behavior is to print attributes with spaces between them instead
-    of line endings
+* `quote` (`'"'` or `"'"`, default: `'"'`)
+  — preferred quote to use around attribute values
+* `quoteSmart` (`boolean`, default: `false`)
+  — use the other quote if that results in less bytes
+* `tightSelfClosing` (`boolean`, default: `false`)
+  — do not use an extra space when closing self-closing elements: `<img/>`
+  instead of `<img />`
+* `printWidth` (`number`, default: `Infinity`)
+  — try and wrap syntax at this width.
+  When set to a finite number (say, `80`), the formatter will print
+  attributes on separate lines when a tag doesn’t fit on one line.
+  The normal behavior is to print attributes with spaces between them instead
+  of line endings
 
 ## HTML
 
@@ -590,12 +590,12 @@ This utility works with `mdast-util-from-markdown` version 2+ and
 
 ## Related
 
-*   [`micromark/micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx]
-    — support MDX JSX in micromark
-*   [`syntax-tree/mdast-util-mdx`][mdast-util-mdx]
-    — support MDX in mdast
-*   [`remarkjs/remark-mdx`][remark-mdx]
-    — support MDX in remark
+* [`micromark/micromark-extension-mdx-jsx`][micromark-extension-mdx-jsx]
+  — support MDX JSX in micromark
+* [`syntax-tree/mdast-util-mdx`][mdast-util-mdx]
+  — support MDX in mdast
+* [`remarkjs/remark-mdx`][remark-mdx]
+  — support MDX in remark
 
 ## Contribute
 

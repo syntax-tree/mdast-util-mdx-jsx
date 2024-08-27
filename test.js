@@ -415,6 +415,7 @@ test('mdxJsxFromMarkdown', async function (t) {
 
       removePosition(tree, {force: true})
 
+      // eslint-disable-next-line unicorn/prefer-structured-clone -- needed to turn instances into plain objects
       tree = JSON.parse(JSON.stringify(tree))
 
       assert.deepEqual(tree, {
@@ -505,6 +506,7 @@ test('mdxJsxFromMarkdown', async function (t) {
 
       removePosition(tree, {force: true})
 
+      // eslint-disable-next-line unicorn/prefer-structured-clone -- needed to turn instances into plain objects
       tree = JSON.parse(JSON.stringify(tree))
 
       assert.deepEqual(tree, {

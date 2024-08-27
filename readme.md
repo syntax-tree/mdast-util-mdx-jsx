@@ -562,12 +562,13 @@ somewhere in your types, as that registers the new node types in the tree.
 
 ```js
 /**
- * @typedef {import('mdast-util-mdx-jsx')}
+ * @import {} from 'mdast-util-mdx-jsx'
+ * @import {Root} from 'mdast'
  */
 
 import {visit} from 'unist-util-visit'
 
-/** @type {import('mdast').Root} */
+/** @type {Root} */
 const tree = getMdastNodeSomeHow()
 
 visit(tree, function (node) {
@@ -582,7 +583,7 @@ versions of Node.js.
 
 When we cut a new major release, we drop support for unmaintained versions of
 Node.
-This means we try to keep the current release line, `mdast-util-mdx-jsx@^3`,
+This means we try to keep the current release line, `mdast-util-mdx-jsx@3`,
 compatible with Node.js 16.
 
 This utility works with `mdast-util-from-markdown` version 2+ and

@@ -4,8 +4,6 @@ import type {
   BlockContent,
   Data as MdastData,
   DefinitionContent,
-  Literal as MdastLiteral,
-  Node as MdastNode,
   Parent as MdastParent,
   PhrasingContent
 } from 'mdast'

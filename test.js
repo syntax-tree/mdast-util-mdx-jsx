@@ -279,7 +279,14 @@ test('mdxJsxFromMarkdown', async function (t) {
                 type: 'mdxJsxTextElement',
                 name: 'b',
                 attributes: [
-                  {type: 'mdxJsxExpressionAttribute', value: '1 + 1'}
+                  {
+                    type: 'mdxJsxExpressionAttribute',
+                    value: '1 + 1',
+                    position: {
+                      start: {line: 1, column: 6, offset: 5},
+                      end: {line: 1, column: 13, offset: 12}
+                    }
+                  }
                 ],
                 children: []
               },
@@ -364,7 +371,14 @@ test('mdxJsxFromMarkdown', async function (t) {
                 type: 'mdxJsxTextElement',
                 name: 'b',
                 attributes: [
-                  {type: 'mdxJsxExpressionAttribute', value: '...c'}
+                  {
+                    type: 'mdxJsxExpressionAttribute',
+                    value: '...c',
+                    position: {
+                      start: {line: 1, column: 6, offset: 5},
+                      end: {line: 1, column: 12, offset: 11}
+                    }
+                  }
                 ],
                 children: []
               },
@@ -395,7 +409,11 @@ test('mdxJsxFromMarkdown', async function (t) {
             attributes: [
               {
                 type: 'mdxJsxExpressionAttribute',
-                value: '...{b: 1, c: Infinity, d: false}'
+                value: '...{b: 1, c: Infinity, d: false}',
+                position: {
+                  start: {line: 1, column: 4, offset: 3},
+                  end: {line: 1, column: 38, offset: 37}
+                }
               }
             ],
             children: []
@@ -428,6 +446,10 @@ test('mdxJsxFromMarkdown', async function (t) {
               {
                 type: 'mdxJsxExpressionAttribute',
                 value: '...b',
+                position: {
+                  start: {line: 1, column: 4, offset: 3},
+                  end: {line: 1, column: 10, offset: 9}
+                },
                 data: {
                   estree: {
                     type: 'Program',
@@ -1555,7 +1577,14 @@ test('mdxJsxFromMarkdown', async function (t) {
                     type: 'mdxJsxTextElement',
                     name: 'b',
                     attributes: [
-                      {type: 'mdxJsxExpressionAttribute', value: 'c\nd'}
+                      {
+                        type: 'mdxJsxExpressionAttribute',
+                        value: 'c\nd',
+                        position: {
+                          start: {line: 1, column: 8, offset: 7},
+                          end: {line: 2, column: 5, offset: 14}
+                        }
+                      }
                     ],
                     children: []
                   },
@@ -1593,7 +1622,14 @@ test('mdxJsxFromMarkdown', async function (t) {
                     type: 'mdxJsxTextElement',
                     name: 'b',
                     attributes: [
-                      {type: 'mdxJsxExpressionAttribute', value: '...[1,\n2]'}
+                      {
+                        type: 'mdxJsxExpressionAttribute',
+                        value: '...[1,\n2]',
+                        position: {
+                          start: {line: 1, column: 8, offset: 7},
+                          end: {line: 2, column: 6, offset: 20}
+                        }
+                      }
                     ],
                     children: []
                   },

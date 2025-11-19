@@ -50,7 +50,7 @@
     "vfile-message": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^24.0.0",
     "acorn": "^8.0.0",
     "c8": "^10.0.0",
     "micromark-extension-mdx-jsx": "^3.0.0",

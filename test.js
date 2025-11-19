@@ -2456,12 +2456,12 @@ test('mdxJsxToMarkdown', async function (t) {
 })
 
 test('roundtrip', async function (t) {
-  await t.test('should roundtrip `attribute`', async function () {
+  await t.test('should roundtrip an attribute', async function () {
     equal('<a x="a\nb\nc" />', '<a\n  x="a\nb\nc"\n/>\n')
   })
 
   await t.test(
-    'should roundtrip `attribute in nested element`',
+    'should roundtrip an attribute in nested element',
     async function () {
       equal(
         '<a>\n<b x="a\nb\nc" />\n</a>',
@@ -2471,7 +2471,7 @@ test('roundtrip', async function (t) {
   )
 
   await t.test(
-    'should roundtrip `attribute in nested elements`',
+    'should roundtrip an attribute in nested elements',
     async function () {
       equal(
         '<a>\n  <b>\n    <c x="a\nb\nc" />\n  </b>\n</a>',
@@ -2480,12 +2480,15 @@ test('roundtrip', async function (t) {
     }
   )
 
-  await t.test('should roundtrip `attribute expression`', async function () {
-    equal('<a x={`a\nb\nc`} />', '<a\n  x={`a\nb\nc`}\n/>\n')
-  })
+  await t.test(
+    'should roundtrip an attribute value expression',
+    async function () {
+      equal('<a x={`a\nb\nc`} />', '<a\n  x={`a\nb\nc`}\n/>\n')
+    }
+  )
 
   await t.test(
-    'should roundtrip `attribute expression in nested element`',
+    'should roundtrip an attribute value expression in nested element',
     async function () {
       equal(
         '<a>\n<b x={`a\nb\nc`} />\n</a>',
@@ -2495,7 +2498,7 @@ test('roundtrip', async function (t) {
   )
 
   await t.test(
-    'should roundtrip `attribute expression in nested elements`',
+    'should roundtrip an attribute value expression in nested elements',
     async function () {
       equal(
         '<a>\n  <b>\n    <c x={`a\nb\nc`} />\n  </b>\n</a>',
@@ -2504,12 +2507,12 @@ test('roundtrip', async function (t) {
     }
   )
 
-  await t.test('should roundtrip `expression`', async function () {
+  await t.test('should roundtrip an attribute expression', async function () {
     equal('<a {\n...a\n} />', '<a\n  {\n...a\n}\n/>\n')
   })
 
   await t.test(
-    'should roundtrip `expression in nested element`',
+    'should roundtrip an attribute expression in nested element',
     async function () {
       equal(
         '<a>\n<b {\n...a\n} />\n</a>',
@@ -2519,7 +2522,7 @@ test('roundtrip', async function (t) {
   )
 
   await t.test(
-    'should roundtrip `expression in nested elements`',
+    'should roundtrip an attribute expression in nested elements',
     async function () {
       equal(
         '<a>\n  <b>\n    <c {\n...a\n} />\n  </b>\n</a>',
@@ -2529,7 +2532,7 @@ test('roundtrip', async function (t) {
   )
 
   await t.test(
-    'should roundtrip `children in nested elements`',
+    'should roundtrip children in nested elements',
     async function () {
       equal(
         `<a>
@@ -2571,7 +2574,7 @@ test('roundtrip', async function (t) {
   )
 
   await t.test(
-    'should roundtrip `text children in flow elements`',
+    'should roundtrip text children in flow elements',
     async function () {
       equal(
         `<video src="#">
@@ -2588,7 +2591,7 @@ test('roundtrip', async function (t) {
     }
   )
 
-  await t.test('should roundtrip `nested JSX and lists`', async function () {
+  await t.test('should roundtrip nested JSX and lists', async function () {
     const source = `<x>
   * Alpha
 
@@ -2623,7 +2626,7 @@ test('roundtrip', async function (t) {
   })
 
   await t.test(
-    'should roundtrip `nested JSX and block quotes`',
+    'should roundtrip nested JSX and block quotes',
     async function () {
       const source = `<x>
   > Alpha

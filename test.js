@@ -2210,6 +2210,100 @@ test('mdxJsxToMarkdown', async function (t) {
     )
   })
 
+  await t.test(
+    'should not indent continuation lines of flow expressions',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'mdxJsxFlowElement',
+            name: 'div',
+            attributes: [],
+            children: [
+              {
+                // @ts-expect-error: expression nodes come from `mdast-util-mdx-expression`.
+                type: 'mdxFlowExpression',
+                value: "`a\nb\n  c\n    d`\n      + 'e'"
+              }
+            ]
+          },
+          {
+            extensions: [
+              mdxJsxToMarkdown(),
+              {handlers: {mdxFlowExpression: handleMdxExpression}}
+            ]
+          }
+        ),
+        "<div>\n  {`a\n  b\n    c\n      d`\n        + 'e'}\n</div>\n"
+      )
+    }
+  )
+
+  await t.test(
+    'should not indent continuation lines of nested flow expressions',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'mdxJsxFlowElement',
+            name: 'div',
+            attributes: [],
+            children: [
+              {
+                type: 'mdxJsxFlowElement',
+                name: 'span',
+                attributes: [],
+                children: [
+                  {
+                    // @ts-expect-error: expression nodes come from `mdast-util-mdx-expression`.
+                    type: 'mdxFlowExpression',
+                    value: '`a\n  b\n    c`'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            extensions: [
+              mdxJsxToMarkdown(),
+              {handlers: {mdxFlowExpression: handleMdxExpression}}
+            ]
+          }
+        ),
+        '<div>\n  <span>\n    {`a\n    b\n      c`}\n  </span>\n</div>\n'
+      )
+    }
+  )
+
+  await t.test(
+    'should indent only the braces of a multiline flow expression',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'mdxJsxFlowElement',
+            name: 'div',
+            attributes: [],
+            children: [
+              {
+                // @ts-expect-error: expression nodes come from `mdast-util-mdx-expression`.
+                type: 'mdxFlowExpression',
+                value: '\n  1 + 1\n'
+              }
+            ]
+          },
+          {
+            extensions: [
+              mdxJsxToMarkdown(),
+              {handlers: {mdxFlowExpression: handleMdxExpression}}
+            ]
+          }
+        ),
+        '<div>\n  {\n    1 + 1\n  }\n</div>\n'
+      )
+    }
+  )
+
   await t.test('should escape `<` in text', async function () {
     assert.deepEqual(
       toMarkdown(
@@ -2689,4 +2783,24 @@ function process(input) {
     }),
     {extensions: [mdxJsxToMarkdown()]}
   )
+}
+
+/**
+ * Same continuation indent as `mdast-util-mdx-expression`.
+ *
+ * @param {import('unist').Node & {value?: string}} node
+ *   Expression node.
+ * @param {unknown} _
+ *   Parent (unused).
+ * @param {import('mdast-util-to-markdown').State} state
+ *   Info passed around.
+ * @returns {string}
+ *   Serialized expression.
+ */
+function handleMdxExpression(node, _, state) {
+  const value = node.value || ''
+  const result = state.indentLines(value, function (line, index, blank) {
+    return (index === 0 || blank ? '' : '  ') + line
+  })
+  return '{' + result + '}'
 }

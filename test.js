@@ -1376,6 +1376,7 @@ test('mdxJsxFromMarkdown', async function (t) {
   await t.test(
     'should crash when misnesting w/ label (link)',
     async function () {
+      // eslint-disable-next-line node-test/require-throws-expectation -- dev and prod builds throw different errors.
       assert.throws(function () {
         fromMarkdown('a [open <b> close](c) </b> d.', {
           extensions: [mdxJsx()],
@@ -1388,6 +1389,7 @@ test('mdxJsxFromMarkdown', async function (t) {
   await t.test(
     'should crash when misnesting w/ label (image)',
     async function () {
+      // eslint-disable-next-line node-test/require-throws-expectation -- dev and prod builds throw different errors.
       assert.throws(function () {
         fromMarkdown('a ![open <b> close](c) </b> d.', {
           extensions: [mdxJsx()],
@@ -1809,7 +1811,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/o `name`, `attributes`, or `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `attributes`, `children`, `name` missing.
           {type: 'mdxJsxFlowElement'},
@@ -1823,7 +1825,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/ `name` w/o `attributes`, `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `attributes`, `children` missing.
           {type: 'mdxJsxFlowElement', name: 'x'},
@@ -1837,7 +1839,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/ `name`, `children` w/o `attributes`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `attributes` missing.
           {
@@ -1857,7 +1859,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/ `children` w/o `name`, `attributes`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `children`, `name` missing.
           {
@@ -1892,7 +1894,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/ `name`, `attributes` w/o `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `children` missing.
           {
@@ -1910,7 +1912,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/ `name`, `attributes`, `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -1930,7 +1932,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize flow jsx w/ `name`, multiple `attributes` w/o `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `children` missing.
           {
@@ -1949,7 +1951,7 @@ test('mdxJsxToMarkdown', async function (t) {
   )
 
   await t.test('should serialize expression attributes', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'mdxJsxFlowElement',
@@ -1968,7 +1970,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize expression attributes w/o `value`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2005,7 +2007,7 @@ test('mdxJsxToMarkdown', async function (t) {
   )
 
   await t.test('should serialize boolean attributes', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'mdxJsxFlowElement',
@@ -2020,7 +2022,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should serialize value attributes', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'mdxJsxFlowElement',
@@ -2037,7 +2039,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize value expression attributes',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2061,7 +2063,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize value expression attributes w/o `value`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2085,7 +2087,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize text jsx w/o `name`, `attributes`, or `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `attributes`, `name`, `children` missing.
           {type: 'mdxJsxTextElement'},
@@ -2099,7 +2101,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize text jsx w/ `name` w/o `attributes`, `children`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `attributes`, `children` missing.
           {type: 'mdxJsxTextElement', name: 'x'},
@@ -2113,7 +2115,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should serialize text jsx w/ `name`, `children` w/o `attributes`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           // @ts-expect-error: check how the runtime handles `attributes` missing.
           {
@@ -2129,7 +2131,7 @@ test('mdxJsxToMarkdown', async function (t) {
   )
 
   await t.test('should serialize text jsx w/ attributes', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'mdxJsxTextElement',
@@ -2147,7 +2149,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should serialize text jsx in flow', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'paragraph',
@@ -2169,7 +2171,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should serialize flow in flow jsx', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'mdxJsxFlowElement',
@@ -2211,7 +2213,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should escape `<` in text', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {type: 'paragraph', children: [{type: 'text', value: 'a < b'}]},
         {extensions: [mdxJsxToMarkdown()]}
@@ -2221,7 +2223,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should escape `<` at the start of a line', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {type: 'definition', identifier: 'a', url: 'x', title: 'a\n<\nb'},
         {extensions: [mdxJsxToMarkdown()]}
@@ -2231,7 +2233,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should not serialize links as autolinks', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {
           type: 'link',
@@ -2245,7 +2247,7 @@ test('mdxJsxToMarkdown', async function (t) {
   })
 
   await t.test('should not serialize code as indented', async function () {
-    assert.deepEqual(
+    assert.equal(
       toMarkdown(
         {type: 'code', value: 'x'},
         {extensions: [mdxJsxToMarkdown()]}
@@ -2257,7 +2259,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.quote` to quote attribute values',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2293,7 +2295,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.quoteSmart`: prefer `quote` w/o quotes',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2311,7 +2313,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.quoteSmart`: prefer `quote` w/ equal quotes',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2329,7 +2331,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.quoteSmart`: use alternative w/ more preferred quotes',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2349,7 +2351,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.quoteSmart`: use quote w/ more alternative quotes',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2369,7 +2371,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.tightSelfClosing`: no space when `false`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
           {extensions: [mdxJsxToMarkdown({tightSelfClosing: false})]}
@@ -2382,7 +2384,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support `options.tightSelfClosing`: space when `true`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {type: 'mdxJsxFlowElement', name: 'x', attributes: [], children: []},
           {extensions: [mdxJsxToMarkdown({tightSelfClosing: true})]}
@@ -2395,7 +2397,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support attributes on one line up to the given `options.printWidth`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2416,7 +2418,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support attributes on separate lines up to the given `options.printWidth`',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2437,7 +2439,7 @@ test('mdxJsxToMarkdown', async function (t) {
   await t.test(
     'should support attributes on separate lines if they contain line endings',
     async function () {
-      assert.deepEqual(
+      assert.equal(
         toMarkdown(
           {
             type: 'mdxJsxFlowElement',
@@ -2664,8 +2666,14 @@ test('roundtrip', async function (t) {
 })
 
 /**
+ * Check that `input` turns into `output` and stays stable.
+ *
  * @param {string} input
+ *   Input.
  * @param {string} output
+ *   Expected output.
+ * @returns {undefined}
+ *   Nothing.
  */
 function equal(input, output) {
   const intermediate1 = process(input)
@@ -2679,7 +2687,10 @@ function equal(input, output) {
 }
 
 /**
+ * Parse and serialize.
+ *
  * @param {string} input
+ *   Input.
  */
 function process(input) {
   return toMarkdown(

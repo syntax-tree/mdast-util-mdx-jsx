@@ -612,96 +612,6 @@ abide by its terms.
 
 [MIT][license] © [Titus Wormer][author]
 
-[build-badge]: https://github.com/syntax-tree/mdast-util-mdx-jsx/workflows/main/badge.svg
-
-[build]: https://github.com/syntax-tree/mdast-util-mdx-jsx/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-mdx-jsx.svg
-
-[coverage]: https://codecov.io/github/syntax-tree/mdast-util-mdx-jsx
-
-[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-mdx-jsx.svg
-
-[downloads]: https://www.npmjs.com/package/mdast-util-mdx-jsx
-
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=mdast-util-mdx-jsx
-
-[size]: https://bundlejs.com/?q=mdast-util-mdx-jsx
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/syntax-tree/unist/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[esmsh]: https://esm.sh
-
-[license]: license
-
-[author]: https://wooorm.com
-
-[health]: https://github.com/syntax-tree/.github
-
-[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
-
-[support]: https://github.com/syntax-tree/.github/blob/main/support.md
-
-[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
-[typescript]: https://www.typescriptlang.org
-
-[mdast]: https://github.com/syntax-tree/mdast
-
-[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
-
-[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
-
-[from-markdown-extension]: https://github.com/syntax-tree/mdast-util-from-markdown#extension
-
-[mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
-
-[to-markdown-extension]: https://github.com/syntax-tree/mdast-util-to-markdown#options
-
-[mdast-util-mdx]: https://github.com/syntax-tree/mdast-util-mdx
-
-[program]: https://github.com/estree/estree/blob/master/es2015.md#programs
-
-[dfn-parent]: https://github.com/syntax-tree/mdast#parent
-
-[dfn-content-flow]: #flowcontent-mdx-jsx
-
-[dfn-content-phrasing]: #phrasingcontent-mdx-jsx
-
-[dfn-mixin-mdx-jsx-element]: #mdxjsxelement
-
-[jsx]: https://facebook.github.io/jsx/
-
-[what-is-mdx]: https://mdxjs.com/docs/what-is-mdx/
-
-[micromark-extension-mdx-jsx]: https://github.com/micromark/micromark-extension-mdx-jsx
-
-[syntax]: https://github.com/micromark/micromark-extension-mdx-jsx#syntax
-
-[mdast-util-to-markdown-fences]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsfences
-
-[mdast-util-to-markdown-resourcelink]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsresourcelink
-
-[remark-mdx]: https://mdxjs.com/packages/remark-mdx/
-
-[mdx]: https://mdxjs.com
-
-[api-mdx-jsx-from-markdown]: #mdxjsxfrommarkdown
-
-[api-mdx-jsx-to-markdown]: #mdxjsxtomarkdownoptions
-
 [api-mdx-jsx-attribute]: #mdxjsxattribute
 
 [api-mdx-jsx-attribute-value-expression]: #mdxjsxattributevalueexpression
@@ -712,8 +622,98 @@ abide by its terms.
 
 [api-mdx-jsx-flow-element-hast]: #mdxjsxflowelementhast
 
+[api-mdx-jsx-from-markdown]: #mdxjsxfrommarkdown
+
 [api-mdx-jsx-text-element]: #mdxjsxtextelement
 
 [api-mdx-jsx-text-element-hast]: #mdxjsxtextelementhast
 
+[api-mdx-jsx-to-markdown]: #mdxjsxtomarkdownoptions
+
 [api-to-markdown-options]: #tomarkdownoptions
+
+[author]: https://wooorm.com
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[build]: https://github.com/syntax-tree/mdast-util-mdx-jsx/actions
+
+[build-badge]: https://github.com/syntax-tree/mdast-util-mdx-jsx/workflows/main/badge.svg
+
+[chat]: https://github.com/syntax-tree/unist/discussions
+
+[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
+
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
+
+[collective]: https://opencollective.com/unified
+
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+
+[coverage]: https://codecov.io/github/syntax-tree/mdast-util-mdx-jsx
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-mdx-jsx.svg
+
+[dfn-content-flow]: #flowcontent-mdx-jsx
+
+[dfn-content-phrasing]: #phrasingcontent-mdx-jsx
+
+[dfn-mixin-mdx-jsx-element]: #mdxjsxelement
+
+[dfn-parent]: https://github.com/syntax-tree/mdast#parent
+
+[downloads]: https://www.npmjs.com/package/mdast-util-mdx-jsx
+
+[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-mdx-jsx.svg
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[from-markdown-extension]: https://github.com/syntax-tree/mdast-util-from-markdown#extension
+
+[health]: https://github.com/syntax-tree/.github
+
+[jsx]: https://facebook.github.io/jsx/
+
+[license]: license
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
+
+[mdast-util-mdx]: https://github.com/syntax-tree/mdast-util-mdx
+
+[mdast-util-to-hast]: https://github.com/syntax-tree/mdast-util-to-hast
+
+[mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
+
+[mdast-util-to-markdown-fences]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsfences
+
+[mdast-util-to-markdown-resourcelink]: https://github.com/syntax-tree/mdast-util-to-markdown#optionsresourcelink
+
+[mdx]: https://mdxjs.com
+
+[micromark-extension-mdx-jsx]: https://github.com/micromark/micromark-extension-mdx-jsx
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[program]: https://github.com/estree/estree/blob/master/es2015.md#programs
+
+[remark-mdx]: https://mdxjs.com/packages/remark-mdx/
+
+[size]: https://bundlejs.com/?q=mdast-util-mdx-jsx
+
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size\&query=$.size.compressedSize\&url=https://deno.bundlejs.com/?q=mdast-util-mdx-jsx
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[syntax]: https://github.com/micromark/micromark-extension-mdx-jsx#syntax
+
+[to-markdown-extension]: https://github.com/syntax-tree/mdast-util-to-markdown#options
+
+[typescript]: https://www.typescriptlang.org
+
+[what-is-mdx]: https://mdxjs.com/docs/what-is-mdx/

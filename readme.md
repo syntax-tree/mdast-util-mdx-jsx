@@ -77,12 +77,6 @@ In Node.js (version 16+), install with [npm][]:
 npm install mdast-util-mdx-jsx
 ```
 
-In Deno with [`esm.sh`][esmsh]:
-
-```js
-import {mdxJsxFromMarkdown, mdxJsxToMarkdown} from 'https://esm.sh/mdast-util-mdx-jsx@3'
-```
-
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
@@ -704,7 +698,7 @@ abide by its terms.
 
 [size]: https://bundlejs.com/?q=mdast-util-mdx-jsx
 
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size\&query=$.size.compressedSize\&url=https://deno.bundlejs.com/?q=mdast-util-mdx-jsx
+[size-badge]: https://img.shields.io/bundlejs/size/mdast-util-mdx-jsx
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 

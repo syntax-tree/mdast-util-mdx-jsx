@@ -1,39 +1,8 @@
 {
-  "name": "mdast-util-mdx-jsx",
-  "version": "3.2.0",
-  "description": "mdast extension to parse and serialize MDX or MDX.js JSX",
-  "license": "MIT",
-  "keywords": [
-    "unist",
-    "mdast",
-    "mdast-util",
-    "util",
-    "utility",
-    "markdown",
-    "markup",
-    "mdx",
-    "mdxjs",
-    "jsx",
-    "extension"
-  ],
-  "repository": "syntax-tree/mdast-util-mdx-jsx",
-  "bugs": "https://github.com/syntax-tree/mdast-util-mdx-jsx/issues",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/unified"
-  },
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "bugs": "https://github.com/syntax-tree/mdast-util-mdx-jsx/issues",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": "./index.js",
-  "files": [
-    "lib/",
-    "index.d.ts.map",
-    "index.d.ts",
-    "index.js"
   ],
   "dependencies": {
     "@types/estree-jsx": "^1.0.0",
@@ -49,6 +18,7 @@
     "unist-util-stringify-position": "^4.0.0",
     "vfile-message": "^4.0.0"
   },
+  "description": "mdast extension to parse and serialize MDX or MDX.js JSX",
   "devDependencies": {
     "@types/node": "^26.0.0",
     "acorn": "^8.0.0",
@@ -63,16 +33,32 @@
     "unist-util-remove-position": "^5.0.0",
     "xo": "^5.0.0"
   },
-  "scripts": {
-    "prepack": "npm run build && npm run format",
-    "build": "tsc --build --clean && tsc --build && type-coverage",
-    "format": "remark . -qfo && prettier . -w --log-level warn && xo --fix",
-    "test-api-prod": "node --conditions production test.js",
-    "test-api-dev": "node --conditions development test.js",
-    "test-api": "npm run test-api-dev && npm run test-api-prod",
-    "test-coverage": "c8 --100 --reporter lcov npm run test-api",
-    "test": "npm run build && npm run format && npm run test-coverage"
+  "exports": "./index.js",
+  "files": [
+    "lib/",
+    "index.d.ts.map",
+    "index.d.ts",
+    "index.js"
+  ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
   },
+  "keywords": [
+    "extension",
+    "jsx",
+    "markdown",
+    "markup",
+    "mdast-util",
+    "mdast",
+    "mdxjs",
+    "mdx",
+    "unist",
+    "utility",
+    "util"
+  ],
+  "license": "MIT",
+  "name": "mdast-util-mdx-jsx",
   "prettier": {
     "bracketSpacing": false,
     "semi": false,
@@ -86,10 +72,22 @@
       "remark-preset-wooorm"
     ]
   },
+  "repository": "syntax-tree/mdast-util-mdx-jsx",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build && type-coverage",
+    "format": "remark --frail --output --quiet -- . && prettier --log-level warn --write -- . && xo --fix",
+    "prepack": "npm run build && npm run format",
+    "test-api-dev": "node --conditions development test.js",
+    "test-api-prod": "node --conditions production test.js",
+    "test-api": "npm run test-api-dev && npm run test-api-prod",
+    "test-coverage": "c8 --100 --reporter lcov -- npm run test-api",
+    "test": "npm run build && npm run format && npm run test-coverage"
+  },
+  "sideEffects": false,
   "typeCoverage": {
     "atLeast": 100,
-    "detail": true,
-    "ignoreCatch": true,
     "strict": true
-  }
+  },
+  "type": "module",
+  "version": "3.2.0"
 }

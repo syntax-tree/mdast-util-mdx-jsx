@@ -2451,7 +2451,7 @@ test('mdxJsxToMarkdown', async function (t) {
           },
           {extensions: [mdxJsxToMarkdown({printWidth: 20})]}
         ),
-        '<x\n  {\n  ...a\n}\n/>\n'
+        '<x\n  {\n    ...a\n}\n/>\n'
       )
     }
   )
@@ -2485,7 +2485,7 @@ test('roundtrip', async function (t) {
   await t.test(
     'should roundtrip an attribute value expression',
     async function () {
-      equal('<a x={`a\nb\nc`} />', '<a\n  x={`a\nb\nc`}\n/>\n')
+      equal('<a x={`a\nb\nc`} />', '<a\n  x={`a\n  b\n  c`}\n/>\n')
     }
   )
 
@@ -2494,7 +2494,7 @@ test('roundtrip', async function (t) {
     async function () {
       equal(
         '<a>\n<b x={`a\nb\nc`} />\n</a>',
-        '<a>\n  <b\n    x={`a\nb\nc`}\n  />\n</a>\n'
+        '<a>\n  <b\n    x={`a\n  b\n  c`}\n  />\n</a>\n'
       )
     }
   )
@@ -2504,13 +2504,13 @@ test('roundtrip', async function (t) {
     async function () {
       equal(
         '<a>\n  <b>\n    <c x={`a\nb\nc`} />\n  </b>\n</a>',
-        '<a>\n  <b>\n    <c\n      x={`a\nb\nc`}\n    />\n  </b>\n</a>\n'
+        '<a>\n  <b>\n    <c\n      x={`a\n  b\n  c`}\n    />\n  </b>\n</a>\n'
       )
     }
   )
 
   await t.test('should roundtrip an attribute expression', async function () {
-    equal('<a {\n...a\n} />', '<a\n  {\n...a\n}\n/>\n')
+    equal('<a {\n...a\n} />', '<a\n  {\n  ...a\n}\n/>\n')
   })
 
   await t.test(
@@ -2518,7 +2518,7 @@ test('roundtrip', async function (t) {
     async function () {
       equal(
         '<a>\n<b {\n...a\n} />\n</a>',
-        '<a>\n  <b\n    {\n...a\n}\n  />\n</a>\n'
+        '<a>\n  <b\n    {\n  ...a\n}\n  />\n</a>\n'
       )
     }
   )
@@ -2528,8 +2528,43 @@ test('roundtrip', async function (t) {
     async function () {
       equal(
         '<a>\n  <b>\n    <c {\n...a\n} />\n  </b>\n</a>',
-        '<a>\n  <b>\n    <c\n      {\n...a\n}\n    />\n  </b>\n</a>\n'
+        '<a>\n  <b>\n    <c\n      {\n  ...a\n}\n    />\n  </b>\n</a>\n'
       )
+    }
+  )
+
+  await t.test(
+    'should roundtrip indentation in an attribute value expression',
+    async function () {
+      equal('<a\n  b={`c\n    d`}\n/>\n')
+    }
+  )
+
+  await t.test(
+    'should roundtrip indentation in an attribute expression',
+    async function () {
+      equal('<a\n  {...{\n    b: 1\n  }}\n/>\n')
+    }
+  )
+
+  await t.test(
+    'should roundtrip indentation in an attribute value expression in an element',
+    async function () {
+      equal('<a>\n  <b\n    c={`d\n      e`}\n  />\n</a>\n')
+    }
+  )
+
+  await t.test(
+    'should roundtrip indentation in an attribute value expression in text',
+    async function () {
+      equal('a <b c={`d\n    e`} /> f\n')
+    }
+  )
+
+  await t.test(
+    'should roundtrip indentation in an attribute value expression in text in an element',
+    async function () {
+      equal('<a>\n  b <c d={`e\n      f`} /> g\n</a>\n')
     }
   )
 
@@ -2624,7 +2659,7 @@ test('roundtrip', async function (t) {
   </y>
 </x>
 `
-    equal(source, source)
+    equal(source)
   })
 
   await t.test(
@@ -2660,7 +2695,7 @@ test('roundtrip', async function (t) {
   </y>
 </x>
 `
-      equal(source, source)
+      equal(source)
     }
   )
 })
@@ -2670,20 +2705,21 @@ test('roundtrip', async function (t) {
  *
  * @param {string} input
  *   Input.
- * @param {string} output
- *   Expected output.
+ * @param {string | null | undefined} [output=input]
+ *   Expected output (default: `input`).
  * @returns {undefined}
  *   Nothing.
  */
 function equal(input, output) {
+  const result = typeof output === 'string' ? output : input
   const intermediate1 = process(input)
-  assert.equal(intermediate1, output, '#1')
+  assert.equal(intermediate1, result, '#1')
   const intermediate2 = process(intermediate1)
-  assert.equal(intermediate2, output, '#2')
+  assert.equal(intermediate2, result, '#2')
   const intermediate3 = process(intermediate2)
-  assert.equal(intermediate3, output, '#3')
+  assert.equal(intermediate3, result, '#3')
   const intermediate4 = process(intermediate3)
-  assert.equal(intermediate4, output, '#4')
+  assert.equal(intermediate4, result, '#4')
 }
 
 /**

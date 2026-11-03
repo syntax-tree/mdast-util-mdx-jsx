@@ -32,6 +32,7 @@ const xoConfig = [
       // Wrong for TypeScript types.
       'jsdoc/valid-types': 'off',
       'logical-assignment-operators': 'off',
+      'max-lines': 'off',
       'no-shadow': 'off',
       // Asserts are used to narrow types.
       'node-test/no-conditional-assertion': 'off',

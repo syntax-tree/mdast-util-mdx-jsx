@@ -2369,6 +2369,26 @@ test('mdxJsxToMarkdown', async function (t) {
   )
 
   await t.test(
+    'should encode ampersands that would start character references',
+    async function () {
+      assert.equal(
+        toMarkdown(
+          {
+            type: 'mdxJsxFlowElement',
+            name: 'x',
+            attributes: [
+              {type: 'mdxJsxAttribute', name: 'y', value: '&amp; &#34; & &a'}
+            ],
+            children: []
+          },
+          {extensions: [mdxJsxToMarkdown()]}
+        ),
+        '<x y="&#x26;amp; &#x26;#34; & &a" />\n'
+      )
+    }
+  )
+
+  await t.test(
     'should support `options.tightSelfClosing`: no space when `false`',
     async function () {
       assert.equal(
@@ -2479,6 +2499,13 @@ test('roundtrip', async function (t) {
         '<a>\n  <b>\n    <c x="a\nb\nc" />\n  </b>\n</a>',
         '<a>\n  <b>\n    <c\n      x="a\nb\nc"\n    />\n  </b>\n</a>\n'
       )
+    }
+  )
+
+  await t.test(
+    'should roundtrip character references in an attribute',
+    async function () {
+      equal('<a x="&amp;amp; &copy b" />', '<a x="&#x26;amp; &copy b" />\n')
     }
   )
 
